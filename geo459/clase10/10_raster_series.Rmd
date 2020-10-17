@@ -1,5 +1,5 @@
 ---
-title: "Unidad 2: Eventos reactivos en el mapa - <br>Operaciones en el server<br>"
+title: "Unidad 2: Eventos reactivos: Raster y series - <br>Operaciones en el server<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
 author: "Mg. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -23,11 +23,13 @@ background-size:40%
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 library(shiny)
-library(htmltools)
 library(leaflet)
 library(tidyverse)
 library(sf)
+library(raster)
+library(dygraphs)
 library(shinybusy)
+library(shinythemes)
 ```
 
 
@@ -38,10 +40,12 @@ Librerías utilizadas en esta sesión
 ```{r eval=F}
 library(shiny)
 library(leaflet)
-library(htmltools)
 library(tidyverse)
 library(sf)
+library(raster)
+library(dygraphs)
 library(shinybusy)
+library(shinythemes)
 ```
 
 
@@ -51,271 +55,182 @@ class: inverse, center, middle
 # INTRODUCCIÓN
 
 ---
-#Elementos reactivos
+# Summary
 
 --
-- Ya hemos visto que podemos generar racciones y cambios a partir de los inputs en nuestra UI
+- Hasta el momento hemos visto como estructurar aplicaciones
 
 --
-- Adicionalmente, podemos usar interacciones particulares que se realicen en el mapa.
+- Hemos creado y empleado funciones
 
 --
-- Para revisar algunas de estas reacciones, usaremos la aplicación vista la semana pasada.
+- Hemos empleado widgets y elementos reactivos
+
+--
+- Hemos visto algunas configuraciones de páginas
 
 
 ---
-class: middle
-.center[![:scale 90%](app1.png)]
-
----
-#Agregando leyenda reactiva
+#Metas de hoy
 
 --
-- Modificaremos el código de generación de nuestra leyenda y nuestro proxy
+- Hoy realizaremos una nueva aplicación donde usaremos reacciones de mapa sobre elementos raster
 
 --
-```{r eval=F}
-#preparando paletas
-    tabla <- shp[,] %>% as.data.frame() 
-    dominio <- tabla[, input$campo[[1]]]
-    #creando paleta de colores dinámica
-    pal <- colorQuantile(palette = "viridis",domain = dominio,n = 7)
-    #proxy Map
-    proxyMap <- leafletProxy('map')
-```
-
-Este código asegura una mejor distribución de los colores considerando el sesgo de los datos de entrada.
+- Además veremos como insertar imágenes (útil para logos)
 
 --
-- Para agregar la leyenda, usaremos la funcion `addLegend()` en cada sección condicional dentro de nuestro *observer* para el proxy.
+- Veremos como graficar series de tiempo
 
 --
-```{r eval=F}
-
-  if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2) %>%
-        addLegend("bottomright", pal = pal, values = dominio, 
-                  title = "Total de personas por manzana censal",opacity = 0.7,group = 'Leyenda')
-    }
-```
-
----
-#Etiquetas de datos
+- Añadiremos procesamiento como función.
 
 --
-- Podemos etiquetar de varias maneras dentro de *leaflet*
-
---
-- *Ejemplo 1: popUp*
-
-```{r eval=F}
-  if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    popup = ~htmlEscape(PERSONAS)) %>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Total de personas por manzana censal",
-                  opacity = 0.7,group = 'Leyenda')
-    }
-```
-
---
-De esta forma al pinchar un polígono aparecerá su valor
-
----
-
---
-- *Ejemplo 2: labels*
-
---
-```{r eval=F}
-if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~htmlEscape(PERSONAS)) %>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Total de personas por manzana censal",
-                  opacity = 0.7,group = 'Leyenda')
-    }
-```
---
-Empleando este argumento, al desplazarnos por la capas aparecerá la información.
-
----
-class: middle
 .center[
-
-![:scale 70%](app2.png)
-
+![:scale 60%](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/other-stats-artwork/debugging.jpg)
 ]
-.footnote[El resultado es bastante similar]
+.center[.footnote[© Allison Horst]]
 
 ---
-#¿Podemos mejorar el estilo del texto?
+#UI
 
 --
-- Con algo de código HTML y la función `labelOptions()`
+- Configuraremos un tipo de app con pestañas.
 
 --
 ```{r eval=F}
-addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~htmlEscape(PERSONAS),
-                    labelOptions = labelOptions(style = list("color" = "black", 
-                                                             "font-size" = "16px",
-                                                             "font-family" = "serif",
-                                                             "font-weight" = "bold"))
-            ) 
-```
-
----
-.center[
-![](app3.png)
-]
----
-#Una mejor opción 
-
---
-- Crear una columna donde esté la etiqueta (para tablas y shapes)
-
---
-- *Ejemplo*
-
-```{r eval=F}
- ## custom labels for map
-  shp$label_pop <- paste0('<strong>', 'Total población:' , '</strong>', shp$PERSONAS,'</br>',
-                          '<strong>', 'Densidad:' , '</strong>',shp$DENSIDAD) %>% 
-    lapply(htmltools::HTML)
-```
-
---
-- Este ejemplo muestra como aplicar código HTML y guardarlo en una columna para que sea empleado como etiqueta.
-- El código en nuestra función `addPolygons()` quedaría así:
-
---
-```{r eval=F}
-addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~label_pop, 
-                    labelOptions = labelOptions(style = list("font-size" = "14px")))
-```
----
-.center[
-![:scale 90%](app4.png)
-]
----
-class: inverse,center, middle
-
-# ¿PREGUNTAS?
-
----
-#Objects y maps events
-
---
-- Además de utilizar eventos puestos en la UI (sliders, select inputs, acction buttons, etc.), podemos hacer uso de eventos de mapa y objeto para pasarlos por el server.
-
---
-- Los eventos de objeto se configuran así `input$MAPID_OBJCATEGORY_EVENTNAME` donde:
-  + MAPID: nombre del mapa;
-  + OBJCATEGORY: tipo de elemento para pasaro por el evento reactivo (marker, shape, geojson o topojson);
-  + EVENTNAME: reacción al mouse (click, mouseover y mouseout)
-
---
-- Los eventos de mapa se configuran así `input$MAPID_EVENTNAME` donde las opciones de evento disponibles son:
-  + Click;
-  + Bounds;
-  + Zoom;
-  + Center;
-
---
-- Todos estos generan una lista que contiene información de latitud, longitud e id.
-
----
-#Usando los eventos
-
---
-- Agregaremos salidas a nuestra UI para ver las reacciones de los eventos de mapa (solo dejaremos eso)
-
---
-```{r eval=F}
-ui <- bootstrapPage(
-  tags$style(type = "text/css", "html, body {width:100%;height:100%}"), #esto hace la magia
-  leafletOutput(outputId = 'map', width = "100%", height = "100%"),
-  absolutePanel(id="controls", style="z-index:500;", top = 90, left = "auto", right = 20, 
-                bottom = "auto", width = 400, height ="auto", class = "panel panel-default",
-                selectInput(inputId = 'campo',label = 'Seleccione variable a visualizar',
-                            choices = list('Total personas' = 'PERSONAS', 'Densidad (per/ha)'='DENSIDAD',
-                                           'Viviendas'='TOTAL_VIVI')),hr(),
-                htmlOutput("mouse_over"),hr(),
-                htmlOutput("mouse_click"),hr(),
-                htmlOutput("mouse_center"),hr(),
-                htmlOutput("mouse_zoom"),hr(),
-                htmlOutput("mouse_bounds")
-  )
+ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"), # App theme 
+                 tabPanel('Mapa principal', # Main page view
+                          leafletOutput("map", width = "100%", height = 600), # Main map
+                          # Option panel
+                          absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+                                        draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+                                        width = 300, height ="auto",
+                                        style="z-index:500;"),
+                          absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
+                                        height = 200,bottom = 'auto',fixed = T,style="z-index:500")
+                 ),
+                 #Description
+                 tabPanel('Tab secundario',
+                          sidebarLayout(sidebarPanel(),
+                            mainPanel())
+                          )
 )
 ```
 
 ---
-# Render events
+#Server
 
-Pondremos esto en el server
+--
+- Nuestro server deberá de momento estar vacío.
+
 --
 ```{r eval=F}
-#mouseover
-  observeEvent(input$map_shape_mouseover,{
-    data_mouse_over <- input$map_shape_mouseover
-    output$mouse_over <- renderText({
-      paste('<b>Mouse shape over: </b>',round(data_mouse_over$lat,digits = 4),'|',
-            round(data_mouse_over$lng,digits = 4))
-    })
-  })
-  #click
-  observeEvent(input$map_click,{
-    data_mouse_click <- input$map_click
-    output$mouse_click <- renderText({
-      paste('<b>Mouse map click: </b>',round(data_mouse_click$lat,digits = 4),'|',
-            round(data_mouse_click$lng,digits = 4))
-    })
+server <- function(input, output, session) {
+  
+}
+
+shinyApp(ui, server)
+```
+
+---
+# ¿Qué queremos en nuestras pestañas?
+
+--
+*Primera:*
+
+--
+- Un mapa dinámico
+
+--
+- Visualización de rasters con opción de seleccionad la fecha
+
+--
+- Serie de tiempo a través de un click
+
+--
+- Gráfico de serie de tiempo dinámico
+
+
+--
+*Segunda*
+
+--
+- Tabla con la información de temperatura por pixel
+
+---
+#Agregando opciones
+
+--
+- Agregaremos un *dateInput()* en el primer panel absoluto para la selección de fechas
+
+--
+```{r eval=F}
+# Option panel
+absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+              width = 300, height ="auto",
+              style="z-index:500;", ## html
+              dateInput("date", label = 'Seleccione fecha', value = "2014-01-01",
+                        min = '2010-01-01',max = '2020-01-01'))
+```
+
+--
+- Crearemos en el server nuestro mapa base
+
+--
+```{r eval= F}
+#basemap
+  output$map <- renderLeaflet({
+    leaflet() %>% addProviderTiles(providers$Esri.WorldImagery) 
   })
 ```
 
 ---
-```{r eval=F}
-#center
-  observeEvent(input$map_center,{
-    data_center <- input$map_center
-    output$mouse_center <- renderText({
-      paste('<b>Mouse map center: </b>',round(data_center$lat,digits = 4),'|',
-            round(data_center$lng,digits = 4))
-    })
-  })
-  #zoom
-  observeEvent(input$map_zoom,{
-    data_zoom <- input$map_zoom
-    output$mouse_zoom <- renderText({
-      paste('<b>Mouse map zoom: </b>',data_zoom)
-    })
-  })
-  #bounds
-  observeEvent(input$map_bounds,{
-    data_bounds <- input$map_bounds
-    output$mouse_bounds <- renderText({
-      paste('<b>Map bounds </b>','</br>',
-            '<b>Norte: </b>',round(data_bounds$north,digits = 4),'</br>',
-            '<b>Sur: </b>',round(data_bounds$south,digits = 4),'</br>',
-            '<b>Este: </b>',round(data_bounds$east,digits = 4),'</br>',
-            '<b>Oeste: </b>',round(data_bounds$west,digits = 4),'</br>')
-    })
-  })
-```
+class: center, middle
+![:scale 70%](app1.png)
+
 ---
-.center[
-![:scale 90%](app5.png)
-]
+#Insertando una imagen (logo)
+
+--
+- Para que shiny reconozca las imágenes que deseamos emplear, crearemos una carpeta de nombre *www* en el directorio de la aplicación.
+
+--
+- Ahí pegaremos pegaremos la imagen de nombre *logo_labgrs.png*
+
+--
+- Para agregar imágenes podemos emplear la función *img()*. La pondremos en el segundo panel absoluto
+
+--
+```{r eval=F}
+absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
+              height = 200,bottom = 'auto',fixed = T,style="z-index:500",
+              img(src='logo_labgrs.png',width=250,height=100)
+             )
+```
+
+---
+class: center, middle
+![:scale 70%](app2.png)
+
+---
+#Otra alternativa
+
+--
+- Uso de HTML
+
+--
+```{r eval=F}
+ absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
+               height = 200,bottom = 'auto',fixed = T,style="z-index:500",
+               HTML('<img height="90"  src="logo_labgrs.png" asp="1" align="left">')
+               )
+```
+
+---
+class: middle, center
+![:scale 70%](app3.png)
 ---
 class: inverse,center, middle
 
