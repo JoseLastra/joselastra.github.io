@@ -1,0 +1,10 @@
+Pros,Contras
+Poder de computacional de Google para investigación; educación y aplicaciones sin fines de lucro,Licencia pagada para uso comercial
+Optimizado para análisis geo-espacial,Visualizar extensiones grandes puede resultar en procesos visuales lentos o caídas de la interfaz
+Datos online para todos los usuarios,Se requiere conocimiento en la implementación de código
+Datos actualizados constantemente,Un usuario solo puede subir hasta 250 GB de datos propios
+Capacidad de descarga en cualquier momento,La descarga de datos depende del volumen de datos y la calidad del internet
+Contiene algoritmos de machine learning y amplias herramientas de procesamiento de imágenes,Machine learning o deep learning limitado a 100 mb de datos de entrenamiento | No hay suficientes algoritmos de corre
+Tutoriales y documentación disponible,No todo es escalable e implementable de manera tan sencilla
+Interfaz web para correr y debuggear,El debugging no es tan simple de efectuar
+Dispone de JavaScript y Python,Como se desempeñe la ejecución del código será dependiente de las capacidades del sistema
