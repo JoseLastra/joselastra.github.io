@@ -1,5 +1,5 @@
 ---
-title: "Fundamentos de webmapping"
+title: "Google Earth Engine (GEE)"
 subtitle: "INTRODUCCIÓN AL ANÁLISIS ESPACIAL Y WEBMAPPING CON <br>GOOGLE EARTH ENGINE Y R SHINY <br>"
 author: "Mg. José A. Lastra <br> Matías Oléa<br>Ronald Rocco<br>"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -22,117 +22,127 @@ background-size:40%
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+library(DT)
+library(tidyverse)
 ```
 
 
 ---
-# Web GIS vs. Webmapping
+# ¿Qué es GEE?
 
 --
-.pull-right[
-- Tecnologías web disponibles para el análisis 
-de información espacial
-- Utilizan tecnologías web como un método de 
-comunicación entre los elementos de un SIG
-- Aplicaciones en línea que permiten a los 
-usuarios ver o crear mapas en una plataforma web.
-
-]
+- Es una plataforma en el cloud para el análisis de datos geoespaciales terrestres
 
 --
-.center[![:scale 50%](webmapping_diagram.png)
-]
-.center[Avraam, 2009]
-
----
-# Webmapping
+- Los datos pueden venir de modelos climáricos percepción remota u otras fuentes
 
 --
-Objetivos principales:
-
---
-- Llevar la cartografía a la web
-
---
-- Permitir el análisis y visualización de datos (hasta cierto punto)
-
---
-.center[![:scale 60%](webmapping2.png)]
-.center[
-Plataforma de monitoreo piloto [PN La Campana](https://labgrs.shinyapps.io/SMF-1/)
-]
-
----
-# Consejos de desarrollo
-
---
-- No haga un web map All-in-one
-
---
-- Manténgalo simple (K.I.S)
-
---
-- Usar simbología en todas las capas de una manera clara
-
---
-- Considere la respuesta en todos los dispositivos posibles
-
---
-- Mantenga sus sistema actualizado
-
---
-- Documente!
-
-.right[
-![](webmapping3.png)
-]
-
----
-#¿Qué es shiny?
-
---
-- [Shiny](https://shiny.rstudio.com/) es una estructura o marco para la creación de aplicaciones web de todo tipo usando R cómo código fuente. 
-
---
-- Otorga flexibilidad paracrear desde desarrollos simples hasta otros muy complejos, sin tener que disponer de conocimientos de HTML, CSS o JavaScript.
-
---
-- En términos simples: [shiny (1.5.0)](https://cran.r-project.org/web/packages/shiny/index.html) es un paquete de R
-
-.center[![:scale 60%](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/images/01_hello.png)]
-.center[.footnote[[Shiny, 2020](https://shiny.rstudio.com)]]
-
----
-#¿Cuál es la clave?
-
---
-- Disponemos de diferentes [funciones](https://shiny.rstudio.com/gallery/widget-gallery.html) de interfaz de usuario (ui, desde ahora) diseñadas para cosas comunes.
-- La lógica del proceso (server) se basa en programación reactiva, que permite identificar el procesamiento a partir de la interacción del usuario.
-
---
-.center[![](https://shiny.rstudio.com/images/reactivity_diagrams/roles.png)]
-.center[.footnote[[Reactivity - An overview, 2017](https://shiny.rstudio.com/articles/reactivity-overview.html)]]
-
----
-
---
-- Shiny puede ser usado en diferentes contextos y con distintos fines. 
-
---
-- No está limitado y depende de la imaginación, planificación estructura y orden de las/los programadores
+- La idea general es facilitar el análisis computacional y colaborar en el desarrolllo de resultados.
 
 --
 .center[
-![:scale 25%](ejemplo1.png)
-![:scale 42%](ejemplo2.png)
+![:scale 90%](image1.png)]
+
+---
+class: middle, center
+![:scale 80%](image2.png)
+.left[
+.footnote[
+- Servidores dedicados
+- más de 20 petabytes de datos
+- Dos APIs para trabajar: JavaScript y Python
 ]
-.footnote[1. [Shiny MRI](https://haozhu233.shinyapps.io/shinyMRI-contest/?_ga=2.234467934.1955025335.1598126335-517575622.1584381273)]
-.footnote[2. [COVID-19 tracker](https://vac-lshtm.shinyapps.io/ncov_tracker/?_ga=2.202128721.1955025335.1598126335-517575622.1584381273)]
+]
 
+---
+#¿Cómo se procesan los datos?
 
+--
+- De manera simple, lo que se realiza es una paralelización de la información.
 
+--
+- Los datos se dividen en tiles de que son enviados, procesados y reensamblados al finalizar.
 
+--
+- No es funcional para procesos dependientes del entorno
 
+--
+.center[![:scale 70%](paralel2.png)
+]
+.center[[Gorelick *et al.*, 2017](https://www.sciencedirect.com/science/article/pii/S0034425717302900#f0010)]
 
+---
+#Catálogo
+
+--
+.center[![:scale 95%](image3.png)]
+
+--
+.center[[Catálogo](https://developers.google.com/earth-engine/datasets)]
+
+---
+# En este curso
+
+--
+- Usaremos el Code Editor (GUI), desde donde podremos acceder a distitntos datos y funciones de procesamiento como:
+
+--
+  + Image
+  + Image Collection
+  + Geometries
+  + Filter
+  + Reducer
+  + Random Forest
+
+--
+- Entre los miles de datos y funciones disponibles.
+
+--
+- Para estar al corriente de las nuevos datos y algoritmos:
+
+  + [Medium](https://medium.com/google-earth)
+  + [Remote Sensing](https://www.mdpi.com/journal/remotesensing/special_issues/GEE)
+  
+---
+# ¿Qué podemos hacer con GEE?
+
+.left[
+- Obtener *una* imagen
+
+- Aplicar un algoritmo a 
+una imagen
+
+- Usar una colección de 
+imágenes
+
+- Map sobre una colección
+
+- Aplicar reducciones
+
+- Etc...
+] 
+
+.center[
+![:scale 70%](image4.png)
+]
+
+---
+# Ventajas y desventajas
+```{r echo=F,warning=F,message=F,error=F}
+tabla <- read_csv('tabla.csv')
+
+datatable(tabla,class = 'cell-border stripe',rownames = F,options = list(pageLength=5))
+```
+
+---
+
+class: inverse,center, middle
+
+# ¿PREGUNTAS?
+
+---
+background-image: url(logo_pucv.png)
+background-position: center
+background-size:40%
 
 

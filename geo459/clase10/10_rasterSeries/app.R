@@ -18,7 +18,7 @@ ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"
                                         style="z-index:500;", ## html
                                         uiOutput('fechasInput')),
                           #time series
-                          plotlyOutput("ts",width = '85%',height = 300),
+                          plotlyOutput("ts",width = '100%',height = 300),
                           absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
                                         height = 200,bottom = 'auto',fixed = T,style="z-index:500",
                                         HTML('<img height="90"  src="logo_labgrs.png" asp="1" 
@@ -76,18 +76,26 @@ server <- function(input, output, session) {
     clat <- click$lat
     clng <- click$lng
     dts <- SpatialPoints(data.frame(clng,clat),
-                         proj4string = CRS("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs")) %>% 
-      spTransform(CRSobj = "+proj=longlat +datum=WGS84 +no_defs")
+                         proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
     dts
   })
   
-  r.cell<-reactive({
+  r.cell <-  reactive({
   a1 <- cellFromXY(d.select,xy.map())
-  c <- pixels.df[a1,3:ncol(tabla)]
-    return(c)
+  c <- tabla[a1,3:ncol(tabla)] %>% as.numeric()
+  return(c)
   })
   
-  
+  output$ts <- renderPlotly({
+    
+    df <- data.frame(sst= r.cell(), fechas = dates)
+    
+    g <- ggplot(data = df, aes(x = fechas,y = sst)) + geom_line() + 
+      geom_point()
+    
+    ggplotly(g)
+    
+  })
   # click markers
   observeEvent(input$map_click,{
     click <- input$map_click
