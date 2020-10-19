@@ -3,7 +3,7 @@ library(leaflet)
 library(tidyverse)
 library(sf)
 library(raster)
-library(dygraphs)
+library(plotly)
 library(shinybusy)
 library(shinythemes)
 
@@ -16,8 +16,7 @@ ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"
                                         draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
                                         width = 300, height ="auto",
                                         style="z-index:500;", ## html
-                                        dateInput("date", label = 'Seleccione fecha', value = "2014-01-01",
-                                                  min = '2010-01-01',max = '2020-01-01')),
+                                        uiOutput('fechasInput')),
                           #time series
                           plotlyOutput("ts",width = '85%',height = 300),
                           absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
@@ -41,11 +40,63 @@ ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"
 )
 
 server <- function(input, output, session) {
+  #raster data
+  sst.list <- list.files(path = 'data/monthly_sst/',pattern = glob2rx('*sst*.tif'),full.names = T)
+  r.extent <- sst.list[1] %>% raster() %>% st_bbox() %>% as.numeric()
+  d.select <- sst.list[1] %>% raster()
+  #fechas
+  dates.table <- read_csv('data/tables/allDates_sst.csv') 
+  dates <- dates.table$x
+  #load pixels data
+  load('data/tables/pixels.RData')
+  ########################################
+  output$fechasInput <- renderUI({
+    selectInput(inputId = 'fechas',label = 'Seleccione una fecha',
+                choices = rev(dates),selected = tail(dates,1))
+  })
+    
+    
   #basemap
   output$map <- renderLeaflet({
-    leaflet() %>% addProviderTiles(providers$Esri.WorldImagery) 
+    leaflet() %>% addProviderTiles(providers$Esri.WorldImagery) %>% 
+      fitBounds(lng1 = r.extent[1],lat1 = r.extent[2] ,lng2 = r.extent[3],lat2 = r.extent[4])
   })
   
+  #proxy raster plot
+  observeEvent(input$fechas,{
+    n <- which(dates==input$fechas)
+    r <- sst.list[n] %>% raster()
+    leafletProxy('map') %>% clearControls() %>% clearImages() %>% 
+      addRasterImage(r,group = 'SST°C',method = 'ngb')
+  })
+  
+  xy.map<-reactive({
+    req(input$map_click)
+    click <- isolate({input$map_click})
+    clat <- click$lat
+    clng <- click$lng
+    dts <- SpatialPoints(data.frame(clng,clat),
+                         proj4string = CRS("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs")) %>% 
+      spTransform(CRSobj = "+proj=longlat +datum=WGS84 +no_defs")
+    dts
+  })
+  
+  r.cell<-reactive({
+  a1 <- cellFromXY(d.select,xy.map())
+  c <- pixels.df[a1,3:ncol(tabla)]
+    return(c)
+  })
+  
+  
+  # click markers
+  observeEvent(input$map_click,{
+    click <- input$map_click
+    clat <- click$lat
+    clng <- click$lng
+    leafletProxy("map")  %>% clearMarkers() %>% addMarkers(lng=click$lng, lat=click$lat, 
+                                                           label= paste('lat:',clat,'lng',clng))
+    
+  })
   #############################################
   #tabset 2
   datos <- reactive({
