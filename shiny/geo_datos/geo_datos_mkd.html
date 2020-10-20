@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Fundamentos de webmapping</title>
+    <title>Geo-datos</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Mg. José A. Lastra   Matías Oléa Ronald Rocco" />
+    <meta name="author" content="Ronald Rocco   Mg. José A. Lastra   Matías Olea" />
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
     <script src="libs/jquery/jquery.min.js"></script>
@@ -19,11 +19,11 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Fundamentos de webmapping
+# Geo-datos
 ## INTRODUCCIÓN AL ANÁLISIS ESPACIAL Y WEBMAPPING CON <br>GOOGLE EARTH ENGINE Y R SHINY <br>
-### Mg. José A. Lastra <br> Matías Oléa<br>Ronald Rocco<br>
+### Ronald Rocco <br> Mg. José A. Lastra <br> Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 19/10/2020
+### 20/10/2020
 
 ---
 
@@ -208,8 +208,8 @@ Consultar la tabla de atributos, función "as.data.frame()":
 tabla_atributos &lt;- as.data.frame(valpo)
 ```
 
-<div id="htmlwidget-90403bfadd55a3178ff6" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-90403bfadd55a3178ff6">{"x":{"filter":"none","data":[["VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO"],["SanAntonio","SanFelipe","Valparaiso","Quillota","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Quillota","LosAndes","LosAndes","LosAndes","Petorca","Petorca","Petorca","Petorca","Petorca","Quillota","Quillota","Quillota","Quillota","SanAntonio","SanAntonio","SanAntonio","SanAntonio","SanAntonio","SanFelipe","SanFelipe","Quillota","SanFelipe","LosAndes","SanFelipe","SanFelipe"],["ElQuisco","SantaMaria","Casablanca","Olmue","Concon","Puchuncavi","Quilpue","Quintero","Valparaiso","VinadelMar","VillaAlemana","Limache","Los Andes","Rinconada","SanEsteban","Cabildo","LaLigua","Papudo","Petorca","Zapallar","Hijuelas","LaCruz","Nogales","Quillota","Algarrobo","Cartagena","ElTabo","SanAntonio","SantoDomingo","Catemu","Llaillay","Calera","Panquehue","CalleLarga","Putaendo","SanFelipe"],[5604,5706,5102,5803,5103,5105,5801,5107,5101,5109,5804,5802,5301,5303,5304,5402,5401,5403,5404,5405,5503,5504,5506,5501,5602,5603,5605,5601,5606,5702,5703,5502,5704,5302,5705,5701],[52408931.5089,166312072.986,954150220.811,230499321.376,76047680.8619,300773430.176,535963300.763,148654295.51,309877196.506,119216575.576,95527771.3561,295984991.659,1252608996.45,122968654.072,1376924919.65,1454361571.9,1169605262.4,166372880.525,1516977180.14,289050324.883,267992974.064,78086801.684,405645246.041,302406671.351,177136174.236,244152128.322,100478386.928,407956761.791,535369659.873,361908068.384,348794831.704,59562284.7272,120274716.316,322198740.169,1454734113.07,186446141.168]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>NOM_REG<\/th>\n      <th>NOM_PROV<\/th>\n      <th>NOM_COM<\/th>\n      <th>COD_COMUNA<\/th>\n      <th>SHAPE_Area<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1d52d12ccb2182be0fbb" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d52d12ccb2182be0fbb">{"x":{"filter":"none","data":[["VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO","VALPARAISO"],["SanAntonio","SanFelipe","Valparaiso","Quillota","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Valparaiso","Quillota","LosAndes","LosAndes","LosAndes","Petorca","Petorca","Petorca","Petorca","Petorca","Quillota","Quillota","Quillota","Quillota","SanAntonio","SanAntonio","SanAntonio","SanAntonio","SanAntonio","SanFelipe","SanFelipe","Quillota","SanFelipe","LosAndes","SanFelipe","SanFelipe"],["ElQuisco","SantaMaria","Casablanca","Olmue","Concon","Puchuncavi","Quilpue","Quintero","Valparaiso","VinadelMar","VillaAlemana","Limache","Los Andes","Rinconada","SanEsteban","Cabildo","LaLigua","Papudo","Petorca","Zapallar","Hijuelas","LaCruz","Nogales","Quillota","Algarrobo","Cartagena","ElTabo","SanAntonio","SantoDomingo","Catemu","Llaillay","Calera","Panquehue","CalleLarga","Putaendo","SanFelipe"],[5604,5706,5102,5803,5103,5105,5801,5107,5101,5109,5804,5802,5301,5303,5304,5402,5401,5403,5404,5405,5503,5504,5506,5501,5602,5603,5605,5601,5606,5702,5703,5502,5704,5302,5705,5701],[52408931.5089,166312072.986,954150220.811,230499321.376,76047680.8619,300773430.176,535963300.763,148654295.51,309877196.506,119216575.576,95527771.3561,295984991.659,1252608996.45,122968654.072,1376924919.65,1454361571.9,1169605262.4,166372880.525,1516977180.14,289050324.883,267992974.064,78086801.684,405645246.041,302406671.351,177136174.236,244152128.322,100478386.928,407956761.791,535369659.873,361908068.384,348794831.704,59562284.7272,120274716.316,322198740.169,1454734113.07,186446141.168]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>NOM_REG<\/th>\n      <th>NOM_PROV<\/th>\n      <th>NOM_COM<\/th>\n      <th>COD_COMUNA<\/th>\n      <th>SHAPE_Area<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[3,4]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 ---
 # Seleccionar un polígono según la tabla de atributos
 
