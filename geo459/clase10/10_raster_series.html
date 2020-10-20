@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
 ### Mg. José A. Lastra
 ### Laboratorio Geo-Información y Percepción Remota
-### 18/10/2020
+### 20/10/2020
 
 ---
 
@@ -37,7 +37,6 @@ library(tidyverse)
 library(sf)
 library(raster)
 library(dygraphs)
-library(shinybusy)
 library(shinythemes)
 ```
 
@@ -67,16 +66,13 @@ class: inverse, center, middle
 #Metas de hoy
 
 --
-- Hoy realizaremos una nueva aplicación donde usaremos reacciones de mapa sobre elementos raster
+- Hoy realizaremos una nueva aplicación donde usaremos reacciones de mapa sobre elementos raster (SST mensual MODIS Aqua, 4 km.)
 
 --
 - Además veremos como insertar imágenes (útil para logos)
 
 --
 - Veremos como graficar series de tiempo
-
---
-- Añadiremos procesamiento como función.
 
 --
 .center[
@@ -132,32 +128,23 @@ shinyApp(ui, server)
 # ¿Qué queremos en nuestras pestañas?
 
 --
-*Primera:*
+- Esta sesión nos enfocaremos en la primera
 
 --
 - Un mapa dinámico
 
 --
-- Visualización de rasters con opción de seleccionad la fecha
+- Visualización de rasters con opción de seleccionar la fecha del registro
 
 --
 - Serie de tiempo a través de un click
 
---
-- Gráfico de serie de tiempo dinámico
-
-
---
-*Segunda*
-
---
-- Tabla con la información de temperatura por pixel
 
 ---
 #Agregando opciones
 
 --
-- Agregaremos un *dateInput()* en el primer panel absoluto para la selección de fechas
+- Agregaremos un *uiOutput()* en el primer panel absoluto para la selección de fechas
 
 --
 
@@ -166,20 +153,29 @@ shinyApp(ui, server)
 absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
               draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
               width = 300, height ="auto",
-              style="z-index:500;", ## html
-              dateInput("date", label = 'Seleccione fecha', value = "2014-01-01",
-                        min = '2010-01-01',max = '2020-01-01'))
+              style="z-index:500;",
+              uiOutput('fechasInput'))
 ```
 
 --
-- Crearemos en el server nuestro mapa base
+- Crearemos en el server nuestro mapa base y cargaremos la información de las fechas
 
 --
 
 ```r
+#fechas
+  dates.table &lt;- read_csv('data/tables/allDates_sst.csv') 
+  dates &lt;- dates.table$x
+
+#Render UI
+output$fechasInput &lt;- renderUI({
+    selectInput(inputId = 'fechas',label = 'Seleccione una fecha',
+                choices = rev(dates),selected = tail(dates,1))
+  })
 #basemap
   output$map &lt;- renderLeaflet({
-    leaflet() %&gt;% addProviderTiles(providers$Esri.WorldImagery) 
+    leaflet() %&gt;% addProviderTiles(providers$Esri.WorldImagery) %&gt;% 
+      setView(lng = -71.5, lat = -33.12,zoom = 6)
   })
 ```
 
@@ -231,8 +227,161 @@ class: center, middle
 class: middle, center
 ![:scale 70%](app3.png)
 
+--
+- *Tip*: para lograr que una imagen sea responsive (adaptativa) pueden agregar en el código HTML `class="img-responsive"`
+
 ---
 #Ahora cargaremos los datos en nuestro server
+
+--
+- Para esto utilizaremos una lista de nuestros archivos en el server
+
+--
+
+```r
+#raster data
+  sst.list &lt;- list.files(path = 'data/monthly_sst/',pattern = glob2rx('*sst*.tif'),full.names = T)
+```
+
+--
+- Esto no llamará los rasters, pero hará que estén disponibles de manera indexada en nuestro sistema.
+
+---
+#Proxy para raster
+
+--
+- Ahora configuraremos primero la carga dinámica de los datos de sst.
+
+--
+
+```r
+#proxy raster plot
+  observeEvent(input$fechas,{
+    #select file
+    n &lt;- which(dates==input$fechas)
+    #colorramp
+    colores &lt;- c('#a50026','#d73027','#f46d43','#fdae61','#fee090',
+                 '#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695')
+    pal &lt;- colorNumeric(rev(colores), seq(10,25,1), na.color = "transparent")
+    #raster file
+    r &lt;- sst.list[n] %&gt;% raster()
+    #add to map
+    leafletProxy('map') %&gt;% clearControls() %&gt;% clearImages() %&gt;% 
+      addRasterImage(r,group = 'SST°C',method = 'ngb', colors = pal)
+  })
+```
+
+---
+class: middle, center
+![:scale 70%](app4.png)
+---
+#Reactive click
+
+--
+- Para poder emplear la reacción de mapa crearemos una expresión reactiva que almacene la información del punto clickeado.
+
+--
+
+```r
+  xy.map &lt;- eventReactive(input$map_click,{
+    click &lt;- isolate({input$map_click})
+    clat &lt;- click$lat
+    clng &lt;- click$lng
+    dts &lt;- SpatialPoints(data.frame(clng,clat),
+                         proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
+    dts
+  })
+```
+
+--
+- El objeto *xy.map()* servirá para poder extraer las series de tiempo que queremos.
+
+--
+- Para facilitar la extracción de las series usaremos el archivo *pixels.RData* que dispone de cada valor de pixel, con su respeciva coordenada en formato data frame de nombre *tabla*.
+
+--
+
+```r
+ #load pixels data
+  load('data/tables/pixels.RData')
+```
+
+---
+#Click markers
+
+--
+- Con las coordenadas reactivas, agregaremos marcadores que muestren a los usuarios y usuarias que punto marcaron en el mapa
+
+--
+- *Tip*: cada reacción que modifique el mapa (agregar markers, polígonos, rasters, cambio de colores, etc.), es recomendable ponerlo en un *observer distinto*
+
+--
+
+```r
+ # click markers
+  observeEvent(input$map_click,{
+    click &lt;- input$map_click
+    clat &lt;- click$lat
+    clng &lt;- click$lng
+    leafletProxy("map")  %&gt;% clearMarkers() %&gt;% addMarkers(lng=click$lng, lat=click$lat, 
+                                                           label= paste('lat:',clat,'lng',clng))
+  })
+```
+
+---
+class:middle, center
+![:scale 70%](app5.png)
+---
+#Reactive time series
+
+--
+- Para facilitar la secuencia lógica, crearemos un elemento reactivo que almacene la información del pixel seleccionado.
+
+--
+- Emplearemos para esto las coordenadas *xy.map()* y la función *cellFromXY()*.
+
+--
+- Con estos datos extraeremos la información de la tabla para nuestra serie de tiempo
+
+--
+
+```r
+r.cell &lt;-  reactive({
+  a1 &lt;- cellFromXY(d.select,xy.map())
+  c &lt;- tabla[a1,3:ncol(tabla)] %&gt;% as.numeric()
+  return(c)
+  })
+```
+
+---
+#Mostrando series
+
+--
+- Para esto crearemos primero un objeto *ts* dentro de R mediante la función *ts()*
+
+--
+- Luego realizaremos el gráfico con la función *dygraph()* de la librería [dygraphs](https://rstudio.github.io/dygraphs/index.html)
+
+--
+
+```r
+output$ts &lt;- renderDygraph({
+    ts.px &lt;- ts(r.cell(),start = c(2003,1),end = c(2019,12),frequency = 12)
+    #plot
+    dygraph(ts.px) %&gt;%
+      dySeries("V1", label = "SST°C") %&gt;%
+      dyRangeSelector(height = 20, strokeColor = "") %&gt;%
+      dyAxis("y", label = "Temp (C)", valueRange = c(10, 25)) %&gt;%
+      dyOptions(drawPoints = TRUE, pointSize = 2,colors = 'black')
+  })
+```
+
+--
+- Siéntanse libres de manejar las opciones de visualización
+
+---
+class: middle, center
+![:scale 95%](app6.png)
 ---
 class: inverse,center, middle
 
