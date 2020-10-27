@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
 ### Mg. José A. Lastra
 ### Laboratorio Geo-Información y Percepción Remota
-### 21/10/2020
+### 27/10/2020
 
 ---
 
@@ -346,6 +346,9 @@ class:middle, center
 --
 
 ```r
+#cargar una banda para seleccionar el número de pixel
+d.select &lt;- sst.list[1] %&gt;% raster()
+#Creando vector con la serie
 r.cell &lt;-  reactive({
   a1 &lt;- cellFromXY(d.select,xy.map())
   c &lt;- tabla[a1,3:ncol(tabla)] %&gt;% as.numeric()

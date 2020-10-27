@@ -340,6 +340,9 @@ class:middle, center
 
 --
 ```{r eval=F}
+#cargar una banda para seleccionar el número de pixel
+d.select <- sst.list[1] %>% raster()
+#Creando vector con la serie
 r.cell <-  reactive({
   a1 <- cellFromXY(d.select,xy.map())
   c <- tabla[a1,3:ncol(tabla)] %>% as.numeric()
