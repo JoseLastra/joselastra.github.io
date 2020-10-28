@@ -1,5 +1,5 @@
 ---
-title: "Unidad 2: Eventos reactivos: Raster y series - <br>Operaciones en el server<br>"
+title: "Unidad 2: Series: Subida y bajada de datos - <br>Operaciones en el server<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
 author: "Mg. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -29,6 +29,7 @@ library(sf)
 library(raster)
 library(dygraphs)
 library(shinythemes)
+library(ggfortify)
 ```
 
 
@@ -44,6 +45,7 @@ library(sf)
 library(raster)
 library(dygraphs)
 library(shinythemes)
+library(ggfortify)
 ```
 
 
@@ -67,18 +69,21 @@ class: inverse, center, middle
 --
 - Hemos visto algunas configuraciones de páginas
 
+--
+- La semana anterior vimos series de tiempo desde leaflet y shiny
+
 
 ---
 #Metas de hoy
 
 --
-- Hoy realizaremos una nueva aplicación donde usaremos reacciones de mapa sobre elementos raster (SST mensual MODIS Aqua, 4 km.)
+- Cerraremos con una consulta de la semana anterior
 
 --
-- Además veremos como insertar imágenes (útil para logos)
-
---
-- Veremos como graficar series de tiempo
+- Nos enfocaremos en la segunda pestaña donde:
+  + Crearemos una sección para subir archivos a nuestra aplicación
+  + Porporcionaremos un análisis simple
+  + Permitiremos la descarga de resultados.
 
 --
 .center[
@@ -87,294 +92,173 @@ class: inverse, center, middle
 .center[.footnote[© Allison Horst]]
 
 ---
-#UI
+Seguiremos empleando nuestra aplicación de la semana anterior
+
+.center[![:scale 95%](app1.png)]
+
+---
+# Mostrar valor del pixel seleccionado en el pop up
 
 --
-- Configuraremos un tipo de app con pestañas.
-
+- Modificaremos solamente el observer que agrega los marcadores a nuestro mapa
 --
 ```{r eval=F}
-ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"), # App theme 
-                 tabPanel('Mapa principal', # Main page view
-                          leafletOutput("map", width = "100%", height = 600), # Main map
-                          # Option panel
-                          absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
-                                        draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
-                                        width = 300, height ="auto",
-                                        style="z-index:500;"),
-                          absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
-                                        height = 200,bottom = 'auto',fixed = T,style="z-index:500")
-                 ),
-                 #Description
-                 tabPanel('Tab secundario',
-                          sidebarLayout(sidebarPanel(),
-                            mainPanel())
-                          )
-)
-```
-
----
-#Server
-
---
-- Nuestro server deberá de momento estar vacío.
-
---
-```{r eval=F}
-server <- function(input, output, session) {
-  
-}
-
-shinyApp(ui, server)
-```
-
----
-# ¿Qué queremos en nuestras pestañas?
-
---
-- Esta sesión nos enfocaremos en la primera
-
---
-- Un mapa dinámico
-
---
-- Visualización de rasters con opción de seleccionar la fecha del registro
-
---
-- Serie de tiempo a través de un click
-
-
----
-#Agregando opciones
-
---
-- Agregaremos un *uiOutput()* en el primer panel absoluto para la selección de fechas
-
---
-```{r eval=F}
-# Option panel
-absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
-              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
-              width = 300, height ="auto",
-              style="z-index:500;",
-              uiOutput('fechasInput'))
-```
-
---
-- Crearemos en el server nuestro mapa base y cargaremos la información de las fechas
-
---
-```{r eval= F}
-#fechas
-  dates.table <- read_csv('data/tables/allDates_sst.csv') 
-  dates <- dates.table$x
-
-#Render UI
-output$fechasInput <- renderUI({
-    selectInput(inputId = 'fechas',label = 'Seleccione una fecha',
-                choices = rev(dates),selected = tail(dates,1))
-  })
-#basemap
-  output$map <- renderLeaflet({
-    leaflet() %>% addProviderTiles(providers$Esri.WorldImagery) %>% 
-      setView(lng = -71.5, lat = -33.12,zoom = 6)
-  })
-```
-
----
-class: center, middle
-![:scale 70%](app1.png)
-
----
-#Insertando una imagen (logo)
-
---
-- Para que shiny reconozca las imágenes que deseamos emplear, crearemos una carpeta de nombre *www* en el directorio de la aplicación.
-
---
-- Ahí pegaremos pegaremos la imagen de nombre *logo_labgrs.png*
-
---
-- Para agregar imágenes podemos emplear la función *img()*. La pondremos en el segundo panel absoluto
-
---
-```{r eval=F}
-absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
-              height = 200,bottom = 'auto',fixed = T,style="z-index:500",
-              img(src='logo_labgrs.png',width=250,height=100)
-             )
-```
-
----
-class: center, middle
-![:scale 70%](app2.png)
-
----
-#Otra alternativa
-
---
-- Uso de HTML
-
---
-```{r eval=F}
- absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
-               height = 200,bottom = 'auto',fixed = T,style="z-index:500",
-               HTML('<img height="90"  src="logo_labgrs.png" asp="1" align="left">')
-               )
-```
-
----
-class: middle, center
-![:scale 70%](app3.png)
-
---
-- *Tip*: para lograr que una imagen sea responsive (adaptativa) pueden agregar en el código HTML `class="img-responsive"`
-
----
-#Ahora cargaremos los datos en nuestro server
-
---
-- Para esto utilizaremos una lista de nuestros archivos en el server
-
---
-```{r eval=F}
-#raster data
-  sst.list <- list.files(path = 'data/monthly_sst/',pattern = glob2rx('*sst*.tif'),full.names = T)
-```
-
---
-- Esto no llamará los rasters, pero hará que estén disponibles de manera indexada en nuestro sistema.
-
----
-#Proxy para raster
-
---
-- Ahora configuraremos primero la carga dinámica de los datos de sst.
-
---
-```{r eval=F}
-#proxy raster plot
-  observeEvent(input$fechas,{
-    #select file
-    n <- which(dates==input$fechas)
-    #colorramp
-    colores <- c('#a50026','#d73027','#f46d43','#fdae61','#fee090',
-                 '#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695')
-    pal <- colorNumeric(rev(colores), seq(10,25,1), na.color = "transparent")
-    #raster file
-    r <- sst.list[n] %>% raster()
-    #add to map
-    leafletProxy('map') %>% clearControls() %>% clearImages() %>% 
-      addRasterImage(r,group = 'SST°C',method = 'ngb', colors = pal)
-  })
-```
-
----
-class: middle, center
-![:scale 70%](app4.png)
----
-#Reactive click
-
---
-- Para poder emplear la reacción de mapa crearemos una expresión reactiva que almacene la información del punto clickeado.
-
---
-```{r eval=F}
-  xy.map <- eventReactive(input$map_click,{
-    click <- isolate({input$map_click})
-    clat <- click$lat
-    clng <- click$lng
-    dts <- SpatialPoints(data.frame(clng,clat),
-                         proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
-    dts
-  })
-```
-
---
-- El objeto *xy.map()* servirá para poder extraer las series de tiempo que queremos.
-
---
-- Para facilitar la extracción de las series usaremos el archivo *pixels.RData* que dispone de cada valor de pixel, con su respeciva coordenada en formato data frame de nombre *tabla*.
-
---
-```{r eval=F}
- #load pixels data
-  load('data/tables/pixels.RData')
-```
-
----
-#Click markers
-
---
-- Con las coordenadas reactivas, agregaremos marcadores que muestren a los usuarios y usuarias que punto marcaron en el mapa
-
---
-- *Tip*: cada reacción que modifique el mapa (agregar markers, polígonos, rasters, cambio de colores, etc.), es recomendable ponerlo en un *observer distinto*
-
---
-```{r eval=F}
- # click markers
+  # click markers
   observeEvent(input$map_click,{
+    #extraer celda
+    n.cell <- cellFromXY(d.select,xy.map())
+    #Extraer columna
+    n.col <- which(dates==input$fechas)
+    #valor
+    px.value<- tabla[n.cell,n.col] %>% as.numeric()
+    #coordinates
     click <- input$map_click
     clat <- click$lat
     clng <- click$lng
-    leafletProxy("map")  %>% clearMarkers() %>% addMarkers(lng=click$lng, lat=click$lat, 
-                                                           label= paste('lat:',clat,'lng',clng))
+    #ProxyMap
+    leafletProxy("map")  %>% clearMarkers() %>% 
+      addMarkers(lng=click$lng, lat=click$lat,label= paste('| lat:',round(clat,3),'| lng',
+                                                           round(clng,3), '| SST:',round(px.value,2)),
+                 labelOptions = labelOptions(style = list("color" = "black", "font-size" = "14px",
+                                                          "font-family" = "serif",
+                                                          "font-weight" = "bold")))
   })
 ```
-
----
-class:middle, center
-![:scale 70%](app5.png)
----
-#Reactive time series
-
---
-- Para facilitar la secuencia lógica, crearemos un elemento reactivo que almacene la información del pixel seleccionado.
-
---
-- Emplearemos para esto las coordenadas *xy.map()* y la función *cellFromXY()*.
-
---
-- Con estos datos extraeremos la información de la tabla para nuestra serie de tiempo
-
---
-```{r eval=F}
-r.cell <-  reactive({
-  a1 <- cellFromXY(d.select,xy.map())
-  c <- tabla[a1,3:ncol(tabla)] %>% as.numeric()
-  return(c)
-  })
-```
-
----
-#Mostrando series
-
---
-- Para esto crearemos primero un objeto *ts* dentro de R mediante la función *ts()*
-
---
-- Luego realizaremos el gráfico con la función *dygraph()* de la librería [dygraphs](https://rstudio.github.io/dygraphs/index.html)
-
---
-```{r eval=F}
-output$ts <- renderDygraph({
-    ts.px <- ts(r.cell(),start = c(2003,1),end = c(2019,12),frequency = 12)
-    #plot
-    dygraph(ts.px) %>%
-      dySeries("V1", label = "SST°C") %>%
-      dyRangeSelector(height = 20, strokeColor = "") %>%
-      dyAxis("y", label = "Temp (C)", valueRange = c(10, 25)) %>%
-      dyOptions(drawPoints = TRUE, pointSize = 2,colors = 'black')
-  })
-```
-
---
-- Siéntanse libres de manejar las opciones de visualización
 
 ---
 class: middle, center
-![:scale 95%](app6.png)
+![:scale 95%](app2.png)
+
+---
+#Tab secundaria
+
+--
+- Agregando la opción de subir datos.
+- Pondremos la función *fileInput()* para habilitar esto en nuestro *sidebarPanel()*
+
+--
+```{r eval=F}
+fileInput('target_upload', 'Suba su tabla', accept = c('.csv'))
+```
+
+--
+- Agregaremos la función *downloadButton()*
+
+```{r eval=F}
+downloadButton('descargar','Descargar plot')
+```
+
+-- 
+- Nuestro segundo tabPanel quedaría así
+
+--
+```{r eval=F}
+ tabPanel('Tab secundario',
+                          sidebarLayout(sidebarPanel(
+                            fileInput('target_upload', 'Suba su tabla', accept = c('.csv')),br(),
+                            actionButton('plot',label = 'Plot'),
+                            downloadButton('descargar','Descargar plot'),
+                            fluid=T,width = 2),
+                            mainPanel(plotOutput('decom'))
+                          ))
+```
+
+---
+# Generando la subida en el server
+
+--
+- En este ejemplo usaremos series de tiempo en formato **.csv*
+
+--
+```{r eval=F}
+datos <- reactive({
+    req(input$target_upload)
+    inFile <- input$target_upload
+    if (is.null(inFile))
+      return(NULL)
+    df <- read_csv(inFile$datapath)
+    return(df)
+  })
+```
+
+--
+- Crearemos un elemento reactivo que contendrá el gráfico
+
+--
+```{r eval=F}
+graf <- eventReactive(input$plot,{
+    req(!is.null(datos()))
+    ts.serie <- ts(datos(),start=c(1981,244),end=c(2020,117),frequency=365)
+    g <- autoplot(ts.serie, ylab = 'SST °C',asp = 0.2)
+    g
+  })
+```
+
+---
+#Renderizando el gráfico
+
+--
+```{r eval=F}
+observeEvent(input$plot,{
+    req(!is.null(datos()))
+    output$decom <- renderPlot({
+      graf()
+    })
+  })
+```
+
+--
+.center[
+![:scale 95%](app3.png)
+]
+
+---
+#Añadamos un pequeño proceso en los datos
+
+--
+- Para esto añadiremos la función *checkboxInput()*
+
+--
+- Nuestro tabPanel queda de la siguiente manera
+
+--
+```{r eval=F}
+ tabPanel('Tab secundario',
+                          sidebarLayout(sidebarPanel(
+                            fileInput('target_upload', 'Suba su tabla',accept = c('.csv')),br(),
+                            checkboxInput("desc", label = "Descomponer serie", value = F),br(),
+                            actionButton('plot',label = 'Plot'),
+                            downloadButton('descargar','Descargar plot'),
+                            fluid=T,width = 2),
+                            mainPanel(plotOutput('decom'))
+                          ))
+```
+
+---
+#En el server
+
+--
+- Cambiaremos el código que crea los gráficos
+
+--
+```{r eval = F}
+ graf <- eventReactive(input$plot,{
+    req(!is.null(datos()))
+    ts.serie <- ts(datos(),start=c(1981,244),end=c(2020,117),frequency=365)
+    
+    if(input$desc == T){
+      g <- decompose(ts.serie) %>% autoplot() 
+    }
+    if(input$desc == F){
+    g <- autoplot(ts.serie, ylab = 'SST °C',asp = 0.2)}
+    g
+  })
+```
+
+---
+class: middle, center
+![:scale 95%](app4.png)
+
 ---
 class: inverse,center, middle
 
