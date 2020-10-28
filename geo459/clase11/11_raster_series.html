@@ -175,7 +175,8 @@ datos &lt;- reactive({
     if (is.null(inFile))
       return(NULL)
     df &lt;- read_csv(inFile$datapath)
-    return(df)
+    df_subset &lt;- df[,'sst']
+    return(df_subset)
   })
 ```
 

@@ -177,7 +177,8 @@ datos <- reactive({
     if (is.null(inFile))
       return(NULL)
     df <- read_csv(inFile$datapath)
-    return(df)
+    df_subset <- df[,'sst']
+    return(df_subset)
   })
 ```
 
