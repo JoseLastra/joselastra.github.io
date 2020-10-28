@@ -4,6 +4,7 @@ library(tidyverse)
 library(sf)
 library(raster)
 library(shinythemes)
+library(ggfortify)
 library(dygraphs)
 
 ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"), # App theme 
@@ -23,8 +24,14 @@ ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"
                  ),
                  #Description
                  tabPanel('Tab secundario',
-                          sidebarLayout(sidebarPanel(),
-                                        mainPanel())
+                          sidebarLayout(sidebarPanel(
+                            fileInput(inputId = 'target_upload', 'Suba su tabla', accept = c('.csv')),br(),
+                            checkboxInput("desc", label = "Descomponer serie", value = F),br(),
+                            actionButton('plot',label = 'Plot'),
+                            downloadButton('descargar','Descargar plot'),
+                            fluid=T,width = 2
+                          ),
+                          mainPanel(plotOutput('decom')))
                  )
 )
 
@@ -86,11 +93,23 @@ server <- function(input, output, session) {
   
   # click markers
   observeEvent(input$map_click,{
+    #extraer celda
+    n.cell <- cellFromXY(d.select,xy.map())
+    #Extraer columna
+    n.col <- which(dates==input$fechas)
+    #valor
+    px.value<- tabla[n.cell,n.col] %>% as.numeric()
+    #coordinates
     click <- input$map_click
     clat <- click$lat
     clng <- click$lng
-    leafletProxy("map")  %>% clearMarkers() %>% addMarkers(lng=click$lng, lat=click$lat, 
-                                                           label= paste('lat:',clat,'lng',clng))
+    #ProxyMap
+    leafletProxy("map")  %>% clearMarkers() %>% 
+      addMarkers(lng=click$lng, lat=click$lat,label= paste('| lat:',round(clat,3),'| lng',
+                                                           round(clng,3), '| SST:',round(px.value,2)),
+                 labelOptions = labelOptions(style = list("color" = "black", "font-size" = "14px",
+                                                          "font-family" = "serif",
+                                                          "font-weight" = "bold")))
   })
   
   output$ts <- renderDygraph({
@@ -104,6 +123,53 @@ server <- function(input, output, session) {
       dyAxis("y", label = "Temp (C)", valueRange = c(10, 25)) %>%
       dyOptions(drawPoints = TRUE, pointSize = 2,colors = 'black')
   })
+  
+  
+######################################################################
+  #tab secundario
+  #subida de archivos
+  datos <- reactive({
+    req(input$target_upload)
+    inFile <- input$target_upload
+    if (is.null(inFile))
+      return(NULL)
+    df <- read_csv(inFile$datapath)
+    df_filter <- df[,'sst'] 
+    return(df_filter)
+  })
+  
+  ## creación serie reactiva
+  graf <- eventReactive(input$plot,{
+    req(!is.null(datos()))
+    ts.serie <- ts(datos(),start=c(1981,244),end=c(2020,117),frequency=365)
+    
+    if(input$desc == T){
+    g <- decompose(ts.serie) %>% autoplot()
+    }
+    if(input$desc == F){
+    g <- autoplot(ts.serie, ylab = 'SST °C',asp = 0.2)
+    }
+    g
+  })
+  
+  #render gráfico
+  observeEvent(input$plot,{
+    req(!is.null(datos()))
+    output$decom <- renderPlot({
+      graf()
+    })
+  })
+  
+  ## habilitar descarga
+  output$descargar <- downloadHandler(
+    #nombre de archivo
+    filename = "serie.jpg",
+    content = function(file){
+      ggsave(file, graf(),dpi = 150,width = 15,height = 10)
+    }
+  )
+  
+  
   
   
   

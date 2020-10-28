@@ -6,6 +6,7 @@ library(raster)
 library(dygraphs)
 library(plotly)
 library(shinythemes)
+library(ggfortify)
 
 ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"), # App theme 
                  
@@ -30,14 +31,12 @@ ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"
                  tabPanel('Tab secundario',
                           sidebarLayout(sidebarPanel(
                             fileInput('target_upload', 'Suba su tabla',
-                                      accept = c('.xls','.xlsx')),
-                            actionButton('tabla','Mostrar tabla'),br(),
-                            uiOutput("columnas"),br(),
+                                      accept = c('.csv')),br(),
+                            checkboxInput("desc", label = "Descomponer serie", value = F),br(),
                             actionButton('plot',label = 'Plot'),
                             downloadButton('descargar','Descargar plot'),
                             fluid=T,width = 2),
-                            mainPanel(dataTableOutput('tabla_display'),
-                                      plotOutput('histo'))
+                            mainPanel(plotOutput('decom'))
                           ))
 )
 
@@ -89,11 +88,24 @@ server <- function(input, output, session) {
   
   # click markers
   observeEvent(input$map_click,{
+    #extraer celda
+    n.cell <- cellFromXY(d.select,xy.map())
+    #Extraer columna
+    n.col <- which(dates==input$fechas)
+    #valor
+    px.value<- tabla[n.cell,n.col] %>% as.numeric()
+    #coordinates
     click <- input$map_click
     clat <- click$lat
     clng <- click$lng
+    #ProxyMap
     leafletProxy("map")  %>% clearMarkers() %>% addMarkers(lng=click$lng, lat=click$lat, 
-                                                           label= paste('lat:',clat,'lng',clng))
+                                                           label= paste('| lat:',round(clat,3),
+                                                                        '| lng',round(clng,3), '| SST:',round(px.value,2)),
+                                                           labelOptions = labelOptions(style = list("color" = "black", 
+                                                                                                    "font-size" = "14px",
+                                                                                                    "font-family" = "serif",
+                                                                                                    "font-weight" = "bold")))
   })
   
   r.cell <-  reactive({
@@ -131,15 +143,15 @@ server <- function(input, output, session) {
     inFile <- input$target_upload
     if (is.null(inFile))
       return(NULL)
-    df <- read_excel(inFile$datapath)
-    
-    return(df)
+    df <- read_csv(inFile$datapath)
+    df.s <- df[,'sst'] 
+    return(df.s)
   })
   
   output$columnas<- renderUI({
     req(input$target_upload)
     df1<-datos()
-    data.num<-select_if(df1, is.character)
+    data.num<-select_if(df1, is.numeric())
     selectInput(
       "campo",
       "Seleccione un campo",
@@ -147,26 +159,22 @@ server <- function(input, output, session) {
     )
   })
   
-  observeEvent(input$tabla,{
-    req(!is.null(datos()))
-    output$tabla_display <- renderDataTable({
-      datos() %>% 
-        datatable(rownames = FALSE, filter = 'top',
-                  extensions = 'FixedColumns',
-                  options = list(pageLength = 5,
-                                 scrollX = TRUE,
-                                 fixedColumns = TRUE))
-    })
-  })
   
   graf <- eventReactive(input$plot,{
     req(!is.null(datos()))
-    dataPlot(tabla = datos(), campo = input$campo)
+    ts.serie <- ts(datos(),start=c(1981,244),end=c(2020,117),frequency=365)
+    
+    if(input$desc == T){
+      g <- decompose(ts.serie) %>% autoplot() 
+    }
+    if(input$desc == F){
+    g <- autoplot(ts.serie, ylab = 'SST °C',asp = 0.2)}
+    g
   })
   
   observeEvent(input$plot,{
     req(!is.null(datos()))
-    output$histo <- renderPlot({
+    output$decom <- renderPlot({
       graf()
     })
   })

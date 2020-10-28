@@ -213,6 +213,21 @@ observeEvent(input$plot,{
 ]
 
 ---
+# Configurando al descarga
+
+--
+```{r eval=F}
+ ## habilitar descarga
+  output$descargar <- downloadHandler(
+    #nombre de archivo
+    filename = "serie.jpg",
+    content = function(file){
+      ggsave(file, graf(),dpi = 150,width = 15,height = 10)
+    }
+  )
+```
+
+---
 #Añadamos un pequeño proceso en los datos
 
 --
