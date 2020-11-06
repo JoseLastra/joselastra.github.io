@@ -1,5 +1,5 @@
 ---
-title: "Unidad 2: Series: Subida y bajada de datos - <br>Operaciones en el server<br>"
+title: "Unidad 3: Visualización - <br>Algo de HTML y CSS<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
 author: "Mg. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -70,21 +70,19 @@ class: inverse, center, middle
 - Hemos visto algunas configuraciones de páginas
 
 --
-- La semana anterior vimos series de tiempo desde leaflet y shiny
+- Series de tiempo y shiny con dygraphs
 
+--
+- Subida y bajada de archivos en shiny
 
 ---
 #Metas de hoy
 
 --
-- Cerraremos con una consulta de la semana anterior
+- Generar algunas mejoras de diseño de nuestra aplicación
 
 --
-- Nos enfocaremos en la segunda pestaña donde:
-  + Crearemos una sección para subir archivos a nuestra aplicación
-  + Porporcionaremos un análisis simple
-  + Permitiremos la descarga de resultados.
-
+- Resolver dudas o consultas generales
 --
 .center[
 ![:scale 60%](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/other-stats-artwork/debugging.jpg)
