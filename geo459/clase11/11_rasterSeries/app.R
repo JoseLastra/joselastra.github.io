@@ -7,20 +7,29 @@ library(shinythemes)
 library(ggfortify)
 library(dygraphs)
 
-ui <- navbarPage(title = 'RasterSeries',id = 'nav',theme = shinytheme("spacelab"), # App theme 
+ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14px; padding-right:10px;padding-bottom:10px", height = 60)),
+                 id = 'nav',theme = shinytheme("cerulean"), # App theme 
                  tabPanel('Mapa principal', # Main page view
-                          leafletOutput(outputId = "map", width = "100%", height = 600), # Main map
+                          div(class="outer",
+                           tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0;
+                                                right: 0; bottom: 0; overflow: hidden; padding: 0}"),
+                           leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
                           # Option panel
                           absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
                                         draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
                                         width = 300, height ="auto",
                                         style="z-index:500;",
                                         uiOutput('fechasInput')),
-                          dygraphOutput(outputId = 'ts',width = '100%',height = 300),
-                          absolutePanel(top = 85,left = 80,right = 'auto',width = 200,
-                                        height = 200,bottom = 'auto',fixed = T,style="z-index:500",
-                                        HTML('<img height="90"  src="logo_labgrs.png" asp="1" 
-                                             class="img-responsive" align="left">'))
+                          conditionalPanel(condition = 'input.map_click != 0',
+                                           absolutePanel(id="tSeries",
+                                           style="z-index:500;background-color: transparent;
+                                           opacity: 1;margin: auto;border-color: transparent;
+                                           padding-bottom: 2mm;padding-top: 1mm;",
+                                           class = "panel panel-default",
+                                           fixed = TRUE,draggable = F, top = 'auto', left = 5,
+                                           right = 10, bottom = 10,width = '100%', height = "auto",
+                                           dygraphOutput(outputId = 'ts',width = '98%',height = 250))
+                                        ))
                  ),
                  #Description
                  tabPanel('Tab secundario',

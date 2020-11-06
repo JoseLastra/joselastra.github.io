@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Unidad 3: Visualización -  Algo de HTML y CSS</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Mg. José A. Lastra" />
+    <meta name="date" content="2020-06-11" />
+    <link href="libs/remark-css/fc.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Unidad 3: Visualización - <br>Algo de HTML y CSS<br>
+## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
+### Mg. José A. Lastra
+### Laboratorio Geo-Información y Percepción Remota
+### 06/11/2020
+
+---
+
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+
+
+
+---
+
+Librerías utilizadas en esta sesión
+
+
+```r
+library(shiny)
+library(leaflet)
+library(tidyverse)
+library(sf)
+library(raster)
+library(dygraphs)
+library(shinythemes)
+library(ggfortify)
+```
+
+
+---
+class: inverse, center, middle
+
+# INTRODUCCIÓN
+
+---
+# Summary
+
+--
+- Hasta el momento hemos visto como estructurar aplicaciones
+
+--
+- Hemos creado y empleado funciones
+
+--
+- Hemos empleado widgets y elementos reactivos
+
+--
+- Hemos visto algunas configuraciones de páginas
+
+--
+- Series de tiempo y shiny con dygraphs
+
+--
+- Subida y bajada de archivos en shiny
+
+---
+#Metas de hoy
+
+--
+- Generar algunas mejoras de diseño de nuestra aplicación
+
+--
+- Resolver dudas o consultas generales
+--
+.center[
+![:scale 60%](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/other-stats-artwork/debugging.jpg)
+]
+.center[.footnote[© Allison Horst]]
+
+---
+Seguiremos empleando nuestra aplicación de la semana anterior
+
+.center[![:scale 95%](app1.png)]
+
+---
+#Diseño de interfaz
+
+--
+- Partiremos por remover nuestro panel absoluto con el logo y pondremos el logo en la sección de nuestra barra de navegación.
+
+--
+- Agregaremos nuestra imagen en el argumento *title* usando la función *div* [Recuerde ver este enlace para más funciones HTML](https://shiny.rstudio.com/articles/tag-glossary.html)
+
+--
+
+```r
+div(img(src = "logo_labgrs.png", style="margin-top: -14px; 
+        padding-right:10px;padding-bottom:10px", height = 60))
+```
+
+--
+.center[
+![](app2.png)
+]
+
+---
+#Serie de tiempo en panel absoluto condicional
+
+--
+- A veces hay elementos que no queremos que aparezcan de inmediato
+
+--
+- Esto podemos hacerlo de diversas maneras, pero una de las mejores es trabajar sobre un panel condicional
+
+--
+- Para esto, crearemos un panel absoluto que será contenido por un panel condicional. 
+
+--
+- Además haremos que el panel aparezca cuando exista el click en el mapa mediante *input.map_click != 0*
+
+--
+
+```r
+conditionalPanel(condition = 'input.map_click != 0',
+                 absolutePanel(id="tSeries",
+                 style="z-index:500;background-color: transparent;
+                 opacity: 1;margin: auto;border-color: transparent;
+                 padding-bottom: 2mm;padding-top: 1mm;",
+                 class = "panel panel-default",
+                 fixed = TRUE,draggable = F, top = 'auto', left = 5,
+                 right = 10, bottom = 10,width = '100%', height = "auto",
+                 dygraphOutput(outputId = 'ts',width = '98%',height = 250)
+                 )
+                 )
+```
+
+---
+class: middle
+![:scale 95%](app3.png)
+
+---
+# Mapa a full page usando *div*
+
+--
+- Ya logramos el panel condicional, ahora pondremos todo con un mapa usando toda la página.
+
+--
+- Para esto usaremos código CSS y la función *div*
+--
+
+- Pasando por ella todo el contenido de leaflet y nuestros paneles (controles y series)
+
+---
+
+--
+
+```r
+tabPanel('Mapa principal', # Main page view
+         div(class="outer",
+         tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0;
+                    right: 0; bottom: 0; overflow: hidden; padding: 0}"),
+         leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
+         # Option panel
+         absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+                       draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+                       width = 300, height ="auto",
+                       style="z-index:500;",
+                       uiOutput('fechasInput')),# fechas input
+         conditionalPanel(condition = 'input.map_click != 0',
+                          absolutePanel(id="tSeries",
+                          style="z-index:500;background-color: transparent;
+                          opacity: 1;margin: auto;border-color: transparent;
+                          padding-bottom: 2mm;padding-top: 1mm;",
+                          class = "panel panel-default",
+                          fixed = TRUE,draggable = F, top = 'auto', left = 5,
+                          right = 10, bottom = 10,width = '100%', height = "auto",
+                          dygraphOutput(outputId = 'ts',width = '98%',height = 250)
+                          )
+                          )
+         )
+         )
+```
+
+---
+
+.center[
+![:scale 95%](app4.png)
+]
+
+*¿Problemas?*
+---
+class: inverse,center, middle
+
+# ¿PREGUNTAS?
+
+
+---
+
+class: inverse,center, middle
+
+# PRÓXIMA SEMANA SEGUIMOS &lt;br&gt; MEJORANDO NUESTRA APP &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
