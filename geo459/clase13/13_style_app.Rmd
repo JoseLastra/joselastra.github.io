@@ -197,6 +197,97 @@ tabPanel('Mapa principal', # Main page view
 ]
 
 *¿Problemas?*
+
+---
+# Cambiemos dygraphs por plotly
+
+--
+- *Plotly* es otra librería que nos permite realizar gráficos intereactivos
+
+--
+- No solo es para series de tiempo sino que para muchas otras cosas
+
+--
+- Tiene compatibilidad con *ggplot2* y permite transformar gráficos creados desde esta libreria o crearlos empleando las funciones de internas de plotly.
+
+- Modifiquemos nuestro código (Recuerde agregar plotly al código de su aplicación)
+
+--
+```{r eval=F}
+ conditionalPanel(condition = 'input.map_click != 0',
+                  absolutePanel(id="tSeries",
+                  style="z-index:500;background-color: transparent;
+                  opacity: 1;margin: auto;border-color: transparent;
+                  padding-bottom: 2mm;padding-top: 1mm;",
+                  class = "panel panel-default",
+                  fixed = TRUE,draggable = F, top = 'auto', left = 5,
+                  right = 10, bottom = 10,width = '100%', height = "auto",
+                  plotlyOutput(outputId = 'ts',width = '100%',height = 250))
+                  )
+```
+
+---
+#Creando el gráfico
+
+--
+- Ahora modificaremos el render de nuestro gráfico
+
+--
+```{r eval=F}
+output$ts <- renderPlotly({
+    ts.px <- ts(r.cell(),start = c(2003,1),end = c(2019,12),frequency = 12)
+    g <- ts.px %>% autoplot(ylab = 'SST °C',asp = 0.2)
+    #plot
+    ggplotly(g)
+  })
+```
+
+--
+- La función *ggplotly()* permite transformar a HTML un objeto crearo empleando ggplot2 (en este caso con autoplot)
+
+---
+class: middle, center
+
+![:scale 95%](app5.png)
+---
+#Creando un gráfico con ggplot2
+
+--
+- Para mostrar la posibilidad de conversión, armaremos un gráfico de densitad de datos y lo pondremos en nuestra app usando un panel absoluto.
+
+--
+- Agregue el siguiente panel absoluto
+
+--
+```{r eval=F}
+absolutePanel(id = "histo", class = "panel panel-default", fixed = F,draggable = F, top = 90,
+              left = 10, right = 'auto', bottom = "auto",width = 400, height ="auto",style="z-index:500;",
+              plotlyOutput('histogram'))
+```
+
+--
+- Agreguemos la renderización al server
+
+--
+```{r eval=F}
+output$histogram <- renderPlotly({
+    req(input$fechas)
+    n.col <- which(dates==input$fechas)
+    #valor
+    tabla1 <- tabla[,3:206]
+    dates.value <- tabla1[,n.col] %>% as.data.frame()
+    names(dates.value)<- 'valor' 
+    #plot
+    p <- ggplot(dates.value, aes(x = valor)) + geom_histogram(aes(y = ..density..), 
+                                                              alpha = 0.7, fill = "#333333") + 
+      geom_density(fill = "#ff4d4d", alpha = 0.5) + theme(panel.background = element_rect(fill = '#ffffff'))
+    ggplotly(p)
+  })
+```
+
+---
+class: middle, center
+![:scale 95%](app6.png)
 ---
 class: inverse,center, middle
 
