@@ -10,10 +10,10 @@ library(plotly)
 ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14px; padding-right:10px;padding-bottom:10px", height = 60)),
                  id = 'nav',theme = shinytheme("cerulean"), # App theme 
                  tabPanel('Mapa principal', # Main page view
-                          div(class= "outer",
-                              tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0;
-                                         overflow: hidden; padding: 0}"),
-                            leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
+                          div(class="outer",
+                           tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0;
+                                                right: 0; bottom: 0; overflow: hidden; padding: 0}"),
+                           leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
                           # Option panel
                           absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
                                         draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
@@ -22,17 +22,20 @@ ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14
                                         uiOutput('fechasInput')),
                           conditionalPanel(condition = 'input.map_click != 0',
                                            absolutePanel(id="tSeries",
-                                                         style="z-index:500;background-color: transparent;
-                                                         opacity: 1;margin: auto;border-color: transparent;
-                                                         padding-bottom: 2mm;padding-top: 1mm;",
-                                                         class = "panel panel-default",
-                                                         fixed = TRUE,draggable = F, top = 'auto', left = 5,
-                                                         right = 10, bottom = 10,width = '100%', height = "auto",
-                                                         plotlyOutput(outputId = 'ts',width = '98%',height = 250))),
-                          absolutePanel(id = "histo", class = "panel panel-default", fixed = F,draggable = F, top = 90,
-                                        left = 10, right = 'auto', bottom = "auto",width = 400, height ="auto",style="z-index:500;",
-                                        plotlyOutput('histogram'))
-                 )),
+                                           style="z-index:500;background-color: transparent;
+                                           opacity: 1;margin: auto;border-color: transparent;
+                                           padding-bottom: 2mm;padding-top: 1mm;",
+                                           class = "panel panel-default",
+                                           fixed = TRUE,draggable = F, top = 'auto', left = 5,
+                                           right = 10, bottom = 10,width = '100%', height = "auto",
+                                           plotlyOutput(outputId = 'ts',width = '100%',height = 250))
+                                        ),
+                          absolutePanel(id = "histo", class = "panel panel-default", fixed = F,
+                                        draggable = F, top = 90, left = 10, right = 'auto', bottom = "auto",
+                                        width = 400, height ="auto",
+                                        style="z-index:500;",
+                                        plotlyOutput('histogram')))
+                 ),
                  #Description
                  tabPanel('Tab secundario',
                           sidebarLayout(sidebarPanel(
@@ -109,7 +112,8 @@ server <- function(input, output, session) {
     #Extraer columna
     n.col <- which(dates==input$fechas)
     #valor
-    px.value<- tabla[n.cell,n.col] %>% as.numeric()
+    tabla1 <- tabla[,3:206]
+    px.value<- tabla1[n.cell,n.col] %>% as.numeric()
     #coordinates
     click <- input$map_click
     clat <- click$lat
@@ -130,7 +134,6 @@ server <- function(input, output, session) {
     ggplotly(g)
   })
   
-  # render histogram
   output$histogram <- renderPlotly({
     req(input$fechas)
     n.col <- which(dates==input$fechas)
@@ -139,9 +142,10 @@ server <- function(input, output, session) {
     dates.value <- tabla1[,n.col] %>% as.data.frame()
     names(dates.value)<- 'valor' 
     #plot
-    p <- ggplot(dates.value, aes(x = valor)) + geom_histogram(aes(y = ..density..), 
-                                                              alpha = 0.7, fill = "#333333") + 
-      geom_density(fill = "#ff4d4d", alpha = 0.5) + theme(panel.background = element_rect(fill = '#ffffff'))
+    p <- ggplot(dates.value, aes(x = valor)) + 
+      geom_histogram(aes(y = ..density..), alpha = 0.7, fill = "#333333") + 
+      geom_density(fill = "#ff4d4d", alpha = 0.5) + 
+      theme(panel.background = element_rect(fill = '#ffffff'))
     ggplotly(p)
   })
   
@@ -189,13 +193,7 @@ server <- function(input, output, session) {
     }
   )
   
-  
-  
-  
-  
-  
-  
-  
+
   
 }
 shinyApp(ui, server)
