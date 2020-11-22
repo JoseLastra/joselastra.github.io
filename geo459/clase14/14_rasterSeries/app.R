@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyjs)
 library(leaflet)
 library(tidyverse)
 library(sf)
@@ -6,6 +7,7 @@ library(raster)
 library(shinythemes)
 library(ggfortify)
 library(plotly)
+library(shinyalert)
 
 ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14px; padding-right:10px;padding-bottom:10px", height = 60)),
                  id = 'nav',theme = shinytheme("cerulean"), # App theme 
@@ -13,13 +15,14 @@ ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14
                           div(class= "outer",
                               tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0;
                                          overflow: hidden; padding: 0}"),
+                              tags$style('#map { cursor: crosshair;}'),
                             leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
                           # Option panel
                           absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
                                         draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
-                                        width = 300, height ="auto",
+                                        width = 350, height ="auto",
                                         style="z-index:500;",
-                                        uiOutput('fechasInput')),
+                                        uiOutput('fechasInput'),useShinyalert()),
                           conditionalPanel(condition = 'input.map_click != 0',
                                            absolutePanel(id="tSeries",
                                                          style="z-index:500;background-color: transparent;
@@ -145,6 +148,13 @@ server <- function(input, output, session) {
     ggplotly(p)
   })
   
+  ##shiny alert modal
+  shinyalert(text = paste('<h4 style="text-align:left; color: black">',
+                          "1.-Seleccione una fecha disponible para cambiar el mapa y el gráfico","</h4>", "</br>",
+                          '<h4 style="text-align:left; color: black">',
+                          "2.- Haga click en algun pixel para obtener la serie de tiempo","</h4>", "</br>"),
+             type = 'info',html = T,
+             animation = "slide-from-bottom")
 ######################################################################
   #tab secundario
   #subida de archivos
