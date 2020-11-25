@@ -18,11 +18,14 @@ ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14
                               tags$style('#map { cursor: crosshair;}'),
                             leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
                           # Option panel
+                          useShinyjs(),
                           absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
                                         draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
                                         width = 350, height ="auto",
                                         style="z-index:500;",
-                                        uiOutput('fechasInput'),useShinyalert()),
+                                        uiOutput('fechasInput'),
+                                        checkboxInput("show",'Mostrar gráfico',value = F),
+                                        useShinyalert()),
                           conditionalPanel(condition = 'input.map_click != 0',
                                            absolutePanel(id="tSeries",
                                                          style="z-index:500;background-color: transparent;
@@ -89,7 +92,14 @@ server <- function(input, output, session) {
     c <- tabla[a1,3:ncol(tabla)] %>% as.numeric()
     return(c)
   })
-  
+  ##render plot panel
+  observe({
+    if(input$show == F){
+      shinyjs::hide('histo')
+    }else{
+      shinyjs::show('histo')
+    }
+  })
   #proxy raster plot
   observeEvent(input$fechas,{
     #select file

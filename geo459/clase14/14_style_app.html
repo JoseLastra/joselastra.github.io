@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
 ### Mg. José A. Lastra
 ### Laboratorio Geo-Información y Percepción Remota
-### 22/11/2020
+### 25/11/2020
 
 ---
 
@@ -180,11 +180,58 @@ tags$style('#map { cursor: crosshair;}')
 ---
 class: middle, center
 ![:scale 95%](app6.png)
----
-#Insertar elementos html en shiny
+
 
 ---
 # ShinyJS
+
+--
+- *shinyjs* permite ejecutar funciones comunes y útiles de JavaScript en shiny, permitiendo mejorar el funcionamiento y la visual de nuestra interfaz de usuario.
+
+--
+- ¿Qué podemos hacer?
+ + Ocultar o mostrar elementos
+ + Desactivar u ocultar un input
+ + Resetear entradas
+ + Etc.
+ 
+--
+- ejemplo aplicado: ocultando una entrada
+
+
+- Para esto debemos usar la función *useShinyjs()* en nuestro código de la UI y agregaremos un checkbox para controlar la aparición de nuestro panel.
+
+---
+--
+En la UI
+
+--
+
+```r
+absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+              width = 350, height ="auto",
+              style="z-index:500;",
+              uiOutput('fechasInput'),
+              checkboxInput("show",'Mostrar gráfico',value = F),
+              useShinyalert())
+```
+
+--
+En el server
+
+--
+
+```r
+##render plot panel
+  observe({
+    if(input$show == F){
+      shinyjs::hide('histo')
+    }else{
+      shinyjs::show('histo')
+    }
+  })
+```
 
 ---
 class: inverse,center, middle
@@ -196,7 +243,7 @@ class: inverse,center, middle
 
 class: inverse,center, middle
 
-# PRÓXIMA SEMANA SEGUIMOS &lt;br&gt; MEJORANDO NUESTRA APP &lt;br&gt;
+# PRÓXIMA SEMANA &lt;br&gt; COMPARTIMOS NUESTRA APP &lt;br&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
