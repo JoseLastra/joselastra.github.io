@@ -1,0 +1,12 @@
+name: app_geo459
+title: app_geo459
+username:
+account: labgrs
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3316328
+bundleId: 3916754
+url: https://labgrs.shinyapps.io/app_geo459/
+when: 1606591183.44524
+asMultiple: FALSE
+asStatic: FALSE
