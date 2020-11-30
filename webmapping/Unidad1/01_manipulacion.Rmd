@@ -67,6 +67,12 @@ CTD <- read_excel("Araucania2018_CTD_C1.xls")
 ```
 
 --
+- Otras funciones de lectura son:
+  + read.csv(base R) ó read_csv(tidyverse)
+  + readRDS(base R)
+  + read.table(base R)
+
+--
 - *Importante*: siempre debe revisar el directorio de trabajo donde se encuentra y asegurarse de que el archivo se encuentre en ese directorio.
 
 ```{r echo=F, eval=T}
@@ -81,7 +87,7 @@ CTD %>%
 - Un aspecto importante es poder ver algunas características de nuestra información, para lo cual disponemos de algunas funciones como:
 
 --
-- Para revisar primros registros
+- Para revisar primeros registros
 ```{r}
 head(CTD)
 ```
