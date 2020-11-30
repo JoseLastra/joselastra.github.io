@@ -21,7 +21,7 @@ background-position: center
 background-size:40%
 
 ```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+#options(htmltools.dir.version = FALSE)
 ```
 
 
