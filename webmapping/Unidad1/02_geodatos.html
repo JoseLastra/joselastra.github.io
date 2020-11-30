@@ -1,42 +1,36 @@
----
-title: "Manipulación básica de geo-datos en R"
-subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
-author: "Mg. José A. Lastra <br>Matías Olea<br>"
-institute: "Laboratorio Geo-Información y Percepción Remota"
-date: "`r format(Sys.time(), '%d/%m/%Y')`"
-output:
-  xaringan::moon_reader:
-    css: [fc]
-    lib_dir: libs
-    nature:
-      highlightStyle: zenburn
-      ratio: '16:9'
-      highlightLines: true
-      countIncrementalSlides: false
-      beforeInit: "macros.js"
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Manipulación básica de geo-datos en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
+    <link href="libs/remark-css/fc.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Manipulación básica de geo-datos en R
+## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
+### Mg. José A. Lastra <br>Matías Olea<br>
+### Laboratorio Geo-Información y Percepción Remota
+### 30/11/2020
 
 ---
+
 background-image: url(logo_labgrs_color.png)
 background-position: center
 background-size:40%
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-library(tidyverse)
-library(rgdal)
-library(raster)
-library(sf)
-library(rasterVis)
-library(DT)
 
-```
 
 
 ---
 
 Librerías utilizadas en esta sesión
 
-```{r eval=F}
+
+```r
 library(tidyverse)
 library(rgdal)
 library(raster)
@@ -78,15 +72,23 @@ library(rasterVis)
 
 Leyendo datos *"complejos"* usando librería *rgdal*
 --
-```{r ,eval=F, echo=T, error=FALSE,warning=FALSE,message=FALSE}
 
+```r
 #read spatial data
-vinaDelMar <- readOGR('viña_del_mar.shp')
-
+vinaDelMar &lt;- readOGR('viña_del_mar.shp')
 ```
 
-```{r echo=F, error=FALSE,warning=FALSE,message=FALSE }
-system.time(readOGR('viña_del_mar.shp'))
+
+```
+## OGR data source with driver: ESRI Shapefile 
+## Source: "C:\Users\josel\Documents\github\joselastra.github.io\webmapping\Unidad1\viña_del_mar.shp", layer: "viña_del_mar"
+## with 3570 features
+## It has 16 fields
+```
+
+```
+##    user  system elapsed 
+##    1.78    0.51    2.35
 ```
 
 --
@@ -100,15 +102,21 @@ system.time(readOGR('viña_del_mar.shp'))
 ¿Alternativas? Usemos la librería *sf*
 
 --
-```{r echo=T}
-#read spatial data
-vinaDelMar <- read_sf('viña_del_mar.shp')
-class(vinaDelMar)
 
+```r
+#read spatial data
+vinaDelMar &lt;- read_sf('viña_del_mar.shp')
+class(vinaDelMar)
 ```
 
-```{r echo=F}
-system.time(read_sf('viña_del_mar.shp'))
+```
+## [1] "sf"         "tbl_df"     "tbl"        "data.frame"
+```
+
+
+```
+##    user  system elapsed 
+##    0.06    0.05    0.11
 ```
 
 --
@@ -129,10 +137,13 @@ system.time(read_sf('viña_del_mar.shp'))
 
 Visualizando número de personas por manzana censal
 
-```{r fig.retina=2, fig.width= 4.5,fig.height=4.5,fig.align='center'}
+
+```r
 #Basic plot
 plot(vinaDelMar['PERSONA'])
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-6-1.png" width="324" style="display: block; margin: auto;" /&gt;
 
 ---
 #Mejorando algo el gráfico
@@ -143,18 +154,24 @@ plot(vinaDelMar['PERSONA'])
 --
 - Podemos emplear *?plot.sf* en la consolta para ver más opciones
 --
-```{r fig.retina=2, fig.align='center', fig.height=5}
+
+```r
 plot(vinaDelMar['PERSONA'],breaks='quantile',key.pos = 4, axes=T)
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-7-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ---
 #Si solo quiero la geometría
 
 --
 - Además de poder ver información, podemos simplemente revisar la geometría de los datos empleando *st_geometry()*
-```{r fig.retina=2, fig.align='center',fig.height=5}
+
+```r
 #we can use tidyverse code!
-vinaDelMar %>% st_geometry() %>% plot() #area
+vinaDelMar %&gt;% st_geometry() %&gt;% plot() #area
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-8-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -162,11 +179,14 @@ vinaDelMar %>% st_geometry() %>% plot() #area
 - También se pueden obtener otros productos como por ejemplo los centroides
 
 --
-- Y podemos anidar funciones usando el *%>%*  
-```{r fig.retina=2,error=FALSE,warning=FALSE,message=FALSE, fig.align='center', fig.height=5}
+- Y podemos anidar funciones usando el *%&gt;%*  
+
+```r
 #we can use tidyverse code!
-vinaDelMar %>% st_geometry() %>% st_centroid() %>% plot()
+vinaDelMar %&gt;% st_geometry() %&gt;% st_centroid() %&gt;% plot()
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-9-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 #Cambiando proyección
@@ -179,14 +199,17 @@ vinaDelMar %>% st_geometry() %>% st_centroid() %>% plot()
 
 --
 - Un buen lugar si uno no se sabe los EPSG es buscar [aquí](https://epsg.io/) y podremos transformar usando *st_transform()*
-```{r }
-vinaUTM <- vinaDelMar %>% st_transform(crs = 32719) 
+
+```r
+vinaUTM &lt;- vinaDelMar %&gt;% st_transform(crs = 32719) 
 #esto es lo mismo
-vinaUTM <- vinaDelMar %>% st_transform(crs = '+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs ') 
+vinaUTM &lt;- vinaDelMar %&gt;% st_transform(crs = '+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs ') 
 ```
 
-```{r echo=F}
-st_crs(vinaUTM)[1]
+
+```
+## $input
+## [1] "+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs "
 ```
 
 ---
@@ -194,21 +217,26 @@ st_crs(vinaUTM)[1]
 
 --
 - Buffer o área de influencia
-```{r fig.retina=2,fig.align='center',fig.height=5}
+
+```r
 #buffers
-vinaUTM %>% st_geometry() %>% st_buffer(dist = 100) %>% plot()
+vinaUTM %&gt;% st_geometry() %&gt;% st_buffer(dist = 100) %&gt;% plot()
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 
 --
 - Filtro por atributos [podemos usar filtros convencionales de data frames!]
-```{r fig.retina=2,fig.align='center',fig.height=5}
-#attribute selection
-  gomezCarreno <- vinaUTM %>% filter(DISTRIT == 'GÓMEZ CARREÑO')
-  plot(gomezCarreno['PERSONA'], breaks='jenks')
 
+```r
+#attribute selection
+  gomezCarreno &lt;- vinaUTM %&gt;% filter(DISTRIT == 'GÓMEZ CARREÑO')
+  plot(gomezCarreno['PERSONA'], breaks='jenks')
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-13-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 #Creando una columna nueva
@@ -220,19 +248,21 @@ vinaUTM %>% st_geometry() %>% st_buffer(dist = 100) %>% plot()
 - En este ejemplo crearemos una columna con el área en hectáreas de la zona de Gómez Carreño y luego calcularemos la densidad de población por manzana censal
 
 --
-```{r}
+
+```r
 #area square meters
-gomezCarrenoDensity <- gomezCarreno %>% mutate(area_ha = st_area(gomezCarreno)/10000)
+gomezCarrenoDensity &lt;- gomezCarreno %&gt;% mutate(area_ha = st_area(gomezCarreno)/10000)
 
 #density by block
-area_manzana <- gomezCarrenoDensity$area_ha %>% as.numeric()
-poblacion <- gomezCarrenoDensity$PERSONA %>% as.numeric()
-gomezCarrenoDensity <- gomezCarrenoDensity %>% mutate(densidad = (poblacion/area_manzana))
+area_manzana &lt;- gomezCarrenoDensity$area_ha %&gt;% as.numeric()
+poblacion &lt;- gomezCarrenoDensity$PERSONA %&gt;% as.numeric()
+gomezCarrenoDensity &lt;- gomezCarrenoDensity %&gt;% mutate(densidad = (poblacion/area_manzana))
 ```
 
 --
 - Podemos escribir nuestro nuevo shape en disco empleando *st_write()*
-```{r, eval=F}
+
+```r
 st_write(gomezCarrenoDensity,'densidad_GC.shp')
 ```
 
@@ -242,11 +272,13 @@ st_write(gomezCarrenoDensity,'densidad_GC.shp')
 --
 - Gracias a la estructura con que son leídos nuestros archivos vectoriales con sf, podemos fácilmente graficar empleando ggplot como soporte gráfico empleando *geomo_sf()*
 
-```{r fig.retina=2, fig.align='center', fig.height= 5}
+
+```r
 ggplot() + geom_sf(data = gomezCarrenoDensity, aes(fill=densidad)) + 
   scale_fill_viridis_c() + theme_bw()
-
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-16-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 # Archivos raster
@@ -274,9 +306,10 @@ ggplot() + geom_sf(data = gomezCarrenoDensity, aes(fill=densidad)) +
 --
 - Para saber más sobre los formatos y los tipos de dato use *?writeRaster*
 
-```{r eval=F, message=F}
+
+```r
 #present climatologies
-temperatura <- getData('worldclim', var='tmean', res=10) 
+temperatura &lt;- getData('worldclim', var='tmean', res=10) 
 #writing raster data
 writeRaster(temperatura,filename = 'temperatura_WC.tif',format='GTiff',datatype='INT2S')
 ```
@@ -293,11 +326,14 @@ writeRaster(temperatura,filename = 'temperatura_WC.tif',format='GTiff',datatype=
 --
 - Como la información de temperatura que descargamos es un *RasterStack* haremos uso de *stack()* de la librería *raster*. Para leer bandas individuales podemos emplear la función *raster()*
 
-```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=4.2}
-temperatura <- stack('temperatura_WC.tif')
+
+```r
+temperatura &lt;- stack('temperatura_WC.tif')
 #Ploting first month
 plot(temperatura[[1]]) 
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-18-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 --
 - El *[[]]* nos permite seleccionar la banda de información que queremos desplegar, en este caso el mes.
@@ -310,13 +346,16 @@ plot(temperatura[[1]])
 --
 - La función *crop()* permite cortar considerando una extensión rectangular y la función *mask()* permite trabajar con los límites reales de mi polígono (ejemplos: una cuenca, una comuna, distrito, etc.)
 
-```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=5}
-#reading shape for crop and mask
-chile <- read_sf('cl_continental_geo.shp')
 
-tempCHL <- temperatura %>% crop(chile) %>% mask(chile)
+```r
+#reading shape for crop and mask
+chile &lt;- read_sf('cl_continental_geo.shp')
+
+tempCHL &lt;- temperatura %&gt;% crop(chile) %&gt;% mask(chile)
 plot(tempCHL[[1]])
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-19-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ---
 #Algunos cálculos sobre rasters
@@ -326,34 +365,31 @@ plot(tempCHL[[1]])
 
 --
 - En este ejemplo reescalaremos los datos a sus valores normales y asignaremos nombres a las bandas.
-```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=14,fig.height=5}
+
+```r
 #rescale values
-tempCHL <- tempCHL/10 
-names(tempCHL) <- month.abb #change layers's names
+tempCHL &lt;- tempCHL/10 
+names(tempCHL) &lt;- month.abb #change layers's names
 rasterVis::levelplot(tempCHL) #plot 
 ```
+
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-20-1.png" width="1008" style="display: block; margin: auto;" /&gt;
 
 ---
 - Podemos también calcular estadísticas para cada pixel y crear un objeto monobanda y combinarlos en un stack como se ve en el ejemplo.
 
-```{r eval=F, error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=6.5}
-t_mean <- tempCHL %>% mean(na.rm = T) #media
-t_min <- tempCHL %>% min(na.rm = T) #min
-t_max <- tempCHL %>% max(na.rm = T) #max
-CHL_layers <- stack(t_min,t_mean,t_max) #bind data
-names(CHL_layers) <- c('min','mean','max')
+
+```r
+t_mean &lt;- tempCHL %&gt;% mean(na.rm = T) #media
+t_min &lt;- tempCHL %&gt;% min(na.rm = T) #min
+t_max &lt;- tempCHL %&gt;% max(na.rm = T) #max
+CHL_layers &lt;- stack(t_min,t_mean,t_max) #bind data
+names(CHL_layers) &lt;- c('min','mean','max')
 rasterVis::levelplot(CHL_layers)
 ```
 
 ---
-```{r  echo=F ,error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=8}
-t_mean <- tempCHL %>% mean(na.rm = T) #media
-t_min <- tempCHL %>% min(na.rm = T) #min
-t_max <- tempCHL %>% max(na.rm = T) #max
-CHL_layers <- stack(t_min,t_mean,t_max) #bind data
-names(CHL_layers) <- c('min','mean','max')
-rasterVis::levelplot(CHL_layers)
-```
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-22-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ---
 #Rasters y ggplot
 
@@ -367,33 +403,157 @@ rasterVis::levelplot(CHL_layers)
 - Para poder emplear ggplot y raster en conjunto, debemos convertir la información como se muestra en el ejemplo, empleando la función *as()* que permite transformar entre diferentes clases de objetos
 
 --
-```{r}
+
+```r
 #selecting mean temperature
-chl_mean <- CHL_layers[[2]]
+chl_mean &lt;- CHL_layers[[2]]
 ```
 
 --
-```{r}
+
+```r
 #converting raster to data frame with coordinates
-chl_meanDF <- chl_mean %>% as("SpatialPixelsDataFrame") %>% 
-  as.data.frame() %>% rename( t_mean = mean)
+chl_meanDF &lt;- chl_mean %&gt;% as("SpatialPixelsDataFrame") %&gt;% 
+  as.data.frame() %&gt;% rename( t_mean = mean)
 ```
 
 --
-```{r error=F,message=F,eval=F}
+
+```r
 ggplot() + geom_tile(data = chl_meanDF, aes(x = x, y = y,fill = t_mean)) + 
   geom_sf(data = chile, alpha = 0,color='black') + theme_bw() + 
   scale_fill_viridis_c() + xlab("") + ylab("")
 ```
 
 ---
-```{r echo=F, error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=8}
-ggplot() + geom_tile(data = chl_meanDF, aes(x = x, y = y,fill = t_mean)) + 
-  geom_sf(data = chile, alpha = 0,color='black') + theme_bw() + 
-  scale_fill_viridis_c() + xlab("") + ylab("")
-```
+&lt;img src="02_geodatos_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 background-image: url(logo_labgrs_color.png)
 background-position: center
 background-size:40%
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "zenburn",
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
