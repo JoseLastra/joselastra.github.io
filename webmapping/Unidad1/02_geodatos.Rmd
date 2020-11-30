@@ -1,0 +1,370 @@
+---
+title: "Ayuda memoria [Geo-datos]"
+subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
+author: "Mg. José A. Lastra"
+institute: "Laboratorio Geo-Información y Percepción Remota"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  xaringan::moon_reader:
+    css: [fc]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+library(rgdal)
+library(raster)
+library(sf)
+library(rasterVis)
+library(leaflet)
+library(DT)
+
+```
+
+
+---
+
+Librerías utilizadas en esta sesión
+
+```{r eval=F}
+library(tidyverse)
+library(rgdal)
+library(raster)
+library(sf)
+library(rasterVis)
+```
+
+Datos para este laboratorio disponibles en la sección *Archivos* del aula virtual.
+---
+class: inverse, center, middle
+
+# LECTURA DE DATOS VECTORIALES
+
+---
+
+--
+- El trabajo con Geo-datos en R se puede hacer a través de diferentes librerías y funciones de análisis.
+- Podemos leer diferentes clases de archivos (shp, geopackage, geojson,tif, etc.)
+- Debemos recordar lo básico dentro de una estructura espacial (geometría, resolución, sistema de referencia, etc.)
+
+--
+
+Leyendo datos *"complejos"* de la manera más convencional [*no lo corran!*]
+--
+```{r ,eval=F, echo=T, error=FALSE,warning=FALSE,message=FALSE}
+
+#read spatial data
+vinaDelMar <- readOGR('viña_del_mar.shp')
+
+```
+
+```{r echo=F, error=FALSE,warning=FALSE,message=FALSE }
+system.time(readOGR('viña_del_mar.shp'))
+```
+
+--
+- Demora mucho para capas grandes o con mucho detalle 
+- Poco óptimo para trabajo con aplicaciones y grandes volúmenes de datos
+- Ventaja: paquete más antiguo y con mayores compatibilidades
+- Desventaja: estructura algo compleja y demora en la carga de ciertos archivos
+
+¿Alternativas? Usemos la librería *sf*
+---
+
+```{r echo=T}
+#read spatial data
+vinaDelMar <- read_sf('viña_del_mar.shp')
+class(vinaDelMar)
+
+```
+
+```{r echo=F}
+system.time(read_sf('viña_del_mar.shp'))
+```
+
+--
+- Simplifica la estructura de nuestra información 
+- Lectura considerablemente más rápida de las capas espaciales
+- Fácil de filtrar y trabajar la información 
+- Desventajas: librería nueva aún no tiene completa compatibilidad con todas las funciones; [Pueden revisar](https://github.com/r-spatial/sf/wiki/migrating)
+
+---
+#Visualicemos los datos
+
+--
+```{r fig.retina=2, fig.align='center'}
+#Basic plot
+plot(vinaDelMar['PERSONA'])
+```
+
+---
+#Mejorando algo el gráfico
+--
+```{r fig.retina=2, fig.align='center'}
+plot(vinaDelMar['PERSONA'],breaks='quantile',key.pos = 1, axes=T)
+```
+---
+#Si solo quiero la geometría
+
+```{r fig.retina=2, fig.align='center'}
+#we can use tidyverse code!
+vinaDelMar %>% st_geometry() %>% plot() #area
+```
+---
+
+```{r fig.retina=2,error=FALSE,warning=FALSE,message=FALSE, fig.align='center'}
+#we can use tidyverse code!
+vinaDelMar %>% st_geometry() %>% st_centroid() %>% plot() ##centroids doesn't work well with latlong data
+```
+
+---
+#Cambiando proyección
+
+- Nosotros normalmente trabajamos en UTM (WGS-84)
+- Un buen lugar si uno no se sabe los EPSG es buscar [aquí](https://epsg.io/)
+```{r }
+vinaUTM <- vinaDelMar %>% st_transform(crs = 32719) 
+#esto es lo mismo
+vinaUTM <- vinaDelMar %>% st_transform(crs = '+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs ') 
+```
+
+```{r echo=F}
+st_crs(vinaUTM)[1]
+```
+
+---
+# Algunas cosas básicas
+```{r fig.retina=2,fig.align='center'}
+#buffers
+vinaUTM %>% st_geometry() %>% st_buffer(dist = 100) %>% plot()
+```
+
+---
+```{r fig.retina=2,fig.align='center'}
+#attribute selection
+  gomezCarreno <- vinaUTM %>% filter(DISTRIT == 'GÓMEZ CARREÑO')
+  plot(gomezCarreno['PERSONA'], breaks='jenks')
+
+```
+
+---
+#Creando una columna nueva
+
+```{r}
+#area square meters
+gomezCarrenoDensity <- gomezCarreno %>% mutate(area_ha = st_area(gomezCarreno)/10000)
+
+#density by block
+area_manzana <- gomezCarrenoDensity$area_ha %>% as.numeric()
+poblacion <- gomezCarrenoDensity$PERSONA %>% as.numeric()
+gomezCarrenoDensity <- gomezCarrenoDensity %>% mutate(densidad = (poblacion/area_manzana))
+```
+--
+Si queremos guardar la capa
+```{r, eval=F}
+st_write(gomezCarrenoDensity,'densidad_GC.shp')
+```
+---
+Grafiquemos usando *ggplot2*
+```{r fig.retina=2, fig.align='center', fig.height=7}
+ggplot() + geom_sf(data = gomezCarrenoDensity, aes(fill=densidad)) + 
+  scale_fill_viridis_c() + theme_bw()
+
+```
+
+---
+#Veamos un poco más
+```{r echo= F, warning=F,message=F,error=F, out.width='100%'}
+#project for leaflet
+gomez_WGS <- gomezCarrenoDensity %>% st_transform(crs = 4326) 
+prep_pal <- colorNumeric("viridis", gomez_WGS$densidad)
+
+leaflet() %>% addProviderTiles("CartoDB.Positron") %>%
+  #data layers
+    addPolygons(data=gomez_WGS,weight = 1, color = "black", smoothFactor = 0.3,
+              fillOpacity = 0.8, fillColor = ~prep_pal(densidad),
+              label = ~paste0('Densidad', ": ", round(densidad,digits = 2)),
+              group = "Population Density") %>%
+  addLegend(pal = prep_pal, values = gomez_WGS$densidad, opacity = 0.8,
+            labels = densidad,title = 'Population density')
+```
+
+---
+class: inverse, center, middle
+
+# RASTER
+---
+# Archivos raster
+
+- En general vamos a tener diferentes fuentes de información:
+ * Interpolaciones
+ * Imágenes satelitales
+ * Modelos (oceánicos, climáticos, hidrodinámicos, etc.)
+
+Para estos ejemplos utilizaremos información gruesa de [WorldClim](https://www.worldclim.org) 
+
+Para obtener la información haremos uso de la función *getData()* del paquete raster
+--
+```{r eval=F, message=F}
+#present climatologies
+temperatura <- getData('worldclim', var='tmean', res=10) 
+
+#writing raster data
+writeRaster(temperatura,filename = 'temperatura_WC.tif',format='GTiff',datatype='INT2S')
+
+
+```
+
+---
+#Leyendo nuestros datos raster
+
+--
+Como la información de temperatura es un *RasterStack* haremos uso de *stack()* de la librería *raster*
+```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=5}
+
+temperatura <- stack('temperatura_WC.tif')
+#Ploting first month
+plot(temperatura[[1]])
+```
+
+---
+#Cortando y enmascarando rasters
+
+```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=5}
+#reading shape for crop and mask
+chile <- read_sf('cl_continental_geo.shp')
+
+tempCHL <- temperatura %>% crop(chile) %>% mask(chile)
+plot(tempCHL[[1]])
+```
+
+---
+#Algunos cálculos sobre rasters
+```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=14,fig.height=6.5}
+#rescale values
+tempCHL <- tempCHL/10 
+names(tempCHL) <- month.abb #change layers's names
+rasterVis::levelplot(tempCHL) #plot 
+```
+---
+```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=6.5}
+t_mean <- tempCHL %>% mean() #media
+t_min <- tempCHL %>% min() #min
+t_max <- tempCHL %>% max() #max
+
+CHL_layers <- stack(t_min,t_mean,t_max) #bind data
+names(CHL_layers) <- c('min','mean','max')
+rasterVis::levelplot(CHL_layers)
+```
+
+---
+#Usemos ggplot
+--
+```{r}
+#selecting mean temperature
+chl_mean <- CHL_layers[[2]]
+```
+--
+```{r}
+#converting raster to data frame with coordinates
+chl_meanDF <- chl_mean %>% as("SpatialPixelsDataFrame") %>% 
+  as.data.frame() %>% rename( t_mean = mean)
+```
+--
+```{r error=F,message=F,eval=F}
+ggplot() + geom_tile(data = chl_meanDF, aes(x = x, y = y,fill = t_mean)) + 
+  geom_sf(data = chile, alpha = 0,color='black') + theme_bw() + 
+  scale_fill_viridis_c() + xlab("") + ylab("")
+```
+---
+```{r echo=F, error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=8}
+ggplot() + geom_tile(data = chl_meanDF, aes(x = x, y = y,fill = t_mean)) + 
+  geom_sf(data = chile, alpha = 0,color='black') + theme_bw() + 
+  scale_fill_viridis_c() + xlab("") + ylab("")
+```
+
+---
+```{r out.width='100%', echo=F, warning=F,error=F,message=F}
+map <- leaflet() %>% addTiles()
+pal <- colorNumeric("viridis", values(chl_mean),
+  na.color = "transparent")
+map <- map %>% addRasterImage(chl_mean,method = 'ngb', colors = pal, opacity = 0.8,group = 'Temperature') %>%
+  addLegend(pal = pal, values = values(chl_mean),title = "Temperature (°C)",group = 'Legend')
+
+map %>% addLayersControl(overlayGroups = c("Temperature","Legend"),
+    options = layersControlOptions(collapsed = T))
+```
+
+---
+#Extrayendo información raster
+
+--
+- Extracción con puntos
+```{r warning=F,message=F,error=F}
+#creating sample points
+##objects sfc no work with extraction
+puntos <- extent(chl_mean) %>% 
+  as('SpatialPolygons') %>% 
+  spsample(500, type = 'random') %>%
+  st_as_sf()
+
+#extracting values
+sample_temp <- chl_mean %>% extract(puntos) 
+
+```
+--
+```{r}
+#merge data 
+puntos_temp <- puntos %>% mutate(temperatura = sample_temp) %>% 
+  na.omit() %>% st_set_crs(4326)
+```
+
+---
+#Grafiquemos los datos
+
+```{r echo=F, error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=8}
+#basic ggplot
+ggplot() + geom_sf(data = puntos_temp, aes(color=temperatura))+
+  geom_sf(data = chile, alpha = 0,color='black') + theme_bw() + 
+  scale_color_viridis_c() 
+```
+
+---
+#Extracción con polígonos
+
+```{r}
+#using chile shape for extraction
+chile_mean <- chl_mean %>% extract(chile,fun= mean,na.rm=T)
+chile_mean
+
+```
+--
+```{r}
+##using whole raster
+chile_mean <- chl_mean %>% cellStats(stat=mean, na.rm=TRUE)
+chile_mean
+
+```
+---
+
+class: inverse,center, middle
+
+# ¿PREGUNTAS?
+
+---
+
+class: inverse,center, middle
+
+# PRÓXIMA SEMANA: PARTIMOS JUGANDO CON SHINY!
+
