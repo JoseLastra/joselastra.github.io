@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Fundamentos de webmapping</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
+    <link href="libs/remark-css/fc.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Fundamentos de webmapping
+## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
+### Mg. José A. Lastra <br>Matías Olea<br>
+### Laboratorio Geo-Información y Percepción Remota
+### 30/11/2020
+
+---
+
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+
+
+
+---
+# Web GIS vs. Webmapping
+
+--
+.pull-right[
+- *Geo-web*: Tecnologías web disponibles para el análisis 
+de información espacial
+- *Web GIS*: Utilizan tecnologías web como un método de 
+comunicación entre los elementos de un SIG
+- *Webmapping*:  Aplicaciones en línea que permiten a los 
+usuarios ver o crear mapas en una plataforma web.
+
+]
+
+--
+.center[![:scale 50%](webmapping_diagram.png)
+]
+.center[Avraam, 2009]
+
+---
+# Webmapping
+
+--
+Objetivos principales:
+
+--
+- Llevar la cartografía a la web
+
+--
+- Permitir el análisis y visualización de datos (hasta cierto punto)
+
+--
+.center[![:scale 60%](webmapping2.png)]
+.center[
+Plataforma de monitoreo piloto [PN La Campana](https://labgrs.shinyapps.io/SMF-1/)
+]
+
+---
+# Consejos de desarrollo
+
+--
+- No haga un web map All-in-one
+
+--
+- Manténgalo simple (K.I.S)
+
+--
+- Usar simbología en todas las capas de una manera clara
+
+--
+- Considere la respuesta en todos los dispositivos posibles
+
+--
+- Mantenga sus sistema actualizado
+
+--
+- Documente!
+
+.right[
+![](webmapping3.png)
+]
+
+---
+#¿Qué es shiny?
+
+--
+- [Shiny](https://shiny.rstudio.com/) es una estructura o marco para la creación de aplicaciones web de todo tipo usando R cómo código fuente. 
+
+--
+- Otorga flexibilidad paracrear desde desarrollos simples hasta otros muy complejos, sin tener que disponer de conocimientos de HTML, CSS o JavaScript.
+
+--
+- En términos simples: [shiny (1.5.0)](https://cran.r-project.org/web/packages/shiny/index.html) es un paquete de R
+
+.center[![:scale 60%](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/images/01_hello.png)]
+.center[.footnote[[Shiny, 2020](https://shiny.rstudio.com)]]
+
+---
+
+--
+- Shiny puede ser usado en diferentes contextos y con distintos fines. 
+
+--
+- No está limitado y depende de la imaginación, planificación estructura y orden de las/los programadores
+
+--
+.center[
+![:scale 25%](ejemplo1.png)
+![:scale 42%](ejemplo2.png)
+]
+.footnote[- [Shiny MRI](https://haozhu233.shinyapps.io/shinyMRI-contest/?_ga=2.234467934.1955025335.1598126335-517575622.1584381273)]
+.footnote[- [COVID-19 tracker](https://vac-lshtm.shinyapps.io/ncov_tracker/?_ga=2.202128721.1955025335.1598126335-517575622.1584381273)]
+.footnote[- [Explorador de precipitaciones CR2](http://mawun.cr2.cl/)]
+.footnote[- [CAMELS-CL CR2](http://camels.cr2.cl/)]
+
+---
+#¿Cuál es la clave?
+
+--
+- Disponemos de diferentes [funciones](https://shiny.rstudio.com/gallery/widget-gallery.html) de interfaz de usuario (ui, desde ahora) diseñadas para cosas comunes.
+- La lógica del proceso (server) se basa en programación reactiva, que permite identificar el procesamiento a partir de la interacción del usuario.
+
+--
+.center[![](https://shiny.rstudio.com/images/reactivity_diagrams/roles.png)]
+.center[.footnote[[Reactivity - An overview, 2017](https://shiny.rstudio.com/articles/reactivity-overview.html)]]
+
+
+
+--
+- La base está en el uso de conductores reactivos que facilitan el desarrollo de los procesos
+
+---
+#Arquitectura básica de una app
+
+--
+Una aplicación se va a componer de dos elementos básicos:
+
+--
+- Interfaz de usuario
+
+--
+
+```r
+## User Interface
+ui &lt;- fluidPage(
+  "¿qué tal la gente?"
+)
+```
+--
+- Server
+
+--
+
+```r
+## Server
+server &lt;- function(input, output, session) {
+  
+}
+
+#compiling app
+shinyApp(ui, server)
+```
+
+--
+- La función *shinyApp(ui, server)* compila nuestra aplicación uniendo los dos componentes.
+---
+.center[
+![](shiny1.png)
+]
+
+--
+- A partir de aquí, se pueden incorporar más elementos en la UI (entradas y salidas reactivas) y configurar el server para desarrollar ejecutar las acciones específicas.
+
+--
+- El funcionamiento dentro del server debe estar estructurado según los elementos en la UI e idealmente debe estar modularizado para identificar posibles fallos. 
+
+---
+#Conductores reactivos
+
+--
+- En el contexto de un script de *shiny*, la mayoría de las cosas se efectúan mediante elementos reactivos.
+
+--
+- Dentro de estos elementos están los conductores reactivos, que son claves para el funcionamiento adecuado y la creación de dependencias específicas en la app.
+
+--
+- Los conductores nos permiten crear elementos en caché y evitar cálculos innecesarios dentro de la aplicación.
+
+--
+- Dentro podemos considerar dos familias:
+  + Reactives
+  + Observers
+
+---
+# Reactives
+
+--
+- Dentro de la familia de los reactives podemos encontrar:
+
+--
+
+```r
+# Permite ejecutar elementos considerando las entradas reactivas dentro de la función
+# depende de todas las entradas reactivas
+reactive()
+
+# permite ejecutar un código en base a una o varias dependencias particulares 
+# si existen las dependencias se puede ejecutar el código dentro de las {}
+eventReactive({})
+
+# Permite almacenar valores (vectores, matrices, listas, etc.) y
+# actualizarlas en algúna sección del server según se requiera
+reactiveValues()
+```
+
+---
+
+--
+- Todos estos conductores permiten almacenar un objeto y emplearlo en otra función reactiva (salida o conductor)
+
+--
+
+```r
+val &lt;- reactive('Código a ejecutar')
+
+val &lt;- eventReactive(input$algo,{
+  'código a ejecutar'
+})
+
+val &lt;- reactiveValues('valor preveio')
+```
+
+---
+# Observers
+
+--
+- A diferencia de la familia reactive, los observers no almacenan valores ni cálculos en objetos para ser usados en otras expresiones.
+
+--
+- Los observers lo que hacen es trasladar cambios en porciones del server a la UI para la visualización de los usuarios.
+
+--
+- Son más parecidos a una salida reactiva.
+
+--
+- Disponemos de dos tipos de observers
+
+--
+
+```r
+#Versión más simple, que está constantemente "monitoreando" cambios
+#no permite valores nulos
+observe()
+
+#Versión que evaluá el cambio en uno o más inputs
+#permite valores nulos (sin cambios)
+observeEvent({})
+```
+
+--
+- Como veremos más adelante son escenciales para los mapas web.
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "zenburn",
+"ratio": "16:9",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
