@@ -137,14 +137,7 @@ datatable(tabla,class = 'cell-border stripe',rownames = F,options = list(pageLen
 ```
 
 ---
-
-class: inverse,center, middle
-
-# ¿PREGUNTAS?
-
----
-background-image: url(logo_pucv.png)
+background-image: url(logo_labgrs_color.png)
 background-position: center
 background-size:40%
-
 
