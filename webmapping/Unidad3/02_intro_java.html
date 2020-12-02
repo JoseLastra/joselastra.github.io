@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Unidad 3: Opciones de despliegue</title>
+    <title>Lectura y visualización básica de datos en RStudio</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Mg. José A. Lastra" />
+    <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
     <meta name="date" content="2020-02-12" />
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
@@ -11,9 +11,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Unidad 3: Opciones de despliegue
-## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
-### Mg. José A. Lastra
+# Lectura y visualización básica de datos en RStudio
+## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
+### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
 ### 02/12/2020
 
@@ -27,175 +27,145 @@ background-size:40%
 
 
 ---
-Librerías utilizadas en esta sesión
+# Recordando a Google Earth Engine
 
+--
+- Google Earth Engine (GEE) es una plataforma basada en la nube para el análisis geoespacial a escala planetaria que ofrece las capacidades computacionales masivas de Google permitiendo abordar una variedad de problemas sociales de alto impacto, incluyendo deforestación, sequía, desastres, enfermedades, seguridad alimentaria, gestión del agua, monitoreo del clima y protección del medio ambiente (Gorelick *et al.*, 2017)
 
-```r
-library(shiny)
-library(shinyjs)
-library(leaflet)
-library(tidyverse)
-library(sf)
-library(raster)
-library(shinythemes)
-library(ggfortify)
-library(plotly)
-library(shinyalert)
+--
+- Nosotros haremos uso de la consola online que funciona en base a JavaScript.
+
+--
+- Lo primero será abrir el [(https://code.earthengine.google.com/)](https://code.earthengine.google.com/), conviene utilizar Google Chrome de preferencia ya que funciona mejor que en otros navegadores web.
+
+--
+- Usemos la consola
+
+--
+
+```js
+print('Hola Mundo!');
 ```
 
----
-class: inverse, center, middle
 
-# INTRODUCCIÓN
-
----
-#Metas de hoy
+&lt;script type="text/javascript"&gt;
+print('Hola Mundo!');
+&lt;/script&gt;
 
 --
-- Desplegar nuestra aplicación en la web
-
---
-- Dudas y consultas
---
-.center[
-![:scale 60%](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/other-stats-artwork/debugging.jpg)
-]
-.center[.footnote[© Allison Horst]]
+- Podemos agregar comentarios usando *//*
 
 ---
-Seguiremos empleando nuestra aplicación de la semana anterior
-
-.center[![:scale 95%](app1.png)]
-
----
-#Métodos locales
+# Tipos de datos
 
 --
-- Compartir el script y los datos: Esta es la forma más convencional de compartir una app y simplemente consiste en compartir los archivos que hacen funcionar nuestra aplicación para que los usuarios la puedan correr localmente.
-
---
-- Compartir URL: otra forma es zippear la aplicación y alojarla en algún sitio (GoogleDrive, Dropbox u otro) y compartir la url para que los usuarios puedan acceder al archivo de la siguiente manera:
+-**Strings**: Variables de tipo textos o cadenas de caracteres, se utilizan las comillas simples o dobles para definir una cadena.
 
 
-```r
-runUrl("&lt;url al zip&gt;")
+```js
+// Usamos comillas simples o dobles para crear un string
+var saludoString = 'Hola Mundo!!';
+print( saludoString );
 ```
 
----
-#Github
+
+&lt;script type="text/javascript"&gt;
+// Usamos comillas simples o dobles para crear un string
+var saludoString = 'Hola Mundo!!';
+print( saludoString );
+&lt;/script&gt;
+
+- **Importante**: Tenga en cuenta que las variables se definen utilizando **var**
+
 
 --
-De manera complementaria uno puede alojar sus aplicaciones en GitHub o en Gist y puede dar acceso a las mismas considerando el nombre de repositorio y la app para que los usuarios puedan acceder. 
+-**Números**: En las variables podemos almacenar números de distinta longitud y precisión.
 
---
 
-```r
-runGitHub( "geo1015", "JoseLastra")
+```js
+// Asignamos un número a una variable
+var numero = 38;
+print('El valor es:', numero);
 ```
 
----
-class: middle, center
 
-![:scale 95%](app2.png)
----
-#En la web
+&lt;script type="text/javascript"&gt;
+// Asignamos un número a una variable
+var numero = 38;
+print('El valor es:', numero);
+&lt;/script&gt;
 
-Una forma de compartir es simplemente alojar nuestra aplicación en un servicio y poder ponerla a disposición en un servidor externo o propio.Existen varias opciones donde las más comunes son el uso de:
 
 --
-- [Shinyapps.io](https://www.shinyapps.io/): Una de las formas más fáciles de subir trabajando directamente desde RStudio.
-
---
-- [Shiny Server](https://rstudio.com/products/shiny/shiny-server/): Es un programa complementario que permite configurar un servidor para el alojamiento y despliegue de aplicaciones. Necesitará un servidor Linux con Ubuntu 12.04 o superior (64 bits) y CentOS / RHEL 5 (64 bits) para poder operar Shiny Server.
-
---
-- [RStudio Connect](https://rstudio.com/products/connect/): es una plataforma de publicación para el trabajo que crean sus equipos en R y Python. Contempla no solo shiny apps sino que también otros productos (informes de R Markdown, Plumber APIs, dashboards, Jupyter Notebooks, contenido interactivo de Python).
+- **Listas**: Las listas las definimos con corchetes [ ]. En GEE son útiles para realizar selecciones de elementos y podemos almacenar números, caracteres u otros elementos.
 
 
----
-#Desplegando en Shinyapps.io
-
---
-- Antes de comenzar es importante disponer de una cuenta gratuita en [Shinyapps.io](https://www.shinyapps.io/)
-
---
-- Con nuestra cuenta activa, debemos instalar la librería rsconnect que nos permitirá subir nuestras aplicaciones directamente desde RStudio.
-
---
-
-```r
-install.packages('rsconnect')
+```js
+// Lista de números
+var listDeNumeros = [0, 1, 1, 2, 3, 5];
+print('Lista de Números:', listDeNumeros);
+// Lista de strings.
+var listDeStrings = ['a', 'b', 'c', 'd'];
+print('Lista de strings:', listDeStrings);
 ```
 
---
-- Una vez instalada, la cargaremos en nuestro entorno mediante la función `library(rsconnect)`. 
 
---
-- Ahora, iremos a nuestra cuenta de shinyapps.io y en nuestro perfil debemos ubicar la opción Tokens donde encontraremos una ventana con varios códigos para nuestra cuenta.
-
----
-class: middle, center
-![:scale 95%](app3.png)
----
-
--
-Aquí, oprimiremos la opción *Show secret* para que nos muestre los valores necesarios y los copiaremos en nuestro portapapeles.
-
---
-.center[
-![:scale 90%](app4.png)
-]
-
---
-- Para conectar nuestra cuenta, abriremos primero nuestra aplicación de sitios turísticos la desplegaremos (Run App) y buscaremos el botón de publicación.
-
-.center[
-![:scale 90%](app6.png)
-]
+&lt;script type="text/javascript"&gt;
+// Lista de números
+var listDeNumeros = [0, 1, 1, 2, 3, 5];
+print('Lista de Números:', listDeNumeros);
+// Lista de strings.
+var listDeStrings = ['a', 'b', 'c', 'd'];
+print('Lista de strings:', listDeStrings);
+&lt;/script&gt;
 
 ---
 
 --
-- Si disponemos de una cuenta ya conectada, por defecto nos dará la opción de publicarla en esa cuenta pero sino hemos vinculado nada debemos proceder a conectarla usando la información que pegamos desde los *Tokens*.
+- **Objetos**: En JavaScript los objetos son diccionarios de pares **clave: valor**. Para crear un objeto (o diccionario) se utilizan las llaves **{ }**. Útil en procesos como creación de parámetros de visualización o exportación de elementos 
 
---
-.center[
-![:scale 50%](app7.png)
-]
+
+```js
+// Usamos las llaves {} para hacer un diccionario de pares clave:valor
+var object = {
+  foo: 'bar',
+  baz: 38,
+  stuff: ['Algo', 'eso', 'otro más']
+};
+print('Diccionario:', object);
+
+// Para acceder al valor de un diccionario se utiliza la clave y los corchetes [ ].
+print('Imprime la clave foo:', object['foo']);
+// También se puede acceder utilizando la notación con punto.
+print('Print stuff:', object.stuff);
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Usamos las llaves {} para hacer un diccionario de pares clave:valor
+var object = {
+  foo: 'bar',
+  baz: 38,
+  stuff: ['Algo', 'eso', 'otro más']
+};
+print('Diccionario:', object);
+
+// Para acceder al valor de un diccionario se utiliza la clave y los corchetes [ ].
+print('Imprime la clave foo:', object['foo']);
+// También se puede acceder utilizando la notación con punto.
+print('Print stuff:', object.stuff);
+&lt;/script&gt;
 
 ---
-.center[
-![:scale 50%](app9.png)
-]
-
---
-- Con la cuenta conectada, debemos seleccionar los archivos a montar sobre nuestro sitio, el título de la aplicación y ver la cuenta de conexión (en caso de disponer de varias).
-
----
-class: middle, center
-![:scale 50%](app10.png)
-
----
-class: middle, center
-![:scale 95%](app11.png)
-
----
-class: inverse,center, middle
-
-# ¿PREGUNTAS?
-
-
----
-
-class: inverse,center, middle
-
-# PRÓXIMA SEMANA &lt;br&gt; RESOLUCIÓN DE DUDAS &lt;br&gt;
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="macros.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
+"highlightStyle": "zenburn",
 "ratio": "16:9",
 "highlightLines": true,
 "countIncrementalSlides": false

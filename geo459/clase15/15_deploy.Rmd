@@ -76,9 +76,6 @@ Seguiremos empleando nuestra aplicación de la semana anterior
 .center[![:scale 95%](app1.png)]
 
 ---
-#Insertar HTML
-
----
 #Métodos locales
 
 --
@@ -197,5 +194,5 @@ class: inverse,center, middle
 
 class: inverse,center, middle
 
-# PRÓXIMA SEMANA <br> COMPARTIMOS NUESTRA APP <br> 
+# PRÓXIMA SEMANA <br> RESOLUCIÓN DE DUDAS <br> 
 
