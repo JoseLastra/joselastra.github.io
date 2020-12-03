@@ -2,6 +2,7 @@
 <html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
 <link rel="stylesheet" type="text/css" href="content.css" />
 <link rel="stylesheet" type="text/css" href="nav.css" />
 <meta http-equiv="content-type" content="text/html;  charset=utf-8" />
@@ -11,11 +12,12 @@
 <link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
 <meta name="generator" content="eXeLearning 2.5 - exelearning.net" />
 <script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
 <script type="text/javascript" src="common_i18n.js"></script>
 <script type="text/javascript" src="common.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
-<body class="exe-web-site" id="exe-node-4"><script type="text/javascript">document.body.className+=" js"</script>
+<body class="exe-web-site" id="exe-node-15"><script type="text/javascript">document.body.className+=" js"</script>
 <div id="content">
 <p id="skipNav"><a href="#main" class="sr-av">Saltar la navegación</a></p>
 <div id="emptyHeader"></div>
@@ -32,9 +34,9 @@
          <li><a href="introduccin_a_los_sig3.html" class="no-ch">Introducción a los SIG</a></li>
       </ul>
       </li>
-      <li id="active"><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig.html" class="active daddy">Modelos de representación de los datos espaciales en un SIG</a>
+      <li class="current-page-parent"><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig.html" class="current-page-parent daddy">Modelos de representación de los datos espaciales en un SIG</a>
       <ul>
-         <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig0.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
+         <li id="active"><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig0.html" class="active no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
          <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig1.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
          <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
       </ul>
@@ -52,22 +54,34 @@
 </div>
 <div id='topPagination'>
 <div class="pagination noprt">
-<a href="introduccin_a_los_sig3.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig1.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="main-wrapper">
 <div id="main"><a name="main"></a>
 <div id="nodeDecoration"><h1 id="nodeTitle">Modelos de representación de los datos espaciales en un SIG</h1></div>
-<div class="iDevice_wrapper textIdevice" id="id7">
-<div class="iDevice emphasis0" >
-<div id="ta7_114_2" class="block iDevice_content">
-<div class="exe-text"><p style="text-align: left;">A través de un Sistema de Información Geográfica, es posible modelizar la realidad de dos formas principales: a través de un modelo<em> vectorial</em>  o un modelo <em>ráster</em>.</p>
-<ul style="list-style-type: circle;">
-<li style="text-align: left;">Un <strong>modelo vectorial</strong> está formado por datos espaciales representados por medio de coordenadas y se distinguen tres tipos de datos: puntos, líneas (segmentos que unen dos puntos) y polígonos (unión de varias líneas).</li>
-<li style="text-align: left;">Un <strong>modelo ráster</strong> está formado por<strong> grillas</strong>, que en resumen constituye una matriz de 1 y 0 que se asocian con píxeles. Si además de 1 y 0 aparecen otros dígitos, se trata de un ráster con colores en lugar de uno en blanco y negro.</li>
-</ul>
-<p style="text-align: center;"><img src="modelo_vectorial_y_raster.png" width="400" height="223" /></p>
-<p style="text-align: center;"><span style="font-size: 10pt;">Fuente: Olaya, 2014.</span></p></div>
+<div class="iDevice_wrapper textIdevice em_iDevice" id="id11">
+<div class="iDevice emphasis1" >
+<div class="iDevice_header iDevice_header_noIcon"><h2 class="iDeviceTitle">Modelo Vectorial</h2></div>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta11_109_2" class="block iDevice_content">
+<div class="exe-text"><p><span style="font-size: 12pt;">La <strong>tipología de datos vectorial</strong> es utilizada en la representación de superficies planas. Sus <strong>formatos </strong>son variados y dependen del software SIG utilizado. Los más habituales son ficheros con extensiones .shp, .dgn, .dwg, .dxf y .dxn. De estos, el más conocido es el <strong>shapefile</strong> (.shp) el cual está compuesto de: un <em>referente gráfico</em> (.shx), una <em>geometría</em> (.shp), una <em>proyección</em> (.prj), una <em>tabla de atributos</em> o <em>base de datos</em> anexada (.dbf) y un metadato (xml).</span></p>
+<p style="text-align: center;"><img src="Captura_de_pantalla_de_2020-12-02_07-59-11.png" width="850" height="358" /></p>
+<p style="text-align: center;"><span style="font-size: 10pt;">Ilustración: LABGRS, 2020.</span></p>
+<p style="text-align: left;"><span style="font-size: 12pt;">Como se mencionó, en un SIG vectorial se consideran tres tipos de objetos:</span></p>
+<div class="exe-fx exe-accordion">
+<h2>Puntos</h2>
+<p><span style="font-size: 12pt;">Representan objetos espaciales que sólo están localizados y no tienen dimensiones (largo y ancho). La posición de cada objeto queda determinada a través de las coordenadas (x,y).</span></p>
+<h2>Líneas</h2>
+<p><span style="font-size: 12pt;">Son una sucesión de puntos y representan objetos espaciales con una dimensión, longitud. Su posición en el espacio se determina con dos pares de coordenadas.</span></p>
+<h2>Polígonos</h2>
+<p><span style="font-size: 12pt;">Sucesión de líneas cerradas que representan objetos espaciales con dos dimensiones: longitud y ancho. La posición de cada objeto se fija con dos o más líneas cuyas coordenadas inicial y final coinciden.</span></p>
+</div>
+<p style="text-align: center;"><img src="SIG_Vectorial.png" width="800" height="500" /></p>
+<p style="text-align: center;"><span style="font-size: 10pt;">Fuente: Ayala, 2014.</span></p></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -78,7 +92,7 @@
 </div>
 <div id='bottomPagination'>
 <div class="pagination noprt">
-<a href="introduccin_a_los_sig3.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig1.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="siteFooter">LAB. DE GEO-INFORMACIÓN Y PERCEPCIÓN REMOTA | PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO</div></div>

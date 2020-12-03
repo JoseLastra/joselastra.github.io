@@ -2,20 +2,22 @@
 <html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
 <link rel="stylesheet" type="text/css" href="content.css" />
 <link rel="stylesheet" type="text/css" href="nav.css" />
 <meta http-equiv="content-type" content="text/html;  charset=utf-8" />
-<title>Visualización de coberturas </title>
+<title>Modelos de representación de los datos espaciales en un SIG </title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <meta http-equiv="content-language" content="es" />
 <link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
 <meta name="generator" content="eXeLearning 2.5 - exelearning.net" />
 <script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
 <script type="text/javascript" src="common_i18n.js"></script>
 <script type="text/javascript" src="common.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
-<body class="exe-web-site" id="exe-node-5"><script type="text/javascript">document.body.className+=" js"</script>
+<body class="exe-web-site" id="exe-node-16"><script type="text/javascript">document.body.className+=" js"</script>
 <div id="content">
 <p id="skipNav"><a href="#main" class="sr-av">Saltar la navegación</a></p>
 <div id="emptyHeader"></div>
@@ -32,15 +34,15 @@
          <li><a href="introduccin_a_los_sig3.html" class="no-ch">Introducción a los SIG</a></li>
       </ul>
       </li>
-      <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig.html" class="daddy">Modelos de representación de los datos espaciales en un SIG</a>
-      <ul class="other-section">
+      <li class="current-page-parent"><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig.html" class="current-page-parent daddy">Modelos de representación de los datos espaciales en un SIG</a>
+      <ul>
          <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig0.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
          <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig1.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
-         <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
+         <li id="active"><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="active no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
       </ul>
       </li>
-      <li id="active"><a href="visualizacin_de_coberturas.html" class="active daddy">Visualización de coberturas</a>
-      <ul>
+      <li><a href="visualizacin_de_coberturas.html" class="daddy">Visualización de coberturas</a>
+      <ul class="other-section">
          <li><a href="visualizacin_de_coberturas0.html" class="no-ch">Visualización de coberturas</a></li>
       </ul>
       </li>
@@ -52,19 +54,42 @@
 </div>
 <div id='topPagination'>
 <div class="pagination noprt">
-<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig1.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="main-wrapper">
 <div id="main"><a name="main"></a>
-<div id="nodeDecoration"><h1 id="nodeTitle">Visualización de coberturas</h1></div>
-<div class="iDevice_wrapper textIdevice" id="id13">
-<div class="iDevice emphasis0" >
-<div id="ta13_109_2" class="block iDevice_content">
-<div class="exe-text"><p>El despliegue y visualización de coberturas vectoriales y ráster en unsoftware SIG se realiza utilizando herramientas específicas.</p>
-<p>Para revisar como abrir coberturas en el software QGIS revise el siguiente <span style="color: #0000ff;"><strong>video tutorial</strong></span>:</p>
-<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/zJSggwYhwes" allowfullscreen="allowfullscreen"></iframe></p>
-<p></p></div>
+<div id="nodeDecoration"><h1 id="nodeTitle">Modelos de representación de los datos espaciales en un SIG</h1></div>
+<div class="iDevice_wrapper textIdevice em_iDevice" id="id12">
+<div class="iDevice emphasis1" >
+<div class="iDevice_header iDevice_header_noIcon"><h2 class="iDeviceTitle">Modelo Vectorial vs Modelo Ráster</h2></div>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta12_108_2" class="block iDevice_content">
+<div class="exe-text"><p>En términos generales, la representación vectorial es más adecuada para la realización de cartografía regular que exige precisión y el modelo ráster tiene una organización más simple de los datos, permitiendo realizar procesos de análisis de manera fácil. Por lo tanto que modelo utilizar depende directamente del objetivo de trabajo.</p>
+<p>Algunas características de ambos modelos se detallan a continuación:</p>
+<div class="exe-fx exe-accordion">
+<h2>Representación vectorial</h2>
+<ul style="list-style-type: circle;">
+<li>Compleja estructura de datos</li>
+<li>Eficiente codificación de la topología</li>
+<li>Análisis de redes fácil de realizar</li>
+<li>Mapas de salida precisos</li>
+<li>Está diseñado para trabajar con gráficos y coberturas de Autocad.</li>
+</ul>
+<h2>Representación ráster</h2>
+<ul style="list-style-type: circle;">
+<li>Estructura de datos simple</li>
+<li>Se representa la variabilidad espacial</li>
+<li>Igual definición de celdas en la cuadrícula para varios atributos</li>
+<li>Errores en perímetro y forma</li>
+<li>Se pierde información cuando se usan grandes tamaños de celda o píxel</li>
+<li>Difícil ejecutar análisis de redes</li>
+<li>Ocupan más memoria</li>
+</ul>
+</div></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -75,7 +100,7 @@
 </div>
 <div id='bottomPagination'>
 <div class="pagination noprt">
-<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig1.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="siteFooter">LAB. DE GEO-INFORMACIÓN Y PERCEPCIÓN REMOTA | PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO</div></div>

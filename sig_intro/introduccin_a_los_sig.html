@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="content.css" />
 <link rel="stylesheet" type="text/css" href="nav.css" />
 <meta http-equiv="content-type" content="text/html;  charset=utf-8" />
-<title>Visualización de coberturas </title>
+<title>Introducción a los SIG </title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <meta http-equiv="content-language" content="es" />
 <link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
@@ -15,7 +15,7 @@
 <script type="text/javascript" src="common.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
-<body class="exe-web-site" id="exe-node-5"><script type="text/javascript">document.body.className+=" js"</script>
+<body class="exe-web-site" id="exe-node-3"><script type="text/javascript">document.body.className+=" js"</script>
 <div id="content">
 <p id="skipNav"><a href="#main" class="sr-av">Saltar la navegación</a></p>
 <div id="emptyHeader"></div>
@@ -24,8 +24,8 @@
    <li><a href="index.html" class="daddy main-node">Introducción a los SIG y al análisis espacial</a></li>
    <li class="current-page-parent"><a href="principios_y_fundamentos_de_los_sig.html" class="current-page-parent daddy">Principios y Fundamentos de los SIG</a>
    <ul>
-      <li><a href="introduccin_a_los_sig.html" class="daddy">Introducción a los SIG</a>
-      <ul class="other-section">
+      <li id="active"><a href="introduccin_a_los_sig.html" class="active daddy">Introducción a los SIG</a>
+      <ul>
          <li><a href="introduccin_a_los_sig0.html" class="no-ch">Introducción a los SIG</a></li>
          <li><a href="introduccin_a_los_sig1.html" class="no-ch">Introducción a los SIG</a></li>
          <li><a href="introduccin_a_los_sig2.html" class="no-ch">Introducción a los SIG</a></li>
@@ -39,8 +39,8 @@
          <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
       </ul>
       </li>
-      <li id="active"><a href="visualizacin_de_coberturas.html" class="active daddy">Visualización de coberturas</a>
-      <ul>
+      <li><a href="visualizacin_de_coberturas.html" class="daddy">Visualización de coberturas</a>
+      <ul class="other-section">
          <li><a href="visualizacin_de_coberturas0.html" class="no-ch">Visualización de coberturas</a></li>
       </ul>
       </li>
@@ -52,19 +52,30 @@
 </div>
 <div id='topPagination'>
 <div class="pagination noprt">
-<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="principios_y_fundamentos_de_los_sig.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="introduccin_a_los_sig0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="main-wrapper">
 <div id="main"><a name="main"></a>
-<div id="nodeDecoration"><h1 id="nodeTitle">Visualización de coberturas</h1></div>
-<div class="iDevice_wrapper textIdevice" id="id13">
-<div class="iDevice emphasis0" >
-<div id="ta13_109_2" class="block iDevice_content">
-<div class="exe-text"><p>El despliegue y visualización de coberturas vectoriales y ráster en unsoftware SIG se realiza utilizando herramientas específicas.</p>
-<p>Para revisar como abrir coberturas en el software QGIS revise el siguiente <span style="color: #0000ff;"><strong>video tutorial</strong></span>:</p>
-<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/zJSggwYhwes" allowfullscreen="allowfullscreen"></iframe></p>
-<p></p></div>
+<div id="nodeDecoration"><h1 id="nodeTitle">Introducción a los SIG</h1></div>
+<div class="iDevice_wrapper textIdevice em_iDevice" id="id2">
+<div class="iDevice emphasis1" >
+<div class="iDevice_header iDevice_header_noIcon"><h2 class="iDeviceTitle">¿Qué es un Sistema de Información Geográfica?</h2></div>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta2_109_2" class="block iDevice_content">
+<div class="exe-text"><p style="text-align: justify;">Un <strong>Sistema de Información Geográfica</strong> (SIG) es, como su nombre lo indica, un complejo sistema dónde interactúa la información geoespacial en relación a lo que un usuario necesite, para ello necesita de un soporte o hardware que contenga la información y el software para procesarla.</p>
+<p style="text-align: justify;">A continuación le dejamos algunas definiciones que complementan la idea anterior:</p>
+<ul>
+<li style="text-align: justify;">Conjunto de software y hardware diseñado específicamente para la adquisición, mantenimiento y uso de datos espaciales.</li>
+<li style="text-align: justify;">Es “...un potente conjunto de herramientas para recopilar, almacenar, recuperar a voluntad, transformar y mostrar datos espaciales del mundo real para un conjunto particular de propósitos” <strong>(Burrough y McDonnell, 1998, pp. 11)</strong>.</li>
+<li style="text-align: justify;">Es “...un sistema de base de datos con capacidades específicas para datos georreferenciados, como un conjunto de operaciones para trabajar con esos datos”<strong> (Ayala, 2014, pp. 8)</strong>.</li>
+<li style="text-align: justify;">“Es una base de datos computarizada que contiene información espacial. Una tecnología informática para gestionar y analizar información espacial” <strong>(Debrian y Mark, 1986)</strong>.</li>
+<li style="text-align: justify;">Es “un conjunto de herramientas para reunir, ingresar (al computador), almacenar, recuperar, transformar y cartografiar datos espaciales sobre un mundo real para un conjunto particular de objetos”<strong> (Burrough, 1988)</strong>.</li>
+<li style="text-align: justify;">“Es un tipo especializado de bases de datos, que se caracterizan por su capacidad de manejar datos geográficos, es decir, espacialmente referenciados, los cuales se pueden representar gráficamente como imágenes”<strong> (Bracken y Webster, 1990)</strong>.</li>
+</ul></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -75,7 +86,7 @@
 </div>
 <div id='bottomPagination'>
 <div class="pagination noprt">
-<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="principios_y_fundamentos_de_los_sig.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="introduccin_a_los_sig0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="siteFooter">LAB. DE GEO-INFORMACIÓN Y PERCEPCIÓN REMOTA | PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO</div></div>

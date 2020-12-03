@@ -2,20 +2,22 @@
 <html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="exe_effects.css" />
 <link rel="stylesheet" type="text/css" href="content.css" />
 <link rel="stylesheet" type="text/css" href="nav.css" />
 <meta http-equiv="content-type" content="text/html;  charset=utf-8" />
-<title>Visualización de coberturas </title>
+<title>Introducción a los SIG </title>
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 <meta http-equiv="content-language" content="es" />
 <link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
 <meta name="generator" content="eXeLearning 2.5 - exelearning.net" />
 <script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="exe_effects.js"></script>
 <script type="text/javascript" src="common_i18n.js"></script>
 <script type="text/javascript" src="common.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
-<body class="exe-web-site" id="exe-node-5"><script type="text/javascript">document.body.className+=" js"</script>
+<body class="exe-web-site" id="exe-node-11"><script type="text/javascript">document.body.className+=" js"</script>
 <div id="content">
 <p id="skipNav"><a href="#main" class="sr-av">Saltar la navegación</a></p>
 <div id="emptyHeader"></div>
@@ -24,9 +26,9 @@
    <li><a href="index.html" class="daddy main-node">Introducción a los SIG y al análisis espacial</a></li>
    <li class="current-page-parent"><a href="principios_y_fundamentos_de_los_sig.html" class="current-page-parent daddy">Principios y Fundamentos de los SIG</a>
    <ul>
-      <li><a href="introduccin_a_los_sig.html" class="daddy">Introducción a los SIG</a>
-      <ul class="other-section">
-         <li><a href="introduccin_a_los_sig0.html" class="no-ch">Introducción a los SIG</a></li>
+      <li class="current-page-parent"><a href="introduccin_a_los_sig.html" class="current-page-parent daddy">Introducción a los SIG</a>
+      <ul>
+         <li id="active"><a href="introduccin_a_los_sig0.html" class="active no-ch">Introducción a los SIG</a></li>
          <li><a href="introduccin_a_los_sig1.html" class="no-ch">Introducción a los SIG</a></li>
          <li><a href="introduccin_a_los_sig2.html" class="no-ch">Introducción a los SIG</a></li>
          <li><a href="introduccin_a_los_sig3.html" class="no-ch">Introducción a los SIG</a></li>
@@ -39,8 +41,8 @@
          <li><a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="no-ch">Modelos de representación de los datos espaciales en un SIG</a></li>
       </ul>
       </li>
-      <li id="active"><a href="visualizacin_de_coberturas.html" class="active daddy">Visualización de coberturas</a>
-      <ul>
+      <li><a href="visualizacin_de_coberturas.html" class="daddy">Visualización de coberturas</a>
+      <ul class="other-section">
          <li><a href="visualizacin_de_coberturas0.html" class="no-ch">Visualización de coberturas</a></li>
       </ul>
       </li>
@@ -52,18 +54,28 @@
 </div>
 <div id='topPagination'>
 <div class="pagination noprt">
-<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="introduccin_a_los_sig.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="introduccin_a_los_sig1.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="main-wrapper">
 <div id="main"><a name="main"></a>
-<div id="nodeDecoration"><h1 id="nodeTitle">Visualización de coberturas</h1></div>
-<div class="iDevice_wrapper textIdevice" id="id13">
+<div id="nodeDecoration"><h1 id="nodeTitle">Introducción a los SIG</h1></div>
+<div class="iDevice_wrapper textIdevice" id="id6">
 <div class="iDevice emphasis0" >
-<div id="ta13_109_2" class="block iDevice_content">
-<div class="exe-text"><p>El despliegue y visualización de coberturas vectoriales y ráster en unsoftware SIG se realiza utilizando herramientas específicas.</p>
-<p>Para revisar como abrir coberturas en el software QGIS revise el siguiente <span style="color: #0000ff;"><strong>video tutorial</strong></span>:</p>
-<p style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/zJSggwYhwes" allowfullscreen="allowfullscreen"></iframe></p>
+<div id="ta6_113_2" class="block iDevice_content">
+<div class="exe-text"><p>Los SIG se componen de 5 elementos mínimos que hacen llamarlo un sistema:</p>
+<div class="exe-fx exe-accordion">
+<h2>a) Datos</h2>
+<p>Información geoespacial: se caracteriza por ser una modelación de la realidad a través de vectores geográficos (puntos, lineas o polígonos) o a través de ráster (matriz de píxeles). Estas fuentes se caracterizan por almacenar información de la realidad con una explicita composición espacial, es decir está posicionado en alguna parte del mundo (localización).</p>
+<h2>b) Métodos</h2>
+<p>Corresponden a todas las técnicas y procesamientos que se le aplican a los datos para consultar información contenida, para alterar o transformar los datos para obtener información espacial nueva.</p>
+<h2>c) Software</h2>
+<p>Aplicación informática que permite la visualización y gestión de los datos espaciales. Comúnmente suele confundirse con que los SIG son solamente este componente.</p>
+<h2>d) Hardware</h2>
+<p>Corresponde al soporte informático que permite la apertura de un software y los datos. Este elemento puede ser un computador, un dispositivo móvil, etc.</p>
+<h2>e) Personas</h2>
+<p>Hace referencia tanto a las y los encargados de diseñar y mantener el SIG como a los usuarios que utilizan la información geoespacial.</p>
+</div>
 <p></p></div>
 </div>
 </div>
@@ -75,7 +87,7 @@
 </div>
 <div id='bottomPagination'>
 <div class="pagination noprt">
-<a href="modelos_de_representacin_de_los_datos_espaciales_en_un_sig2.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="visualizacin_de_coberturas0.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+<a href="introduccin_a_los_sig.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="introduccin_a_los_sig1.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
 </div>
 </div>
 <div id="siteFooter">LAB. DE GEO-INFORMACIÓN Y PERCEPCIÓN REMOTA | PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO</div></div>
