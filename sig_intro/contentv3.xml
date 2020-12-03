@@ -1,29 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<instance xmlns="http://www.exelearning.org/content/v0.3" reference="2" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://www.exelearning.org/content/v0.3 content.xsd" class="exe.engine.package.Package">
+<instance xmlns="http://www.exelearning.org/content/v0.3" reference="1" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://www.exelearning.org/content/v0.3 content.xsd" class="exe.engine.package.Package">
  <dictionary>
   <string role="key" value="_title"></string>
-  <unicode value=""></unicode>
+  <unicode value="Modulo 1: Principios y fundamentos de los SIG"></unicode>
   <string role="key" value="idevices"></string>
   <list></list>
   <string role="key" value="_addPagination"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="_addSearchBox"></string>
   <bool value="0"></bool>
   <string role="key" value="_author"></string>
-  <unicode value=""></unicode>
+  <unicode value="LABGRS"></unicode>
   <string role="key" value="_backgroundImg"></string>
-  <unicode value=""></unicode>
+  <instance class="exe.engine.resource.Resource" reference="73">
+   <dictionary>
+    <string role="key" value="_idevice"></string>
+    <none></none>
+    <string role="key" value="_package"></string>
+    <reference key="1"></reference>
+    <string role="key" value="_storageName"></string>
+    <string value="bannersig2.png"></string>
+    <string role="key" value="_userName"></string>
+    <string value="bannersig2.png"></string>
+    <string role="key" value="checksum"></string>
+    <string value="8a8e5734e35dd9ec1be3bea66f08e5e8"></string>
+    <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
+    <int value="2"></int>
+    <string role="key" value="exe.engine.resource._Resource.persistenceVersion"></string>
+    <int value="2"></int>
+    <string role="key" value="warningMsg"></string>
+    <string value=""></string>
+   </dictionary>
+  </instance>
   <string role="key" value="_contextMode"></string>
   <unicode value="distance"></unicode>
   <string role="key" value="_contextPlace"></string>
   <unicode value="real environment"></unicode>
   <string role="key" value="_description"></string>
-  <unicode value=""></unicode>
+  <unicode value="Unidad 1"></unicode>
   <string role="key" value="_docType"></string>
   <unicode value="XHTML"></unicode>
   <string role="key" value="_exportElp"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="_extraHeadContent"></string>
   <unicode value=""></unicode>
   <string role="key" value="_fieldValidationInfo"></string>
@@ -69,7 +88,7 @@
   <string role="key" value="_intendedEndUserRoleType"></string>
   <unicode value="learner"></unicode>
   <string role="key" value="_isChanged"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="_isTemplate"></string>
   <bool value="0"></bool>
   <string role="key" value="_lang"></string>
@@ -83,11 +102,11 @@
    <unicode value="Unidad"></unicode>
   </list>
   <string role="key" value="_name"></string>
-  <unicode value="Curso_SIG"></unicode>
+  <unicode value="Modulo_I_SIG"></unicode>
   <string role="key" value="_nextIdeviceId"></string>
-  <int value="18"></int>
+  <int value="23"></int>
   <string role="key" value="_nextNodeId"></string>
-  <int value="18"></int>
+  <int value="25"></int>
   <string role="key" value="_nodeIdDict"></string>
   <dictionary>
    <unicode role="key" value="0"></unicode>
@@ -97,7 +116,7 @@
      <unicode value="Introducción a los SIG y al análisis espacial"></unicode>
      <string role="key" value="idevices"></string>
      <list>
-      <instance class="exe.engine.jsidevice.JsIdevice" reference="1">
+      <instance class="exe.engine.jsidevice.JsIdevice" reference="2">
        <dictionary>
         <string role="key" value="_title"></string>
         <unicode value=""></unicode>
@@ -161,7 +180,7 @@
            <string role="key" value="_id"></string>
            <unicode value="111_2"></unicode>
            <string role="key" value="_idevice"></string>
-           <reference key="1"></reference>
+           <reference key="2"></reference>
            <string role="key" value="_instruc"></string>
            <string value=""></string>
            <string role="key" value="_name"></string>
@@ -191,7 +210,7 @@
                 <instance class="exe.engine.field.TextField">
                  <dictionary>
                   <string role="key" value="_id"></string>
-                  <int value="313"></int>
+                  <int value="322"></int>
                   <string role="key" value="_idevice"></string>
                   <none></none>
                   <string role="key" value="_instruc"></string>
@@ -205,18 +224,18 @@
                  </dictionary>
                 </instance>
                 <string role="key" value="_id"></string>
-                <unicode value="15_111_2.3"></unicode>
+                <unicode value="15_111_2.4"></unicode>
                 <string role="key" value="_imageResource"></string>
                 <instance class="exe.engine.resource.Resource" reference="5">
                  <dictionary>
                   <string role="key" value="_idevice"></string>
-                  <reference key="1"></reference>
-                  <string role="key" value="_package"></string>
                   <reference key="2"></reference>
+                  <string role="key" value="_package"></string>
+                  <reference key="1"></reference>
                   <string role="key" value="_storageName"></string>
                   <string value="Captura_de_pantalla_de_2020-12-02_10-04-18.png"></string>
                   <string role="key" value="_userName"></string>
-                  <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\Captura_de_pantalla_de_2020-12-02_10-04-18.png"></string>
+                  <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\Captura_de_pantalla_de_2020-12-02_10-04-18.png"></string>
                   <string role="key" value="checksum"></string>
                   <string value="93c2695905ca8b31eda9e5fc05fa8e55"></string>
                   <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
@@ -245,7 +264,7 @@
            <string role="key" value="intlinks_to_anchors"></string>
            <dictionary></dictionary>
            <string role="key" value="nextImageId"></string>
-           <int value="4"></int>
+           <int value="5"></int>
            <string role="key" value="parentNode"></string>
            <reference key="4"></reference>
           </dictionary>
@@ -281,7 +300,7 @@
      <string role="key" value="_id"></string>
      <unicode value="0"></unicode>
      <string role="key" value="_package"></string>
-     <reference key="2"></reference>
+     <reference key="1"></reference>
      <string role="key" value="anchor_fields"></string>
      <list></list>
      <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -376,10 +395,10 @@
               <string role="key" value="anchors_linked_from_fields"></string>
               <dictionary></dictionary>
               <string role="key" value="content_w_resourcePaths"></string>
-              <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;&lt;span&gt;En la siguiente unidad de aprendizaje se abordaran los conceptos y fundamentos principales de los Sistemas de Información Geográfica.&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span&gt;La unidad se estructura en &lt;strong&gt;cinco temas&lt;/strong&gt; los cuales deben ser revisados en el transcurso de la primera semana del curso.&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span&gt;Finalizada la revisión de contenidos, debe realizar la &lt;strong&gt;evaluación de aprendizaje de la unidad&lt;/strong&gt;, la cual es de carácter sumativa y &lt;/span&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;necesaria para la aprobación y certificación del curso.&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Para apoyar los procesos de aprendizaje, se realizará semanalmente &lt;strong&gt;atención de consultas&lt;/strong&gt;, a través de &lt;strong&gt;sesiones sincrónicas &lt;/strong&gt;utilizando la plataforma Google Meets, los días&lt;strong&gt; miércoles y viernes, entre 18h00 y 19h30. &lt;/strong&gt;El enlace a utilizar en todas sesiones del curso es el siguiente:&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+              <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span&gt;En la siguiente unidad de aprendizaje se abordaran los conceptos y fundamentos principales de los Sistemas de Información Geográfica.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span&gt;La unidad se estructura en &lt;strong&gt;cinco temas&lt;/strong&gt; los cuales deben ser revisados en el transcurso de la primera semana del curso.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span&gt;Finalizada la revisión de contenidos, debe realizar la &lt;strong&gt;evaluación de aprendizaje de la unidad&lt;/strong&gt;, la cual es de carácter sumativa y &lt;/span&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;necesaria para la aprobación y certificación del curso.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Para apoyar los procesos de aprendizaje, se realizará semanalmente &lt;strong&gt;atención de consultas&lt;/strong&gt;, a través de &lt;strong&gt;sesiones sincrónicas &lt;/strong&gt;utilizando la plataforma Google Meets, los días&lt;strong&gt; miércoles y viernes, entre 18h00 y 19h30. &lt;/strong&gt;El enlace a utilizar en todas sesiones del curso es el siguiente:&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
               <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
               <int value="4"></int>
               <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
@@ -434,7 +453,7 @@
         <string role="key" value="_id"></string>
         <unicode value="1"></unicode>
         <string role="key" value="_package"></string>
-        <reference key="2"></reference>
+        <reference key="1"></reference>
         <string role="key" value="anchor_fields"></string>
         <list></list>
         <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -452,13 +471,13 @@
          <instance class="exe.engine.node.Node" reference="11">
           <dictionary>
            <string role="key" value="_title"></string>
-           <unicode value="Introducción a los SIG"></unicode>
+           <unicode value="¿Qué es un Sistema de Información Geográfica?"></unicode>
            <string role="key" value="idevices"></string>
            <list>
             <instance class="exe.engine.jsidevice.JsIdevice" reference="9">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="¿Qué es un Sistema de Información Geográfica?"></unicode>
+              <unicode value=""></unicode>
               <string role="key" value="_attributes"></string>
               <list>
                <tuple>
@@ -509,7 +528,7 @@
               <string role="key" value="edit"></string>
               <bool value="0"></bool>
               <string role="key" value="emphasis"></string>
-              <int value="1"></int>
+              <int value="0"></int>
               <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
               <int value="1"></int>
               <string role="key" value="fields"></string>
@@ -593,7 +612,7 @@
            <string role="key" value="_id"></string>
            <unicode value="3"></unicode>
            <string role="key" value="_package"></string>
-           <reference key="2"></reference>
+           <reference key="1"></reference>
            <string role="key" value="anchor_fields"></string>
            <list></list>
            <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -601,7 +620,7 @@
            <string role="key" value="exportType"></string>
            <string value="website"></string>
            <string role="key" value="last_full_node_path"></string>
-           <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG"></string>
+           <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:%C2%BFQu%C3%A9%20es%20un%20Sistema%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica%3F"></string>
            <string role="key" value="parent"></string>
            <reference key="8"></reference>
            <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -611,7 +630,7 @@
             <instance class="exe.engine.node.Node" reference="14">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Introducción a los SIG"></unicode>
+              <unicode value="Componentes"></unicode>
               <string role="key" value="idevices"></string>
               <list>
                <instance class="exe.engine.jsidevice.JsIdevice" reference="12">
@@ -756,7 +775,7 @@
               <string role="key" value="_id"></string>
               <unicode value="11"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -764,7 +783,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:%C2%BFQu%C3%A9%20es%20un%20Sistema%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica%3F:Componentes"></string>
               <string role="key" value="parent"></string>
               <reference key="11"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -776,7 +795,7 @@
             <instance class="exe.engine.node.Node" reference="17">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Introducción a los SIG"></unicode>
+              <unicode value="Carcaterísticas"></unicode>
               <string role="key" value="idevices"></string>
               <list>
                <instance class="exe.engine.jsidevice.JsIdevice" reference="15">
@@ -918,7 +937,7 @@
               <string role="key" value="_id"></string>
               <unicode value="8"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -926,7 +945,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:%C2%BFQu%C3%A9%20es%20un%20Sistema%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica%3F:Carcater%C3%ADsticas"></string>
               <string role="key" value="parent"></string>
               <reference key="11"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -938,13 +957,13 @@
             <instance class="exe.engine.node.Node" reference="20">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Introducción a los SIG"></unicode>
+              <unicode value="¿Qué no es un SIG?"></unicode>
               <string role="key" value="idevices"></string>
               <list>
                <instance class="exe.engine.jsidevice.JsIdevice" reference="18">
                 <dictionary>
                  <string role="key" value="_title"></string>
-                 <unicode value="¿Qué no es un SIG?"></unicode>
+                 <unicode value=""></unicode>
                  <string role="key" value="_attributes"></string>
                  <list>
                   <tuple>
@@ -995,7 +1014,7 @@
                  <string role="key" value="edit"></string>
                  <bool value="0"></bool>
                  <string role="key" value="emphasis"></string>
-                 <int value="1"></int>
+                 <int value="0"></int>
                  <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
                  <int value="1"></int>
                  <string role="key" value="fields"></string>
@@ -1015,8 +1034,8 @@
                     <string role="key" value="anchors_linked_from_fields"></string>
                     <dictionary></dictionary>
                     <string role="key" value="content_w_resourcePaths"></string>
-                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;En el campo profesional y disciplinar, es posible encontrar fuentes de información espacial que no necesariamente corresponde a bases de datos geográficas. Los archivos más comunes son los *.cad o *.dwg. Estos archivos corresponden a información vectorial geométrica que representa un modelo del espacio (ejemplo: calles = lineas) pero no están asociadas a una base de datos con información propia de esta línea (ejemplo: nombre de la calle, tipo de carpeta, comuna, etc.).&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;resources/cad.png&quot; width=&quot;651&quot; height=&quot;341&quot; style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; /&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;En el campo profesional y disciplinar, es posible encontrar fuentes de información espacial que no necesariamente corresponde a bases de datos geográficas. Los archivos más comunes son los *.cad o *.dwg. Estos archivos corresponden a información vectorial geométrica que representa un modelo del espacio (ejemplo: calles = lineas) pero no están asociadas a una base de datos con información propia de esta línea (ejemplo: nombre de la calle, tipo de carpeta, comuna, etc.).&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;resources/cad.png&quot; style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; width=&quot;651&quot; height=&quot;341&quot; /&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
                     <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
                     <int value="4"></int>
                     <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
@@ -1036,7 +1055,7 @@
                          <instance class="exe.engine.field.TextField">
                           <dictionary>
                            <string role="key" value="_id"></string>
-                           <int value="309"></int>
+                           <int value="318"></int>
                            <string role="key" value="_idevice"></string>
                            <none></none>
                            <string role="key" value="_instruc"></string>
@@ -1050,18 +1069,18 @@
                           </dictionary>
                          </instance>
                          <string role="key" value="_id"></string>
-                         <unicode value="4_111_2.6"></unicode>
+                         <unicode value="4_111_2.7"></unicode>
                          <string role="key" value="_imageResource"></string>
                          <instance class="exe.engine.resource.Resource" reference="21">
                           <dictionary>
                            <string role="key" value="_idevice"></string>
                            <reference key="18"></reference>
                            <string role="key" value="_package"></string>
-                           <reference key="2"></reference>
+                           <reference key="1"></reference>
                            <string role="key" value="_storageName"></string>
                            <string value="cad.png"></string>
                            <string role="key" value="_userName"></string>
-                           <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\cad.png"></string>
+                           <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\cad.png"></string>
                            <string role="key" value="checksum"></string>
                            <string value="923adf2b5d25955c3c60192bb683d3c6"></string>
                            <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
@@ -1090,7 +1109,7 @@
                     <string role="key" value="intlinks_to_anchors"></string>
                     <dictionary></dictionary>
                     <string role="key" value="nextImageId"></string>
-                    <int value="7"></int>
+                    <int value="8"></int>
                     <string role="key" value="parentNode"></string>
                     <reference key="20"></reference>
                    </dictionary>
@@ -1126,7 +1145,7 @@
               <string role="key" value="_id"></string>
               <unicode value="9"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -1134,7 +1153,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:%C2%BFQu%C3%A9%20es%20un%20Sistema%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica%3F:%C2%BFQu%C3%A9%20no%20es%20un%20SIG%3F"></string>
               <string role="key" value="parent"></string>
               <reference key="11"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -1146,13 +1165,13 @@
             <instance class="exe.engine.node.Node" reference="24">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Introducción a los SIG"></unicode>
+              <unicode value="SIG vs CAD"></unicode>
               <string role="key" value="idevices"></string>
               <list>
                <instance class="exe.engine.jsidevice.JsIdevice" reference="22">
                 <dictionary>
                  <string role="key" value="_title"></string>
-                 <unicode value="SIG vs CAD"></unicode>
+                 <unicode value=""></unicode>
                  <string role="key" value="_attributes"></string>
                  <list>
                   <tuple>
@@ -1203,7 +1222,7 @@
                  <string role="key" value="edit"></string>
                  <bool value="0"></bool>
                  <string role="key" value="emphasis"></string>
-                 <int value="1"></int>
+                 <int value="0"></int>
                  <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
                  <int value="1"></int>
                  <string role="key" value="fields"></string>
@@ -1293,7 +1312,7 @@
               <string role="key" value="_id"></string>
               <unicode value="10"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -1301,7 +1320,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG:Introducci%C3%B3n%20a%20los%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:%C2%BFQu%C3%A9%20es%20un%20Sistema%20de%20Informaci%C3%B3n%20Geogr%C3%A1fica%3F:SIG%20vs%20CAD"></string>
               <string role="key" value="parent"></string>
               <reference key="11"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -1393,10 +1412,10 @@
                  <string role="key" value="anchors_linked_from_fields"></string>
                  <dictionary></dictionary>
                  <string role="key" value="content_w_resourcePaths"></string>
-                 <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: left;&quot;&gt;A través de un Sistema de Información Geográfica, es posible modelizar la realidad de dos formas principales: a través de un modelo&lt;em&gt; vectorial&lt;/em&gt;  o un modelo &lt;em&gt;ráster&lt;/em&gt;.&lt;/p&gt;
+                 <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: left;&quot;&gt;A través de un Sistema de Información Geográfica, es posible modelar la realidad de dos formas principales: a través de un modelo&lt;em&gt; vectorial&lt;/em&gt;  o un modelo &lt;em&gt;ráster&lt;/em&gt;.&lt;/p&gt;
 &lt;ul style=&quot;list-style-type: circle;&quot;&gt;
-&lt;li style=&quot;text-align: left;&quot;&gt;Un &lt;strong&gt;modelo vectorial&lt;/strong&gt; está formado por datos espaciales representados por medio de coordenadas y se distinguen tres tipos de datos: puntos, líneas (segmentos que unen dos puntos) y polígonos (unión de varias líneas).&lt;/li&gt;
-&lt;li style=&quot;text-align: left;&quot;&gt;Un &lt;strong&gt;modelo ráster&lt;/strong&gt; está formado por&lt;strong&gt; grillas&lt;/strong&gt;, que en resumen constituye una matriz de 1 y 0 que se asocian con píxeles. Si además de 1 y 0 aparecen otros dígitos, se trata de un ráster con colores en lugar de uno en blanco y negro.&lt;/li&gt;
+&lt;li&gt;Un &lt;strong&gt;modelo ráster &lt;/strong&gt;se caracteriza por estar formado por &lt;strong&gt;matrices&lt;/strong&gt; o &lt;strong&gt;grillas&lt;/strong&gt; que almacenan información numérica. Estas matrices están formadas por &lt;strong&gt;pixeles&lt;/strong&gt; o &lt;strong&gt;celdas&lt;/strong&gt; ordenadas en filas y columnas.&lt;/li&gt;
+&lt;li style=&quot;text-align: left;&quot;&gt;Un &lt;strong&gt;modelo vectorial&lt;/strong&gt; se caracteriza por tener una estructura vectorial asociada a una entidad &lt;strong&gt;geométrica espacial&lt;/strong&gt;. Estas geometrías que permiten modelar la realidad son de tres tipos: puntos, líneas (segmentos que unen dos puntos) y polígonos (unión de varias líneas).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/modelo_vectorial_y_raster.png&quot; width=&quot;400&quot; height=&quot;223&quot; /&gt;&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Fuente: Olaya, 2014.&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
@@ -1419,7 +1438,7 @@
                       <instance class="exe.engine.field.TextField">
                        <dictionary>
                         <string role="key" value="_id"></string>
-                        <int value="315"></int>
+                        <int value="325"></int>
                         <string role="key" value="_idevice"></string>
                         <none></none>
                         <string role="key" value="_instruc"></string>
@@ -1433,18 +1452,18 @@
                        </dictionary>
                       </instance>
                       <string role="key" value="_id"></string>
-                      <unicode value="7_114_2.7"></unicode>
+                      <unicode value="7_114_2.8"></unicode>
                       <string role="key" value="_imageResource"></string>
                       <instance class="exe.engine.resource.Resource" reference="28">
                        <dictionary>
                         <string role="key" value="_idevice"></string>
                         <reference key="25"></reference>
                         <string role="key" value="_package"></string>
-                        <reference key="2"></reference>
+                        <reference key="1"></reference>
                         <string role="key" value="_storageName"></string>
                         <string value="modelo_vectorial_y_raster.png"></string>
                         <string role="key" value="_userName"></string>
-                        <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\modelo_vectorial_y_raster.png"></string>
+                        <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\modelo_vectorial_y_raster.png"></string>
                         <string role="key" value="checksum"></string>
                         <string value="09c274a9510784a8ea5a49974e94042e"></string>
                         <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
@@ -1473,7 +1492,7 @@
                  <string role="key" value="intlinks_to_anchors"></string>
                  <dictionary></dictionary>
                  <string role="key" value="nextImageId"></string>
-                 <int value="8"></int>
+                 <int value="9"></int>
                  <string role="key" value="parentNode"></string>
                  <reference key="27"></reference>
                 </dictionary>
@@ -1509,7 +1528,7 @@
            <string role="key" value="_id"></string>
            <unicode value="4"></unicode>
            <string role="key" value="_package"></string>
-           <reference key="2"></reference>
+           <reference key="1"></reference>
            <string role="key" value="anchor_fields"></string>
            <list></list>
            <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -1527,13 +1546,13 @@
             <instance class="exe.engine.node.Node" reference="31">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Modelos de representación de los datos espaciales en un SIG"></unicode>
+              <unicode value="Modelo vectorial"></unicode>
               <string role="key" value="idevices"></string>
               <list>
                <instance class="exe.engine.jsidevice.JsIdevice" reference="29">
                 <dictionary>
                  <string role="key" value="_title"></string>
-                 <unicode value="Modelo Vectorial"></unicode>
+                 <unicode value=""></unicode>
                  <string role="key" value="_attributes"></string>
                  <list>
                   <tuple>
@@ -1584,7 +1603,7 @@
                  <string role="key" value="edit"></string>
                  <bool value="0"></bool>
                  <string role="key" value="emphasis"></string>
-                 <int value="1"></int>
+                 <int value="0"></int>
                  <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
                  <int value="1"></int>
                  <string role="key" value="fields"></string>
@@ -1604,20 +1623,12 @@
                     <string role="key" value="anchors_linked_from_fields"></string>
                     <dictionary></dictionary>
                     <string role="key" value="content_w_resourcePaths"></string>
-                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;La &lt;strong&gt;tipología de datos vectorial&lt;/strong&gt; es utilizada en la representación de superficies planas. Sus &lt;strong&gt;formatos &lt;/strong&gt;son variados y dependen del software SIG utilizado. Los más habituales son ficheros con extensiones .shp, .dgn, .dwg, .dxf y .dxn. De estos, el más conocido es el &lt;strong&gt;shapefile&lt;/strong&gt; (.shp) el cual está compuesto de: un &lt;em&gt;referente gráfico&lt;/em&gt; (.shx), una &lt;em&gt;geometría&lt;/em&gt; (.shp), una &lt;em&gt;proyección&lt;/em&gt; (.prj), una &lt;em&gt;tabla de atributos&lt;/em&gt; o &lt;em&gt;base de datos&lt;/em&gt; anexada (.dbf) y un metadato (xml).&lt;/span&gt;&lt;/p&gt;
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;La &lt;strong&gt;tipología de datos vectorial&lt;/strong&gt; es utilizada en la representación de superficies planas. Sus &lt;strong&gt;formatos &lt;/strong&gt;son variados y dependen del software SIG utilizado. Los más habituales son ficheros con extensiones .shp, .dgn, .dwg, .dxf y .dxn. De estos, el más conocido es el &lt;strong&gt;shapefile&lt;/strong&gt; (.shp) el cual está compuesto de: un &lt;em&gt;referente gráfico&lt;/em&gt; (.shx), una &lt;em&gt;geometría&lt;/em&gt; (.shp), una &lt;em&gt;proyección&lt;/em&gt; (.prj), una &lt;em&gt;tabla de atributos&lt;/em&gt; o &lt;em&gt;base de datos&lt;/em&gt; anexada (.dbf) y un metadato (xml).&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;&lt;img src=&quot;resources/imagen.png&quot; style=&quot;display: block; margin-left: auto; margin-right: auto;&quot; width=&quot;679&quot; height=&quot;178&quot; /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: LABGRS, 2020.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt; Lo importante, es tener en cuenta que todos estos elementos deben estar presentes en un mismo directorio, sino el archivo no podrá leerse y no podrá consultarse su información:&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/Captura_de_pantalla_de_2020-12-02_07-59-11.png&quot; width=&quot;850&quot; height=&quot;358&quot; /&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: LABGRS, 2020.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Como se mencionó, en un SIG vectorial se consideran tres tipos de objetos:&lt;/span&gt;&lt;/p&gt;
-&lt;div class=&quot;exe-fx exe-accordion&quot;&gt;
-&lt;h2&gt;Puntos&lt;/h2&gt;
-&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Representan objetos espaciales que sólo están localizados y no tienen dimensiones (largo y ancho). La posición de cada objeto queda determinada a través de las coordenadas (x,y).&lt;/span&gt;&lt;/p&gt;
-&lt;h2&gt;Líneas&lt;/h2&gt;
-&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Son una sucesión de puntos y representan objetos espaciales con una dimensión, longitud. Su posición en el espacio se determina con dos pares de coordenadas.&lt;/span&gt;&lt;/p&gt;
-&lt;h2&gt;Polígonos&lt;/h2&gt;
-&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Sucesión de líneas cerradas que representan objetos espaciales con dos dimensiones: longitud y ancho. La posición de cada objeto se fija con dos o más líneas cuyas coordenadas inicial y final coinciden.&lt;/span&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/SIG_Vectorial.png&quot; width=&quot;800&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Fuente: Ayala, 2014.&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: LABGRS, 2020.&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
                     <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
                     <int value="4"></int>
                     <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
@@ -1637,7 +1648,7 @@
                          <instance class="exe.engine.field.TextField">
                           <dictionary>
                            <string role="key" value="_id"></string>
-                           <int value="310"></int>
+                           <int value="319"></int>
                            <string role="key" value="_idevice"></string>
                            <none></none>
                            <string role="key" value="_instruc"></string>
@@ -1651,18 +1662,18 @@
                           </dictionary>
                          </instance>
                          <string role="key" value="_id"></string>
-                         <unicode value="11_109_2.8"></unicode>
+                         <unicode value="11_109_2.11"></unicode>
                          <string role="key" value="_imageResource"></string>
                          <instance class="exe.engine.resource.Resource" reference="32">
                           <dictionary>
                            <string role="key" value="_idevice"></string>
                            <reference key="29"></reference>
                            <string role="key" value="_package"></string>
-                           <reference key="2"></reference>
+                           <reference key="1"></reference>
                            <string role="key" value="_storageName"></string>
                            <string value="Captura_de_pantalla_de_2020-12-02_07-59-11.png"></string>
                            <string role="key" value="_userName"></string>
-                           <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\Captura_de_pantalla_de_2020-12-02_07-59-11.png"></string>
+                           <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\Captura_de_pantalla_de_2020-12-02_07-59-11.png"></string>
                            <string role="key" value="checksum"></string>
                            <string value="ebce808ef518cce0260fbd4c8160eee7"></string>
                            <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
@@ -1689,7 +1700,7 @@
                          <instance class="exe.engine.field.TextField">
                           <dictionary>
                            <string role="key" value="_id"></string>
-                           <int value="316"></int>
+                           <int value="324"></int>
                            <string role="key" value="_idevice"></string>
                            <none></none>
                            <string role="key" value="_instruc"></string>
@@ -1703,20 +1714,20 @@
                           </dictionary>
                          </instance>
                          <string role="key" value="_id"></string>
-                         <unicode value="11_109_2.9"></unicode>
+                         <unicode value="11_109_2.12"></unicode>
                          <string role="key" value="_imageResource"></string>
                          <instance class="exe.engine.resource.Resource" reference="33">
                           <dictionary>
                            <string role="key" value="_idevice"></string>
                            <reference key="29"></reference>
                            <string role="key" value="_package"></string>
-                           <reference key="2"></reference>
+                           <reference key="1"></reference>
                            <string role="key" value="_storageName"></string>
-                           <string value="SIG_Vectorial.png"></string>
+                           <string value="imagen.png"></string>
                            <string role="key" value="_userName"></string>
-                           <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\SIG_Vectorial.png"></string>
+                           <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\imagen.png"></string>
                            <string role="key" value="checksum"></string>
-                           <string value="4821ba2c30b0c0c27d4f42cfe349aba6"></string>
+                           <string value="ffa59548b7d7a7e603989e5314f226b6"></string>
                            <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
                            <int value="2"></int>
                            <string role="key" value="exe.engine.resource._Resource.persistenceVersion"></string>
@@ -1743,7 +1754,7 @@
                     <string role="key" value="intlinks_to_anchors"></string>
                     <dictionary></dictionary>
                     <string role="key" value="nextImageId"></string>
-                    <int value="10"></int>
+                    <int value="13"></int>
                     <string role="key" value="parentNode"></string>
                     <reference key="31"></reference>
                    </dictionary>
@@ -1780,7 +1791,7 @@
               <string role="key" value="_id"></string>
               <unicode value="15"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -1788,7 +1799,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Modelo%20vectorial"></string>
               <string role="key" value="parent"></string>
               <reference key="27"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -1800,13 +1811,13 @@
             <instance class="exe.engine.node.Node" reference="36">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Modelos de representación de los datos espaciales en un SIG"></unicode>
+              <unicode value="Modelo vectorial"></unicode>
               <string role="key" value="idevices"></string>
               <list>
                <instance class="exe.engine.jsidevice.JsIdevice" reference="34">
                 <dictionary>
                  <string role="key" value="_title"></string>
-                 <unicode value="Modelo Ráster"></unicode>
+                 <unicode value=""></unicode>
                  <string role="key" value="_attributes"></string>
                  <list>
                   <tuple>
@@ -1857,7 +1868,7 @@
                  <string role="key" value="edit"></string>
                  <bool value="0"></bool>
                  <string role="key" value="emphasis"></string>
-                 <int value="1"></int>
+                 <int value="0"></int>
                  <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
                  <int value="1"></int>
                  <string role="key" value="fields"></string>
@@ -1877,14 +1888,17 @@
                     <string role="key" value="anchors_linked_from_fields"></string>
                     <dictionary></dictionary>
                     <string role="key" value="content_w_resourcePaths"></string>
-                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;Los SIG ráster se utilizan para representar datos continuos, sin limites marcados, zonas de transición y datos que cambian (altitudes, precipitaciones, …) aunque, de forma más imprecisa, también permiten representar entidades.&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/DEM_TERRASAR.png&quot; width=&quot;550&quot; height=&quot;352&quot; /&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: Modelo de elevación digital TERRA-X-SAR &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;La realidad se representa como una retícula rectangular dividida en celdas o píxeles de igual tamaño donde las celdas no se solapan: los datos se definen por la posición en una fila y columna, localización relativa, coordenadas (x,y).&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/Captura_de_pantalla_de_2020-12-02_08-32-23.png&quot; width=&quot;800&quot; height=&quot;316&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;Los &lt;strong&gt;formatos&lt;/strong&gt; de ficheros de datos ráster son ASCII y ficheros con extensiones .bil, .bin, .bsq y .grid.&lt;/p&gt;
-&lt;p&gt;Los ficheros de dibujos mapas y fotos tendrán por lo general extensiones .tiff, .jpeg, .gif, .pnp y .eps.&lt;/p&gt;
-&lt;p&gt;Importante de señalar es que cada capa ráster genera &lt;strong&gt;dos tipos de archivos&lt;/strong&gt;: en uno se guardan los valores de las celdas (formato ASCII) y en el otro se guarda la información general de la retícula, de la leyenda, orientación, resolución, tipo de variable, número de filas y columnas, etc. Además, los archivos ráster &lt;strong&gt;no tienen tipología&lt;/strong&gt;, siendo la grilla la que almacena la &lt;strong&gt;información numérica&lt;/strong&gt; en las celdas o bandas de la imagen.&lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Como se mencionó, en un SIG vectorial se consideran tres tipos de objetos:&lt;/span&gt;&lt;/p&gt;
+&lt;div class=&quot;exe-fx exe-accordion&quot;&gt;
+&lt;h2&gt;Puntos&lt;/h2&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Representan objetos espaciales que sólo están localizados y no tienen dimensiones (largo y ancho). La posición de cada objeto queda determinada a través de las coordenadas (x,y).&lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Líneas&lt;/h2&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Son una sucesión de puntos y representan objetos espaciales con una dimensión, longitud. Su posición en el espacio se determina con dos pares de coordenadas.&lt;/span&gt;&lt;/p&gt;
+&lt;h2&gt;Polígonos&lt;/h2&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Sucesión de líneas cerradas que representan objetos espaciales con dos dimensiones: longitud y ancho. La posición de cada objeto se fija con dos o más líneas cuyas coordenadas inicial y final coinciden.&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/SIG_Vectorial.png&quot; alt=&quot;datos_shp&quot; width=&quot;786&quot; height=&quot;491&quot; /&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Fuente: Ayala, 2014.&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
                     <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
                     <int value="4"></int>
                     <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
@@ -1904,7 +1918,7 @@
                          <instance class="exe.engine.field.TextField">
                           <dictionary>
                            <string role="key" value="_id"></string>
-                           <int value="311"></int>
+                           <int value="326"></int>
                            <string role="key" value="_idevice"></string>
                            <none></none>
                            <string role="key" value="_instruc"></string>
@@ -1918,72 +1932,20 @@
                           </dictionary>
                          </instance>
                          <string role="key" value="_id"></string>
-                         <unicode value="10_108_2.6"></unicode>
+                         <unicode value="18_108_2.0"></unicode>
                          <string role="key" value="_imageResource"></string>
                          <instance class="exe.engine.resource.Resource" reference="37">
                           <dictionary>
                            <string role="key" value="_idevice"></string>
                            <reference key="34"></reference>
                            <string role="key" value="_package"></string>
-                           <reference key="2"></reference>
+                           <reference key="1"></reference>
                            <string role="key" value="_storageName"></string>
-                           <string value="Captura_de_pantalla_de_2020-12-02_08-32-23.png"></string>
+                           <string value="SIG_Vectorial.png"></string>
                            <string role="key" value="_userName"></string>
-                           <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\Captura_de_pantalla_de_2020-12-02_08-32-23.png"></string>
+                           <string value="c:\\users\\matol\\appdata\\local\\temp\\tmprtxemy.eXe\\previews\\allyourbase\\SIG_Vectorial.png"></string>
                            <string role="key" value="checksum"></string>
-                           <string value="9956b06cfed1e5453b7e0a7814803e0d"></string>
-                           <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
-                           <int value="2"></int>
-                           <string role="key" value="exe.engine.resource._Resource.persistenceVersion"></string>
-                           <int value="2"></int>
-                           <string role="key" value="warningMsg"></string>
-                           <string value=""></string>
-                          </dictionary>
-                         </instance>
-                         <string role="key" value="_parent"></string>
-                         <reference key="35"></reference>
-                         <string role="key" value="_thumbnailResource"></string>
-                         <none></none>
-                         <string role="key" value="exe.engine.galleryidevice.GalleryImage.persistenceVersion"></string>
-                         <int value="3"></int>
-                         <string role="key" value="makeThumbnail"></string>
-                         <bool value="0"></bool>
-                        </dictionary>
-                       </instance>
-                       <instance class="exe.engine.galleryidevice.GalleryImage">
-                        <dictionary>
-                         <string role="key" value="_caption"></string>
-                         <instance class="exe.engine.field.TextField">
-                          <dictionary>
-                           <string role="key" value="_id"></string>
-                           <int value="314"></int>
-                           <string role="key" value="_idevice"></string>
-                           <none></none>
-                           <string role="key" value="_instruc"></string>
-                           <string value=""></string>
-                           <string role="key" value="_name"></string>
-                           <string value=""></string>
-                           <string role="key" value="content"></string>
-                           <string value=""></string>
-                           <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
-                           <int value="4"></int>
-                          </dictionary>
-                         </instance>
-                         <string role="key" value="_id"></string>
-                         <unicode value="10_108_2.7"></unicode>
-                         <string role="key" value="_imageResource"></string>
-                         <instance class="exe.engine.resource.Resource" reference="38">
-                          <dictionary>
-                           <string role="key" value="_idevice"></string>
-                           <reference key="34"></reference>
-                           <string role="key" value="_package"></string>
-                           <reference key="2"></reference>
-                           <string role="key" value="_storageName"></string>
-                           <string value="DEM_TERRASAR.png"></string>
-                           <string role="key" value="_userName"></string>
-                           <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\DEM_TERRASAR.png"></string>
-                           <string role="key" value="checksum"></string>
-                           <string value="1442dfb733989f6da8606efb94e98370"></string>
+                           <string value="4821ba2c30b0c0c27d4f42cfe349aba6"></string>
                            <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
                            <int value="2"></int>
                            <string role="key" value="exe.engine.resource._Resource.persistenceVersion"></string>
@@ -2010,7 +1972,7 @@
                     <string role="key" value="intlinks_to_anchors"></string>
                     <dictionary></dictionary>
                     <string role="key" value="nextImageId"></string>
-                    <int value="8"></int>
+                    <int value="1"></int>
                     <string role="key" value="parentNode"></string>
                     <reference key="36"></reference>
                    </dictionary>
@@ -2019,7 +1981,7 @@
                  <string role="key" value="icon"></string>
                  <unicode value=""></unicode>
                  <string role="key" value="id"></string>
-                 <unicode value="10"></unicode>
+                 <unicode value="18"></unicode>
                  <string role="key" value="ideviceCategory"></string>
                  <unicode value="Text and Tasks"></unicode>
                  <string role="key" value="lastIdevice"></string>
@@ -2037,7 +1999,6 @@
                  <string role="key" value="userResources"></string>
                  <list>
                   <reference key="37"></reference>
-                  <reference key="38"></reference>
                  </list>
                  <string role="key" value="version"></string>
                  <int value="0"></int>
@@ -2045,9 +2006,9 @@
                </instance>
               </list>
               <string role="key" value="_id"></string>
-              <unicode value="14"></unicode>
+              <unicode value="19"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -2055,7 +2016,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Modelo%20vectorial"></string>
               <string role="key" value="parent"></string>
               <reference key="27"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -2064,16 +2025,16 @@
               <list></list>
              </dictionary>
             </instance>
-            <instance class="exe.engine.node.Node" reference="41">
+            <instance class="exe.engine.node.Node" reference="40">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Modelos de representación de los datos espaciales en un SIG"></unicode>
+              <unicode value="Modelo ráster"></unicode>
               <string role="key" value="idevices"></string>
               <list>
-               <instance class="exe.engine.jsidevice.JsIdevice" reference="39">
+               <instance class="exe.engine.jsidevice.JsIdevice" reference="38">
                 <dictionary>
                  <string role="key" value="_title"></string>
-                 <unicode value="Modelo Vectorial vs Modelo Ráster"></unicode>
+                 <unicode value=""></unicode>
                  <string role="key" value="_attributes"></string>
                  <list>
                   <tuple>
@@ -2124,17 +2085,232 @@
                  <string role="key" value="edit"></string>
                  <bool value="0"></bool>
                  <string role="key" value="emphasis"></string>
-                 <int value="1"></int>
+                 <int value="0"></int>
                  <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
                  <int value="1"></int>
                  <string role="key" value="fields"></string>
                  <list>
-                  <instance class="exe.engine.field.TextAreaField" reference="40">
+                  <instance class="exe.engine.field.TextAreaField" reference="39">
                    <dictionary>
                     <string role="key" value="_id"></string>
                     <unicode value="108_2"></unicode>
                     <string role="key" value="_idevice"></string>
-                    <reference key="39"></reference>
+                    <reference key="38"></reference>
+                    <string role="key" value="_instruc"></string>
+                    <string value=""></string>
+                    <string role="key" value="_name"></string>
+                    <string value=""></string>
+                    <string role="key" value="anchor_names"></string>
+                    <list></list>
+                    <string role="key" value="anchors_linked_from_fields"></string>
+                    <dictionary></dictionary>
+                    <string role="key" value="content_w_resourcePaths"></string>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;Los SIG ráster se utilizan para representar datos continuos, sin limites marcados, zonas de transición y datos que cambian (altitudes, precipitaciones, …) aunque, de forma más imprecisa, también permiten representar entidades.&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/DEM_TERRASAR.png&quot; width=&quot;550&quot; height=&quot;352&quot; /&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: Modelo de elevación digital TERRA-X-SAR &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;La realidad se representa como una retícula rectangular dividida en celdas o píxeles de igual tamaño donde las celdas no se solapan: los datos se definen por la posición en una fila y columna, localización relativa, coordenadas (x,y).&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;https://desktop.arcgis.com/es/arcmap/10.3/manage-data/raster-and-images/GUID-6754AF39-CDE9-4F9D-8C3A-D59D93059BDD-web.png&quot; alt=&quot;Las celdas de un ráster&quot; title=&quot;Las celdas de un ráster&quot; width=&quot;440&quot; height=&quot;276&quot; /&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: Esri &lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Los &lt;strong&gt;formatos&lt;/strong&gt; de ficheros de datos ráster son ASCII y ficheros con extensiones .bil, .bin, .bsq y .grid.&lt;/p&gt;
+&lt;p&gt;Los ficheros de dibujos mapas y fotos tendrán por lo general extensiones .tiff, .jpeg, .gif, .pnp y .eps.&lt;/p&gt;
+&lt;p&gt;Importante de señalar es que cada capa ráster genera &lt;strong&gt;dos tipos de archivos&lt;/strong&gt;: en uno se guardan los valores de las celdas (formato ASCII) y en el otro se guarda la información general de la retícula, de la leyenda, orientación, resolución, tipo de variable, número de filas y columnas, etc. Además, los archivos ráster &lt;strong&gt;no tienen tipología&lt;/strong&gt;, siendo la grilla la que almacena la &lt;strong&gt;información numérica&lt;/strong&gt; en las celdas o bandas de la imagen.&lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
+                    <int value="4"></int>
+                    <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
+                    <int value="2"></int>
+                    <string role="key" value="exe.engine.field.TextAreaField.persistenceVersion"></string>
+                    <int value="3"></int>
+                    <string role="key" value="htmlTag"></string>
+                    <string value="div"></string>
+                    <string role="key" value="images"></string>
+                    <instance class="exe.engine.galleryidevice.GalleryImages">
+                     <dictionary>
+                      <string role="key" value=".listitems"></string>
+                      <list>
+                       <instance class="exe.engine.galleryidevice.GalleryImage">
+                        <dictionary>
+                         <string role="key" value="_caption"></string>
+                         <instance class="exe.engine.field.TextField">
+                          <dictionary>
+                           <string role="key" value="_id"></string>
+                           <int value="323"></int>
+                           <string role="key" value="_idevice"></string>
+                           <none></none>
+                           <string role="key" value="_instruc"></string>
+                           <string value=""></string>
+                           <string role="key" value="_name"></string>
+                           <string value=""></string>
+                           <string role="key" value="content"></string>
+                           <string value=""></string>
+                           <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
+                           <int value="4"></int>
+                          </dictionary>
+                         </instance>
+                         <string role="key" value="_id"></string>
+                         <unicode value="10_108_2.9"></unicode>
+                         <string role="key" value="_imageResource"></string>
+                         <instance class="exe.engine.resource.Resource" reference="41">
+                          <dictionary>
+                           <string role="key" value="_idevice"></string>
+                           <reference key="38"></reference>
+                           <string role="key" value="_package"></string>
+                           <reference key="1"></reference>
+                           <string role="key" value="_storageName"></string>
+                           <string value="DEM_TERRASAR.png"></string>
+                           <string role="key" value="_userName"></string>
+                           <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\DEM_TERRASAR.png"></string>
+                           <string role="key" value="checksum"></string>
+                           <string value="1442dfb733989f6da8606efb94e98370"></string>
+                           <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
+                           <int value="2"></int>
+                           <string role="key" value="exe.engine.resource._Resource.persistenceVersion"></string>
+                           <int value="2"></int>
+                           <string role="key" value="warningMsg"></string>
+                           <string value=""></string>
+                          </dictionary>
+                         </instance>
+                         <string role="key" value="_parent"></string>
+                         <reference key="39"></reference>
+                         <string role="key" value="_thumbnailResource"></string>
+                         <none></none>
+                         <string role="key" value="exe.engine.galleryidevice.GalleryImage.persistenceVersion"></string>
+                         <int value="3"></int>
+                         <string role="key" value="makeThumbnail"></string>
+                         <bool value="0"></bool>
+                        </dictionary>
+                       </instance>
+                      </list>
+                      <string role="key" value="idevice"></string>
+                      <reference key="39"></reference>
+                     </dictionary>
+                    </instance>
+                    <string role="key" value="intlinks_to_anchors"></string>
+                    <dictionary></dictionary>
+                    <string role="key" value="nextImageId"></string>
+                    <int value="10"></int>
+                    <string role="key" value="parentNode"></string>
+                    <reference key="40"></reference>
+                   </dictionary>
+                  </instance>
+                 </list>
+                 <string role="key" value="icon"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="id"></string>
+                 <unicode value="10"></unicode>
+                 <string role="key" value="ideviceCategory"></string>
+                 <unicode value="Text and Tasks"></unicode>
+                 <string role="key" value="lastIdevice"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="nextFieldId"></string>
+                 <int value="3"></int>
+                 <string role="key" value="originalicon"></string>
+                 <string value=""></string>
+                 <string role="key" value="parentNode"></string>
+                 <reference key="40"></reference>
+                 <string role="key" value="systemResources"></string>
+                 <list></list>
+                 <string role="key" value="undo"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="userResources"></string>
+                 <list>
+                  <reference key="41"></reference>
+                 </list>
+                 <string role="key" value="version"></string>
+                 <int value="0"></int>
+                </dictionary>
+               </instance>
+              </list>
+              <string role="key" value="_id"></string>
+              <unicode value="14"></unicode>
+              <string role="key" value="_package"></string>
+              <reference key="1"></reference>
+              <string role="key" value="anchor_fields"></string>
+              <list></list>
+              <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
+              <int value="2"></int>
+              <string role="key" value="exportType"></string>
+              <string value="website"></string>
+              <string role="key" value="last_full_node_path"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Modelo%20r%C3%A1ster"></string>
+              <string role="key" value="parent"></string>
+              <reference key="27"></reference>
+              <string role="key" value="top_anchors_linked_from_fields"></string>
+              <list></list>
+              <string role="key" value="children"></string>
+              <list></list>
+             </dictionary>
+            </instance>
+            <instance class="exe.engine.node.Node" reference="44">
+             <dictionary>
+              <string role="key" value="_title"></string>
+              <unicode value="Vector vs Ráster"></unicode>
+              <string role="key" value="idevices"></string>
+              <list>
+               <instance class="exe.engine.jsidevice.JsIdevice" reference="42">
+                <dictionary>
+                 <string role="key" value="_title"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="_attributes"></string>
+                 <list>
+                  <tuple>
+                   <string value="title"></string>
+                   <list>
+                    <string value="Title"></string>
+                    <int value="0"></int>
+                    <int value="0"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="category"></string>
+                   <list>
+                    <string value="Category"></string>
+                    <int value="0"></int>
+                    <int value="1"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="css-class"></string>
+                   <list>
+                    <string value="CSS class"></string>
+                    <int value="0"></int>
+                    <int value="2"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="icon"></string>
+                   <list>
+                    <string value="Icon"></string>
+                    <int value="0"></int>
+                    <int value="3"></int>
+                   </list>
+                  </tuple>
+                 </list>
+                 <string role="key" value="_author"></string>
+                 <string value=""></string>
+                 <string role="key" value="_iDeviceDir"></string>
+                 <string value="text"></string>
+                 <string role="key" value="_purpose"></string>
+                 <string value=""></string>
+                 <string role="key" value="_tip"></string>
+                 <string value=""></string>
+                 <string role="key" value="_valid"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="class_"></string>
+                 <unicode value="text"></unicode>
+                 <string role="key" value="edit"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="emphasis"></string>
+                 <int value="0"></int>
+                 <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
+                 <int value="1"></int>
+                 <string role="key" value="fields"></string>
+                 <list>
+                  <instance class="exe.engine.field.TextAreaField" reference="43">
+                   <dictionary>
+                    <string role="key" value="_id"></string>
+                    <unicode value="108_2"></unicode>
+                    <string role="key" value="_idevice"></string>
+                    <reference key="42"></reference>
                     <string role="key" value="_instruc"></string>
                     <string value=""></string>
                     <string role="key" value="_name"></string>
@@ -2180,7 +2356,7 @@
                       <string role="key" value=".listitems"></string>
                       <list></list>
                       <string role="key" value="idevice"></string>
-                      <reference key="40"></reference>
+                      <reference key="43"></reference>
                      </dictionary>
                     </instance>
                     <string role="key" value="intlinks_to_anchors"></string>
@@ -2188,7 +2364,7 @@
                     <string role="key" value="nextImageId"></string>
                     <int value="0"></int>
                     <string role="key" value="parentNode"></string>
-                    <reference key="41"></reference>
+                    <reference key="44"></reference>
                    </dictionary>
                   </instance>
                  </list>
@@ -2205,7 +2381,7 @@
                  <string role="key" value="originalicon"></string>
                  <string value=""></string>
                  <string role="key" value="parentNode"></string>
-                 <reference key="41"></reference>
+                 <reference key="44"></reference>
                  <string role="key" value="systemResources"></string>
                  <list></list>
                  <string role="key" value="undo"></string>
@@ -2220,7 +2396,7 @@
               <string role="key" value="_id"></string>
               <unicode value="16"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -2228,7 +2404,7 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Modelos%20de%20representaci%C3%B3n%20de%20los%20datos%20espaciales%20en%20un%20SIG:Vector%20vs%20R%C3%A1ster"></string>
               <string role="key" value="parent"></string>
               <reference key="27"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
@@ -2240,13 +2416,13 @@
            </list>
           </dictionary>
          </instance>
-         <instance class="exe.engine.node.Node" reference="44">
+         <instance class="exe.engine.node.Node" reference="47">
           <dictionary>
            <string role="key" value="_title"></string>
            <unicode value="Visualización de coberturas"></unicode>
            <string role="key" value="idevices"></string>
            <list>
-            <instance class="exe.engine.jsidevice.JsIdevice" reference="42">
+            <instance class="exe.engine.jsidevice.JsIdevice" reference="45">
              <dictionary>
               <string role="key" value="_title"></string>
               <unicode value=""></unicode>
@@ -2305,12 +2481,12 @@
               <int value="1"></int>
               <string role="key" value="fields"></string>
               <list>
-               <instance class="exe.engine.field.TextAreaField" reference="43">
+               <instance class="exe.engine.field.TextAreaField" reference="46">
                 <dictionary>
                  <string role="key" value="_id"></string>
                  <unicode value="109_2"></unicode>
                  <string role="key" value="_idevice"></string>
-                 <reference key="42"></reference>
+                 <reference key="45"></reference>
                  <string role="key" value="_instruc"></string>
                  <string value=""></string>
                  <string role="key" value="_name"></string>
@@ -2320,8 +2496,8 @@
                  <string role="key" value="anchors_linked_from_fields"></string>
                  <dictionary></dictionary>
                  <string role="key" value="content_w_resourcePaths"></string>
-                 <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;El despliegue y visualización de coberturas vectoriales y ráster en unsoftware SIG se realiza utilizando herramientas específicas.&lt;/p&gt;
-&lt;p&gt;Para revisar como abrir coberturas en el software QGIS revise el siguiente &lt;span style=&quot;color: #0000ff;&quot;&gt;&lt;strong&gt;video tutorial&lt;/strong&gt;&lt;/span&gt;:&lt;/p&gt;
+                 <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;Antes de aprender a como abrir un archivo espacial vectorial o raster, nos familiarizaremos con el software en el que desarrollaremos nuestros ejercicios de aprendizaje. Recuerde que el software es solo un componente más del sistema, y existen en la actualidad muchos de ellos, algunos con licencias de pago (ej: ArcGIS) o licencias gratuitas (ej: SAGA, GRASS, QGIS).&lt;/p&gt;
+&lt;p&gt;Invitamos a que revise el siguiente&lt;span style=&quot;color: #0000ff;&quot;&gt;&lt;strong&gt; video tutorial&lt;/strong&gt;&lt;/span&gt; para conocer la interfaz del software QGIS:&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/zJSggwYhwes&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
 &lt;p&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
                  <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
@@ -2338,7 +2514,7 @@
                    <string role="key" value=".listitems"></string>
                    <list></list>
                    <string role="key" value="idevice"></string>
-                   <reference key="43"></reference>
+                   <reference key="46"></reference>
                   </dictionary>
                  </instance>
                  <string role="key" value="intlinks_to_anchors"></string>
@@ -2346,7 +2522,7 @@
                  <string role="key" value="nextImageId"></string>
                  <int value="0"></int>
                  <string role="key" value="parentNode"></string>
-                 <reference key="44"></reference>
+                 <reference key="47"></reference>
                 </dictionary>
                </instance>
               </list>
@@ -2363,7 +2539,7 @@
               <string role="key" value="originalicon"></string>
               <string value=""></string>
               <string role="key" value="parentNode"></string>
-              <reference key="44"></reference>
+              <reference key="47"></reference>
               <string role="key" value="systemResources"></string>
               <list></list>
               <string role="key" value="undo"></string>
@@ -2378,7 +2554,7 @@
            <string role="key" value="_id"></string>
            <unicode value="5"></unicode>
            <string role="key" value="_package"></string>
-           <reference key="2"></reference>
+           <reference key="1"></reference>
            <string role="key" value="anchor_fields"></string>
            <list></list>
            <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -2393,13 +2569,13 @@
            <list></list>
            <string role="key" value="children"></string>
            <list>
-            <instance class="exe.engine.node.Node" reference="47">
+            <instance class="exe.engine.node.Node" reference="50">
              <dictionary>
               <string role="key" value="_title"></string>
-              <unicode value="Visualización de coberturas"></unicode>
+              <unicode value="Abriendo coberturas en QGIS"></unicode>
               <string role="key" value="idevices"></string>
               <list>
-               <instance class="exe.engine.jsidevice.JsIdevice" reference="45">
+               <instance class="exe.engine.jsidevice.JsIdevice" reference="48">
                 <dictionary>
                  <string role="key" value="_title"></string>
                  <unicode value=""></unicode>
@@ -2458,12 +2634,12 @@
                  <int value="1"></int>
                  <string role="key" value="fields"></string>
                  <list>
-                  <instance class="exe.engine.field.TextAreaField" reference="46">
+                  <instance class="exe.engine.field.TextAreaField" reference="49">
                    <dictionary>
                     <string role="key" value="_id"></string>
                     <unicode value="112_2"></unicode>
                     <string role="key" value="_idevice"></string>
-                    <reference key="45"></reference>
+                    <reference key="48"></reference>
                     <string role="key" value="_instruc"></string>
                     <string value=""></string>
                     <string role="key" value="_name"></string>
@@ -2473,8 +2649,10 @@
                     <string role="key" value="anchors_linked_from_fields"></string>
                     <dictionary></dictionary>
                     <string role="key" value="content_w_resourcePaths"></string>
-                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;Interfaz QGIS&lt;/p&gt;
-&lt;p&gt;Video Tutorial &lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;Ya conocida la interfaz de nuestro software de trabajo QGIS, le invitamos a revisar el siguiente video tutorial para que aprenda a agregar información vectorial y raster a su sofware.&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/1OL60IGxzJk&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Si desea intentar abrir alguna conbertura espacial, le invitamos a que revise el classroom y en el Módulo 1 encontrará las bases de datos espaciales llamadas: &lt;a href=&quot;https://classroom.google.com/c/MTczNjU2ODA5ODI1/m/MTczNjU2ODEwMDQx/details&quot;&gt;BD: Visualización de coberturas&lt;/a&gt;.&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;Si aún no instala su software QGIS le sugerimos que revise el siguiente &lt;a href=&quot;https://classroom.google.com/c/MTczNjU2ODA5ODI1/m/MTczNjYwOTUxMjEz/details&quot;&gt;Manual &lt;/a&gt;para instalarlo.&lt;/p&gt;&lt;/div&gt;"></unicode>
                     <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
                     <int value="4"></int>
                     <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
@@ -2489,7 +2667,7 @@
                       <string role="key" value=".listitems"></string>
                       <list></list>
                       <string role="key" value="idevice"></string>
-                      <reference key="46"></reference>
+                      <reference key="49"></reference>
                      </dictionary>
                     </instance>
                     <string role="key" value="intlinks_to_anchors"></string>
@@ -2497,7 +2675,7 @@
                     <string role="key" value="nextImageId"></string>
                     <int value="0"></int>
                     <string role="key" value="parentNode"></string>
-                    <reference key="47"></reference>
+                    <reference key="50"></reference>
                    </dictionary>
                   </instance>
                  </list>
@@ -2514,7 +2692,7 @@
                  <string role="key" value="originalicon"></string>
                  <string value=""></string>
                  <string role="key" value="parentNode"></string>
-                 <reference key="47"></reference>
+                 <reference key="50"></reference>
                  <string role="key" value="systemResources"></string>
                  <list></list>
                  <string role="key" value="undo"></string>
@@ -2529,7 +2707,7 @@
               <string role="key" value="_id"></string>
               <unicode value="17"></unicode>
               <string role="key" value="_package"></string>
-              <reference key="2"></reference>
+              <reference key="1"></reference>
               <string role="key" value="anchor_fields"></string>
               <list></list>
               <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -2537,9 +2715,9 @@
               <string role="key" value="exportType"></string>
               <string value="website"></string>
               <string role="key" value="last_full_node_path"></string>
-              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Visualizaci%C3%B3n%20de%20coberturas:Visualizaci%C3%B3n%20de%20coberturas"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Visualizaci%C3%B3n%20de%20coberturas:Abriendo%20coberturas%20en%20QGIS"></string>
               <string role="key" value="parent"></string>
-              <reference key="44"></reference>
+              <reference key="47"></reference>
               <string role="key" value="top_anchors_linked_from_fields"></string>
               <list></list>
               <string role="key" value="children"></string>
@@ -2549,13 +2727,13 @@
            </list>
           </dictionary>
          </instance>
-         <instance class="exe.engine.node.Node" reference="50">
+         <instance class="exe.engine.node.Node" reference="53">
           <dictionary>
            <string role="key" value="_title"></string>
            <unicode value="Tablas de atributos y bases de datos espaciales"></unicode>
            <string role="key" value="idevices"></string>
            <list>
-            <instance class="exe.engine.jsidevice.JsIdevice" reference="48">
+            <instance class="exe.engine.jsidevice.JsIdevice" reference="51">
              <dictionary>
               <string role="key" value="_title"></string>
               <unicode value="Componentes de la información vectorial"></unicode>
@@ -2614,12 +2792,12 @@
               <int value="1"></int>
               <string role="key" value="fields"></string>
               <list>
-               <instance class="exe.engine.field.TextAreaField" reference="49">
+               <instance class="exe.engine.field.TextAreaField" reference="52">
                 <dictionary>
                  <string role="key" value="_id"></string>
                  <unicode value="110_2"></unicode>
                  <string role="key" value="_idevice"></string>
-                 <reference key="48"></reference>
+                 <reference key="51"></reference>
                  <string role="key" value="_instruc"></string>
                  <string value=""></string>
                  <string role="key" value="_name"></string>
@@ -2634,8 +2812,7 @@
 &lt;p&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Esta tabla de atributos es fundamental al momento de operar el dato espacial en el SIG ya que esta contiene todos los atributos que componen el dato.&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;img src=&quot;resources/Captura_de_pantalla_de_2020-12-02_09-30-32.png&quot; width=&quot;800&quot; height=&quot;375&quot; /&gt;&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 10pt;&quot;&gt;Ilustración: LABGRS, 2020.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: left;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;font-size: 12pt;&quot;&gt;Ver &lt;strong&gt;&lt;span style=&quot;color: #0000ff;&quot;&gt;video tutorial&lt;/span&gt; &lt;/strong&gt;interfaz tabla de atributos&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+&lt;p style=&quot;text-align: left;&quot;&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
                  <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
                  <int value="4"></int>
                  <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
@@ -2655,7 +2832,7 @@
                       <instance class="exe.engine.field.TextField">
                        <dictionary>
                         <string role="key" value="_id"></string>
-                        <int value="312"></int>
+                        <int value="321"></int>
                         <string role="key" value="_idevice"></string>
                         <none></none>
                         <string role="key" value="_instruc"></string>
@@ -2669,18 +2846,18 @@
                        </dictionary>
                       </instance>
                       <string role="key" value="_id"></string>
-                      <unicode value="14_110_2.4"></unicode>
+                      <unicode value="14_110_2.5"></unicode>
                       <string role="key" value="_imageResource"></string>
-                      <instance class="exe.engine.resource.Resource" reference="51">
+                      <instance class="exe.engine.resource.Resource" reference="54">
                        <dictionary>
                         <string role="key" value="_idevice"></string>
-                        <reference key="48"></reference>
+                        <reference key="51"></reference>
                         <string role="key" value="_package"></string>
-                        <reference key="2"></reference>
+                        <reference key="1"></reference>
                         <string role="key" value="_storageName"></string>
                         <string value="Captura_de_pantalla_de_2020-12-02_09-30-32.png"></string>
                         <string role="key" value="_userName"></string>
-                        <string value="c:\\users\\josel\\appdata\\local\\temp\\tmpc2ij2l\\Captura_de_pantalla_de_2020-12-02_09-30-32.png"></string>
+                        <string value="c:\\users\\matol\\appdata\\local\\temp\\tmpnje0ji\\Captura_de_pantalla_de_2020-12-02_09-30-32.png"></string>
                         <string role="key" value="checksum"></string>
                         <string value="f9f5373a274e4e9e886705fe337a7018"></string>
                         <string role="key" value="exe.engine.resource.Resource.persistenceVersion"></string>
@@ -2692,7 +2869,7 @@
                        </dictionary>
                       </instance>
                       <string role="key" value="_parent"></string>
-                      <reference key="49"></reference>
+                      <reference key="52"></reference>
                       <string role="key" value="_thumbnailResource"></string>
                       <none></none>
                       <string role="key" value="exe.engine.galleryidevice.GalleryImage.persistenceVersion"></string>
@@ -2703,15 +2880,15 @@
                     </instance>
                    </list>
                    <string role="key" value="idevice"></string>
-                   <reference key="49"></reference>
+                   <reference key="52"></reference>
                   </dictionary>
                  </instance>
                  <string role="key" value="intlinks_to_anchors"></string>
                  <dictionary></dictionary>
                  <string role="key" value="nextImageId"></string>
-                 <int value="5"></int>
+                 <int value="6"></int>
                  <string role="key" value="parentNode"></string>
-                 <reference key="50"></reference>
+                 <reference key="53"></reference>
                 </dictionary>
                </instance>
               </list>
@@ -2728,14 +2905,14 @@
               <string role="key" value="originalicon"></string>
               <string value=""></string>
               <string role="key" value="parentNode"></string>
-              <reference key="50"></reference>
+              <reference key="53"></reference>
               <string role="key" value="systemResources"></string>
               <list></list>
               <string role="key" value="undo"></string>
               <bool value="1"></bool>
               <string role="key" value="userResources"></string>
               <list>
-               <reference key="51"></reference>
+               <reference key="54"></reference>
               </list>
               <string role="key" value="version"></string>
               <int value="0"></int>
@@ -2745,7 +2922,7 @@
            <string role="key" value="_id"></string>
            <unicode value="6"></unicode>
            <string role="key" value="_package"></string>
-           <reference key="2"></reference>
+           <reference key="1"></reference>
            <string role="key" value="anchor_fields"></string>
            <list></list>
            <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -2759,16 +2936,167 @@
            <string role="key" value="top_anchors_linked_from_fields"></string>
            <list></list>
            <string role="key" value="children"></string>
-           <list></list>
+           <list>
+            <instance class="exe.engine.node.Node" reference="57">
+             <dictionary>
+              <string role="key" value="_title"></string>
+              <unicode value="Otras bases de datos"></unicode>
+              <string role="key" value="idevices"></string>
+              <list>
+               <instance class="exe.engine.jsidevice.JsIdevice" reference="55">
+                <dictionary>
+                 <string role="key" value="_title"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="_attributes"></string>
+                 <list>
+                  <tuple>
+                   <string value="title"></string>
+                   <list>
+                    <string value="Title"></string>
+                    <int value="0"></int>
+                    <int value="0"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="category"></string>
+                   <list>
+                    <string value="Category"></string>
+                    <int value="0"></int>
+                    <int value="1"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="css-class"></string>
+                   <list>
+                    <string value="CSS class"></string>
+                    <int value="0"></int>
+                    <int value="2"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="icon"></string>
+                   <list>
+                    <string value="Icon"></string>
+                    <int value="0"></int>
+                    <int value="3"></int>
+                   </list>
+                  </tuple>
+                 </list>
+                 <string role="key" value="_author"></string>
+                 <string value=""></string>
+                 <string role="key" value="_iDeviceDir"></string>
+                 <string value="text"></string>
+                 <string role="key" value="_purpose"></string>
+                 <string value=""></string>
+                 <string role="key" value="_tip"></string>
+                 <string value=""></string>
+                 <string role="key" value="_valid"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="class_"></string>
+                 <unicode value="text"></unicode>
+                 <string role="key" value="edit"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="emphasis"></string>
+                 <int value="0"></int>
+                 <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
+                 <int value="1"></int>
+                 <string role="key" value="fields"></string>
+                 <list>
+                  <instance class="exe.engine.field.TextAreaField" reference="56">
+                   <dictionary>
+                    <string role="key" value="_id"></string>
+                    <unicode value="108_2"></unicode>
+                    <string role="key" value="_idevice"></string>
+                    <reference key="55"></reference>
+                    <string role="key" value="_instruc"></string>
+                    <string value=""></string>
+                    <string role="key" value="_name"></string>
+                    <string value=""></string>
+                    <string role="key" value="anchor_names"></string>
+                    <list></list>
+                    <string role="key" value="content_w_resourcePaths"></string>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;https://drive.google.com/file/d/1tNK-27UfYBlQgDqGSeTC-BA_AMnSJ4tu/preview&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
+                    <int value="4"></int>
+                    <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
+                    <int value="2"></int>
+                    <string role="key" value="exe.engine.field.TextAreaField.persistenceVersion"></string>
+                    <int value="3"></int>
+                    <string role="key" value="htmlTag"></string>
+                    <string value="div"></string>
+                    <string role="key" value="images"></string>
+                    <instance class="exe.engine.galleryidevice.GalleryImages">
+                     <dictionary>
+                      <string role="key" value=".listitems"></string>
+                      <list></list>
+                      <string role="key" value="idevice"></string>
+                      <reference key="56"></reference>
+                     </dictionary>
+                    </instance>
+                    <string role="key" value="intlinks_to_anchors"></string>
+                    <dictionary></dictionary>
+                    <string role="key" value="nextImageId"></string>
+                    <int value="0"></int>
+                    <string role="key" value="parentNode"></string>
+                    <none></none>
+                   </dictionary>
+                  </instance>
+                 </list>
+                 <string role="key" value="icon"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="id"></string>
+                 <unicode value="19"></unicode>
+                 <string role="key" value="ideviceCategory"></string>
+                 <unicode value="Text and Tasks"></unicode>
+                 <string role="key" value="lastIdevice"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="nextFieldId"></string>
+                 <int value="3"></int>
+                 <string role="key" value="originalicon"></string>
+                 <string value=""></string>
+                 <string role="key" value="parentNode"></string>
+                 <reference key="57"></reference>
+                 <string role="key" value="systemResources"></string>
+                 <list></list>
+                 <string role="key" value="undo"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="userResources"></string>
+                 <list></list>
+                 <string role="key" value="version"></string>
+                 <int value="0"></int>
+                </dictionary>
+               </instance>
+              </list>
+              <string role="key" value="_id"></string>
+              <unicode value="20"></unicode>
+              <string role="key" value="_package"></string>
+              <reference key="1"></reference>
+              <string role="key" value="anchor_fields"></string>
+              <list></list>
+              <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
+              <int value="2"></int>
+              <string role="key" value="exportType"></string>
+              <string value="website"></string>
+              <string role="key" value="last_full_node_path"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Tablas%20de%20atributos%20y%20bases%20de%20datos%20espaciales:Otras%20bases%20de%20datos"></string>
+              <string role="key" value="parent"></string>
+              <reference key="53"></reference>
+              <string role="key" value="top_anchors_linked_from_fields"></string>
+              <list></list>
+              <string role="key" value="children"></string>
+              <list></list>
+             </dictionary>
+            </instance>
+           </list>
           </dictionary>
          </instance>
-         <instance class="exe.engine.node.Node" reference="54">
+         <instance class="exe.engine.node.Node" reference="60">
           <dictionary>
            <string role="key" value="_title"></string>
            <unicode value="Creación y exportación de capas vectoriales"></unicode>
            <string role="key" value="idevices"></string>
            <list>
-            <instance class="exe.engine.jsidevice.JsIdevice" reference="52">
+            <instance class="exe.engine.jsidevice.JsIdevice" reference="58">
              <dictionary>
               <string role="key" value="_title"></string>
               <unicode value=""></unicode>
@@ -2827,12 +3155,12 @@
               <int value="1"></int>
               <string role="key" value="fields"></string>
               <list>
-               <instance class="exe.engine.field.TextAreaField" reference="53">
+               <instance class="exe.engine.field.TextAreaField" reference="59">
                 <dictionary>
                  <string role="key" value="_id"></string>
                  <unicode value="113_2"></unicode>
                  <string role="key" value="_idevice"></string>
-                 <reference key="52"></reference>
+                 <reference key="58"></reference>
                  <string role="key" value="_instruc"></string>
                  <string value=""></string>
                  <string role="key" value="_name"></string>
@@ -2842,7 +3170,8 @@
                  <string role="key" value="anchors_linked_from_fields"></string>
                  <dictionary></dictionary>
                  <string role="key" value="content_w_resourcePaths"></string>
-                 <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;Para crear y exportar un archivo shape revise el siguiente &lt;span style=&quot;color: #0000ff;&quot;&gt;&lt;strong&gt;video tutorial&lt;/strong&gt;&lt;/span&gt;:&lt;/p&gt;
+                 <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;Ahora que ya sabemos como cargar diferentes tipos de bases de datos espaciales y no espaciales a nuestro sofware QGIS. Le invitamos a que revise el siguiente &lt;strong&gt;&lt;span style=&quot;color: #0000ff;&quot;&gt;video tutorial&lt;/span&gt;&lt;/strong&gt; dónde podrá aprender a crear su propia cobertura shapefile:&lt;/p&gt;
+&lt;p style=&quot;text-align: justify;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/M6xTA0AHPS8&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
 &lt;p style=&quot;text-align: center;&quot;&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
                  <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
@@ -2859,7 +3188,7 @@
                    <string role="key" value=".listitems"></string>
                    <list></list>
                    <string role="key" value="idevice"></string>
-                   <reference key="53"></reference>
+                   <reference key="59"></reference>
                   </dictionary>
                  </instance>
                  <string role="key" value="intlinks_to_anchors"></string>
@@ -2867,7 +3196,7 @@
                  <string role="key" value="nextImageId"></string>
                  <int value="0"></int>
                  <string role="key" value="parentNode"></string>
-                 <reference key="54"></reference>
+                 <reference key="60"></reference>
                 </dictionary>
                </instance>
               </list>
@@ -2884,7 +3213,7 @@
               <string role="key" value="originalicon"></string>
               <string value=""></string>
               <string role="key" value="parentNode"></string>
-              <reference key="54"></reference>
+              <reference key="60"></reference>
               <string role="key" value="systemResources"></string>
               <list></list>
               <string role="key" value="undo"></string>
@@ -2899,7 +3228,7 @@
            <string role="key" value="_id"></string>
            <unicode value="7"></unicode>
            <string role="key" value="_package"></string>
-           <reference key="2"></reference>
+           <reference key="1"></reference>
            <string role="key" value="anchor_fields"></string>
            <list></list>
            <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
@@ -2913,10 +3242,472 @@
            <string role="key" value="top_anchors_linked_from_fields"></string>
            <list></list>
            <string role="key" value="children"></string>
-           <list></list>
+           <list>
+            <instance class="exe.engine.node.Node" reference="63">
+             <dictionary>
+              <string role="key" value="_title"></string>
+              <unicode value="Creación Shapefile"></unicode>
+              <string role="key" value="idevices"></string>
+              <list>
+               <instance class="exe.engine.jsidevice.JsIdevice" reference="61">
+                <dictionary>
+                 <string role="key" value="_title"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="_attributes"></string>
+                 <list>
+                  <tuple>
+                   <string value="title"></string>
+                   <list>
+                    <string value="Title"></string>
+                    <int value="0"></int>
+                    <int value="0"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="category"></string>
+                   <list>
+                    <string value="Category"></string>
+                    <int value="0"></int>
+                    <int value="1"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="css-class"></string>
+                   <list>
+                    <string value="CSS class"></string>
+                    <int value="0"></int>
+                    <int value="2"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="icon"></string>
+                   <list>
+                    <string value="Icon"></string>
+                    <int value="0"></int>
+                    <int value="3"></int>
+                   </list>
+                  </tuple>
+                 </list>
+                 <string role="key" value="_author"></string>
+                 <string value=""></string>
+                 <string role="key" value="_iDeviceDir"></string>
+                 <string value="text"></string>
+                 <string role="key" value="_purpose"></string>
+                 <string value=""></string>
+                 <string role="key" value="_tip"></string>
+                 <string value=""></string>
+                 <string role="key" value="_valid"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="class_"></string>
+                 <unicode value="text"></unicode>
+                 <string role="key" value="edit"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="emphasis"></string>
+                 <int value="0"></int>
+                 <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
+                 <int value="1"></int>
+                 <string role="key" value="fields"></string>
+                 <list>
+                  <instance class="exe.engine.field.TextAreaField" reference="62">
+                   <dictionary>
+                    <string role="key" value="_id"></string>
+                    <unicode value="109_2"></unicode>
+                    <string role="key" value="_idevice"></string>
+                    <reference key="61"></reference>
+                    <string role="key" value="_instruc"></string>
+                    <string value=""></string>
+                    <string role="key" value="_name"></string>
+                    <string value=""></string>
+                    <string role="key" value="anchor_names"></string>
+                    <list></list>
+                    <string role="key" value="content_w_resourcePaths"></string>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;Si requiere de más ayuda, puede revisar el siguiente manual dónde se explica tambien detalladamente el como generar su propia cobertura shapefile:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;https://drive.google.com/file/d/1EamAAGetnYoknz4KfpGEz-133UTnydxv/preview&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
+                    <int value="4"></int>
+                    <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
+                    <int value="2"></int>
+                    <string role="key" value="exe.engine.field.TextAreaField.persistenceVersion"></string>
+                    <int value="3"></int>
+                    <string role="key" value="htmlTag"></string>
+                    <string value="div"></string>
+                    <string role="key" value="images"></string>
+                    <instance class="exe.engine.galleryidevice.GalleryImages">
+                     <dictionary>
+                      <string role="key" value=".listitems"></string>
+                      <list></list>
+                      <string role="key" value="idevice"></string>
+                      <reference key="62"></reference>
+                     </dictionary>
+                    </instance>
+                    <string role="key" value="intlinks_to_anchors"></string>
+                    <dictionary></dictionary>
+                    <string role="key" value="nextImageId"></string>
+                    <int value="0"></int>
+                    <string role="key" value="parentNode"></string>
+                    <none></none>
+                   </dictionary>
+                  </instance>
+                 </list>
+                 <string role="key" value="icon"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="id"></string>
+                 <unicode value="20"></unicode>
+                 <string role="key" value="ideviceCategory"></string>
+                 <unicode value="Text and Tasks"></unicode>
+                 <string role="key" value="lastIdevice"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="nextFieldId"></string>
+                 <int value="3"></int>
+                 <string role="key" value="originalicon"></string>
+                 <string value=""></string>
+                 <string role="key" value="parentNode"></string>
+                 <reference key="63"></reference>
+                 <string role="key" value="systemResources"></string>
+                 <list></list>
+                 <string role="key" value="undo"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="userResources"></string>
+                 <list></list>
+                 <string role="key" value="version"></string>
+                 <int value="0"></int>
+                </dictionary>
+               </instance>
+              </list>
+              <string role="key" value="_id"></string>
+              <unicode value="21"></unicode>
+              <string role="key" value="_package"></string>
+              <reference key="1"></reference>
+              <string role="key" value="anchor_fields"></string>
+              <list></list>
+              <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
+              <int value="2"></int>
+              <string role="key" value="exportType"></string>
+              <string value="website"></string>
+              <string role="key" value="last_full_node_path"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Creaci%C3%B3n%20y%20exportaci%C3%B3n%20de%20capas%20vectoriales:Creaci%C3%B3n%20Shapefile"></string>
+              <string role="key" value="parent"></string>
+              <reference key="60"></reference>
+              <string role="key" value="top_anchors_linked_from_fields"></string>
+              <list></list>
+              <string role="key" value="children"></string>
+              <list></list>
+             </dictionary>
+            </instance>
+            <instance class="exe.engine.node.Node" reference="66">
+             <dictionary>
+              <string role="key" value="_title"></string>
+              <unicode value="Edición tabla de atributos"></unicode>
+              <string role="key" value="idevices"></string>
+              <list>
+               <instance class="exe.engine.jsidevice.JsIdevice" reference="64">
+                <dictionary>
+                 <string role="key" value="_title"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="_attributes"></string>
+                 <list>
+                  <tuple>
+                   <string value="title"></string>
+                   <list>
+                    <string value="Title"></string>
+                    <int value="0"></int>
+                    <int value="0"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="category"></string>
+                   <list>
+                    <string value="Category"></string>
+                    <int value="0"></int>
+                    <int value="1"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="css-class"></string>
+                   <list>
+                    <string value="CSS class"></string>
+                    <int value="0"></int>
+                    <int value="2"></int>
+                   </list>
+                  </tuple>
+                  <tuple>
+                   <string value="icon"></string>
+                   <list>
+                    <string value="Icon"></string>
+                    <int value="0"></int>
+                    <int value="3"></int>
+                   </list>
+                  </tuple>
+                 </list>
+                 <string role="key" value="_author"></string>
+                 <string value=""></string>
+                 <string role="key" value="_iDeviceDir"></string>
+                 <string value="text"></string>
+                 <string role="key" value="_purpose"></string>
+                 <string value=""></string>
+                 <string role="key" value="_tip"></string>
+                 <string value=""></string>
+                 <string role="key" value="_valid"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="class_"></string>
+                 <unicode value="text"></unicode>
+                 <string role="key" value="edit"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="emphasis"></string>
+                 <int value="0"></int>
+                 <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
+                 <int value="1"></int>
+                 <string role="key" value="fields"></string>
+                 <list>
+                  <instance class="exe.engine.field.TextAreaField" reference="65">
+                   <dictionary>
+                    <string role="key" value="_id"></string>
+                    <unicode value="110_2"></unicode>
+                    <string role="key" value="_idevice"></string>
+                    <reference key="64"></reference>
+                    <string role="key" value="_instruc"></string>
+                    <string value=""></string>
+                    <string role="key" value="_name"></string>
+                    <string value=""></string>
+                    <string role="key" value="anchor_names"></string>
+                    <list></list>
+                    <string role="key" value="content_w_resourcePaths"></string>
+                    <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p&gt;Para finalizar el Módulo 1 le invitamos a que revise el siguiente manual sobre edición de tablas de atributos:&lt;/p&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;https://drive.google.com/file/d/1ZvqTDTLXPAnPJryYRQ8rR7ntvuvh_NUh/preview&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;&lt;/div&gt;"></unicode>
+                    <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
+                    <int value="4"></int>
+                    <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
+                    <int value="2"></int>
+                    <string role="key" value="exe.engine.field.TextAreaField.persistenceVersion"></string>
+                    <int value="3"></int>
+                    <string role="key" value="htmlTag"></string>
+                    <string value="div"></string>
+                    <string role="key" value="images"></string>
+                    <instance class="exe.engine.galleryidevice.GalleryImages">
+                     <dictionary>
+                      <string role="key" value=".listitems"></string>
+                      <list></list>
+                      <string role="key" value="idevice"></string>
+                      <reference key="65"></reference>
+                     </dictionary>
+                    </instance>
+                    <string role="key" value="intlinks_to_anchors"></string>
+                    <dictionary></dictionary>
+                    <string role="key" value="nextImageId"></string>
+                    <int value="0"></int>
+                    <string role="key" value="parentNode"></string>
+                    <none></none>
+                   </dictionary>
+                  </instance>
+                 </list>
+                 <string role="key" value="icon"></string>
+                 <unicode value=""></unicode>
+                 <string role="key" value="id"></string>
+                 <unicode value="21"></unicode>
+                 <string role="key" value="ideviceCategory"></string>
+                 <unicode value="Text and Tasks"></unicode>
+                 <string role="key" value="lastIdevice"></string>
+                 <bool value="0"></bool>
+                 <string role="key" value="nextFieldId"></string>
+                 <int value="3"></int>
+                 <string role="key" value="originalicon"></string>
+                 <string value=""></string>
+                 <string role="key" value="parentNode"></string>
+                 <reference key="66"></reference>
+                 <string role="key" value="systemResources"></string>
+                 <list></list>
+                 <string role="key" value="undo"></string>
+                 <bool value="1"></bool>
+                 <string role="key" value="userResources"></string>
+                 <list></list>
+                 <string role="key" value="version"></string>
+                 <int value="0"></int>
+                </dictionary>
+               </instance>
+              </list>
+              <string role="key" value="_id"></string>
+              <unicode value="22"></unicode>
+              <string role="key" value="_package"></string>
+              <reference key="1"></reference>
+              <string role="key" value="anchor_fields"></string>
+              <list></list>
+              <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
+              <int value="2"></int>
+              <string role="key" value="exportType"></string>
+              <string value="website"></string>
+              <string role="key" value="last_full_node_path"></string>
+              <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:Principios%20y%20Fundamentos%20de%20los%20SIG:Creaci%C3%B3n%20y%20exportaci%C3%B3n%20de%20capas%20vectoriales:Edici%C3%B3n%20tabla%20de%20atributos"></string>
+              <string role="key" value="parent"></string>
+              <reference key="60"></reference>
+              <string role="key" value="top_anchors_linked_from_fields"></string>
+              <list></list>
+              <string role="key" value="children"></string>
+              <list></list>
+             </dictionary>
+            </instance>
+           </list>
           </dictionary>
          </instance>
         </list>
+       </dictionary>
+      </instance>
+      <instance class="exe.engine.node.Node" reference="69">
+       <dictionary>
+        <string role="key" value="_title"></string>
+        <unicode value="Síntesis"></unicode>
+        <string role="key" value="idevices"></string>
+        <list>
+         <instance class="exe.engine.jsidevice.JsIdevice" reference="67">
+          <dictionary>
+           <string role="key" value="_title"></string>
+           <unicode value=""></unicode>
+           <string role="key" value="_attributes"></string>
+           <list>
+            <tuple>
+             <string value="title"></string>
+             <list>
+              <string value="Title"></string>
+              <int value="0"></int>
+              <int value="0"></int>
+             </list>
+            </tuple>
+            <tuple>
+             <string value="category"></string>
+             <list>
+              <string value="Category"></string>
+              <int value="0"></int>
+              <int value="1"></int>
+             </list>
+            </tuple>
+            <tuple>
+             <string value="css-class"></string>
+             <list>
+              <string value="CSS class"></string>
+              <int value="0"></int>
+              <int value="2"></int>
+             </list>
+            </tuple>
+            <tuple>
+             <string value="icon"></string>
+             <list>
+              <string value="Icon"></string>
+              <int value="0"></int>
+              <int value="3"></int>
+             </list>
+            </tuple>
+           </list>
+           <string role="key" value="_author"></string>
+           <string value=""></string>
+           <string role="key" value="_iDeviceDir"></string>
+           <string value="text"></string>
+           <string role="key" value="_purpose"></string>
+           <string value=""></string>
+           <string role="key" value="_tip"></string>
+           <string value=""></string>
+           <string role="key" value="_valid"></string>
+           <bool value="1"></bool>
+           <string role="key" value="class_"></string>
+           <unicode value="text"></unicode>
+           <string role="key" value="edit"></string>
+           <bool value="0"></bool>
+           <string role="key" value="emphasis"></string>
+           <int value="0"></int>
+           <string role="key" value="exe.engine.jsidevice.JsIdevice.persistenceVersion"></string>
+           <int value="1"></int>
+           <string role="key" value="fields"></string>
+           <list>
+            <instance class="exe.engine.field.TextAreaField" reference="68">
+             <dictionary>
+              <string role="key" value="_id"></string>
+              <unicode value="111_2"></unicode>
+              <string role="key" value="_idevice"></string>
+              <reference key="67"></reference>
+              <string role="key" value="_instruc"></string>
+              <string value=""></string>
+              <string role="key" value="_name"></string>
+              <string value=""></string>
+              <string role="key" value="anchor_names"></string>
+              <list></list>
+              <string role="key" value="content_w_resourcePaths"></string>
+              <unicode content="true" value="&lt;div class=&quot;exe-text&quot;&gt;&lt;p style=&quot;text-align: justify;&quot;&gt;Puntos claves a tener en consideración son:&lt;/p&gt;
+&lt;ul style=&quot;list-style-type: circle;&quot;&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;Los Sistemas de Información Geográfica se caracterizar por estar compuestas de &lt;strong&gt;5 elementos&lt;/strong&gt; (software, hardware, información, personas y métodos).&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;La diferencia principal de las bases de datos espaciales de los geodatos, es que estos últimos almacenan información referente al entorno que modelan.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;Las dos formas principales de modelar la realidad son a través de los &lt;strong&gt;vectores geoespaciales&lt;/strong&gt; (entidades geométricas: puntos, líneas o polígonos) y los &lt;strong&gt;ráster&lt;/strong&gt; (matrices de pixeles).&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;Para visualizar y procesar nuestra información espacial existen grandes cantidades de softwares entre aquellos de licencia por pago y gratuitas.&lt;/li&gt;
+&lt;li style=&quot;text-align: justify;&quot;&gt;Cuando nosotros creamos nuestra propia información vectorial, es importante tener en cuenta las herramientas de autoensamblamiento al dibujar poligonos y lineas para evitar vacíos o traslapes entre la información que estamos dibujando (ejemplo, vacíos entre polígonos continuos, o traslapes entre polígonos continuos).&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;"></unicode>
+              <string role="key" value="exe.engine.field.Field.persistenceVersion"></string>
+              <int value="4"></int>
+              <string role="key" value="exe.engine.field.FieldWithResources.persistenceVersion"></string>
+              <int value="2"></int>
+              <string role="key" value="exe.engine.field.TextAreaField.persistenceVersion"></string>
+              <int value="3"></int>
+              <string role="key" value="htmlTag"></string>
+              <string value="div"></string>
+              <string role="key" value="images"></string>
+              <instance class="exe.engine.galleryidevice.GalleryImages">
+               <dictionary>
+                <string role="key" value=".listitems"></string>
+                <list></list>
+                <string role="key" value="idevice"></string>
+                <reference key="68"></reference>
+               </dictionary>
+              </instance>
+              <string role="key" value="intlinks_to_anchors"></string>
+              <dictionary></dictionary>
+              <string role="key" value="nextImageId"></string>
+              <int value="0"></int>
+              <string role="key" value="parentNode"></string>
+              <none></none>
+             </dictionary>
+            </instance>
+           </list>
+           <string role="key" value="icon"></string>
+           <unicode value=""></unicode>
+           <string role="key" value="id"></string>
+           <unicode value="22"></unicode>
+           <string role="key" value="ideviceCategory"></string>
+           <unicode value="Text and Tasks"></unicode>
+           <string role="key" value="lastIdevice"></string>
+           <bool value="0"></bool>
+           <string role="key" value="nextFieldId"></string>
+           <int value="3"></int>
+           <string role="key" value="originalicon"></string>
+           <string value=""></string>
+           <string role="key" value="parentNode"></string>
+           <reference key="69"></reference>
+           <string role="key" value="systemResources"></string>
+           <list></list>
+           <string role="key" value="undo"></string>
+           <bool value="1"></bool>
+           <string role="key" value="userResources"></string>
+           <list></list>
+           <string role="key" value="version"></string>
+           <int value="0"></int>
+          </dictionary>
+         </instance>
+        </list>
+        <string role="key" value="_id"></string>
+        <unicode value="23"></unicode>
+        <string role="key" value="_package"></string>
+        <reference key="1"></reference>
+        <string role="key" value="anchor_fields"></string>
+        <list></list>
+        <string role="key" value="exe.engine.node.Node.persistenceVersion"></string>
+        <int value="2"></int>
+        <string role="key" value="exportType"></string>
+        <string value="website"></string>
+        <string role="key" value="last_full_node_path"></string>
+        <string value="exe-node:Introducci%C3%B3n%20a%20los%20SIG%20y%20al%20an%C3%A1lisis%20espacial:S%C3%ADntesis"></string>
+        <string role="key" value="parent"></string>
+        <reference key="4"></reference>
+        <string role="key" value="top_anchors_linked_from_fields"></string>
+        <list></list>
+        <string role="key" value="children"></string>
+        <list></list>
        </dictionary>
       </instance>
      </list>
@@ -2929,23 +3720,33 @@
    <unicode role="key" value="11"></unicode>
    <reference key="14"></reference>
    <unicode role="key" value="14"></unicode>
-   <reference key="36"></reference>
+   <reference key="40"></reference>
    <unicode role="key" value="15"></unicode>
    <reference key="31"></reference>
    <unicode role="key" value="16"></unicode>
-   <reference key="41"></reference>
+   <reference key="44"></reference>
    <unicode role="key" value="17"></unicode>
-   <reference key="47"></reference>
+   <reference key="50"></reference>
+   <unicode role="key" value="19"></unicode>
+   <reference key="36"></reference>
+   <unicode role="key" value="20"></unicode>
+   <reference key="57"></reference>
+   <unicode role="key" value="21"></unicode>
+   <reference key="63"></reference>
+   <unicode role="key" value="22"></unicode>
+   <reference key="66"></reference>
+   <unicode role="key" value="23"></unicode>
+   <reference key="69"></reference>
    <unicode role="key" value="3"></unicode>
    <reference key="11"></reference>
    <unicode role="key" value="4"></unicode>
    <reference key="27"></reference>
    <unicode role="key" value="5"></unicode>
-   <reference key="44"></reference>
+   <reference key="47"></reference>
    <unicode role="key" value="6"></unicode>
-   <reference key="50"></reference>
+   <reference key="53"></reference>
    <unicode role="key" value="7"></unicode>
-   <reference key="54"></reference>
+   <reference key="60"></reference>
    <unicode role="key" value="8"></unicode>
    <reference key="17"></reference>
    <unicode role="key" value="9"></unicode>
@@ -2958,9 +3759,9 @@
   <string role="key" value="_templateFile"></string>
   <string value="Base"></string>
   <string role="key" value="backgroundImgTile"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="currentNode"></string>
-  <reference key="54"></reference>
+  <reference key="69"></reference>
   <string role="key" value="dublinCore"></string>
   <instance class="exe.engine.package.DublinCore">
    <dictionary>
@@ -2969,11 +3770,11 @@
     <string role="key" value="coverage"></string>
     <unicode value=""></unicode>
     <string role="key" value="creator"></string>
-    <unicode value=""></unicode>
+    <unicode value="LABGRS"></unicode>
     <string role="key" value="date"></string>
     <unicode value=""></unicode>
     <string role="key" value="description"></string>
-    <unicode value=""></unicode>
+    <unicode value="Unidad 1"></unicode>
     <string role="key" value="format"></string>
     <unicode value=""></unicode>
     <string role="key" value="identifier"></string>
@@ -2991,7 +3792,7 @@
     <string role="key" value="subject"></string>
     <unicode value=""></unicode>
     <string role="key" value="title"></string>
-    <unicode value=""></unicode>
+    <unicode value="Modulo 1: Principios y fundamentos de los SIG"></unicode>
     <string role="key" value="type"></string>
     <unicode value=""></unicode>
    </dictionary>
@@ -2999,7 +3800,7 @@
   <string role="key" value="exe.engine.package.Package.persistenceVersion"></string>
   <int value="16"></int>
   <string role="key" value="exportMetadataType"></string>
-  <unicode value="LOMES"></unicode>
+  <unicode value="DC"></unicode>
   <string role="key" value="exportSource"></string>
   <bool value="1"></bool>
   <string role="key" value="footer"></string>
@@ -3241,7 +4042,25 @@
       <string role="key" value="coverage"></string>
       <list></list>
       <string role="key" value="description"></string>
-      <list></list>
+      <list>
+       <instance class="exe.engine.lom.lomsubs.descriptionSub">
+        <dictionary>
+         <string role="key" value="extensiontype_"></string>
+         <none></none>
+         <string role="key" value="string"></string>
+         <list>
+          <instance class="exe.engine.lom.lomsubs.LangStringSub">
+           <dictionary>
+            <string role="key" value="language"></string>
+            <string value="es"></string>
+            <string role="key" value="valueOf_"></string>
+            <string value="Unidad 1"></string>
+           </dictionary>
+          </instance>
+         </list>
+        </dictionary>
+       </instance>
+      </list>
       <string role="key" value="identifier"></string>
       <list>
        <instance class="exe.engine.lom.lomsubs.identifierSub">
@@ -3283,22 +4102,38 @@
       <string role="key" value="structure"></string>
       <none></none>
       <string role="key" value="title"></string>
-      <none></none>
+      <instance class="exe.engine.lom.lomsubs.titleSub">
+       <dictionary>
+        <string role="key" value="extensiontype_"></string>
+        <none></none>
+        <string role="key" value="string"></string>
+        <list>
+         <instance class="exe.engine.lom.lomsubs.LangStringSub">
+          <dictionary>
+           <string role="key" value="language"></string>
+           <string value="es"></string>
+           <string role="key" value="valueOf_"></string>
+           <string value="Modulo 1: Principios y fundamentos de los SIG"></string>
+          </dictionary>
+         </instance>
+        </list>
+        <string role="key" value="uniqueElementName"></string>
+        <none></none>
+       </dictionary>
+      </instance>
       <string role="key" value="uniqueElementName"></string>
       <string value="general"></string>
      </dictionary>
     </instance>
     <string role="key" value="lifeCycle"></string>
-    <none></none>
-    <string role="key" value="metaMetadata"></string>
-    <instance class="exe.engine.lom.lomsubs.metaMetadataSub">
+    <instance class="exe.engine.lom.lomsubs.lifeCycleSub">
      <dictionary>
       <string role="key" value="contribute"></string>
       <list>
-       <instance class="exe.engine.lom.lomsubs.contributeMetaSub">
+       <instance class="exe.engine.lom.lomsubs.contributeSub">
         <dictionary>
          <string role="key" value="date"></string>
-         <instance class="exe.engine.lom.lomsubs.dateSub">
+         <instance class="exe.engine.lom.lomsubs.dateSub" reference="70">
           <dictionary>
            <string role="key" value="dateTime"></string>
            <instance class="exe.engine.lom.lomsubs.DateTimeValueSub">
@@ -3306,7 +4141,7 @@
              <string role="key" value="uniqueElementName"></string>
              <string value="dateTime"></string>
              <string role="key" value="valueOf_"></string>
-             <string value="2020-11-16T12:19:54.00-03:00"></string>
+             <string value="2020-12-03T17:01:51.00-03:00"></string>
             </dictionary>
            </instance>
            <string role="key" value="description"></string>
@@ -3337,12 +4172,12 @@
          </instance>
          <string role="key" value="entity"></string>
          <list>
-          <instance class="exe.engine.lom.lomsubs.entitySub">
+          <instance class="exe.engine.lom.lomsubs.entitySub" reference="71">
            <dictionary>
             <string role="key" value="extensiontype_"></string>
             <none></none>
             <string role="key" value="valueOf_"></string>
-            <string value="BEGIN:VCARD VERSION:3.0 FN: EMAIL;TYPE=INTERNET: ORG: END:VCARD"></string>
+            <string value="BEGIN:VCARD VERSION:3.0 FN:LABGRS EMAIL;TYPE=INTERNET: ORG: END:VCARD"></string>
            </dictionary>
           </instance>
          </list>
@@ -3352,7 +4187,7 @@
            <string role="key" value="extensiontype_"></string>
            <none></none>
            <string role="key" value="source"></string>
-           <instance class="exe.engine.lom.lomsubs.sourceValueSub">
+           <instance class="exe.engine.lom.lomsubs.sourceValueSub" reference="72">
             <dictionary>
              <string role="key" value="extensiontype_"></string>
              <none></none>
@@ -3364,6 +4199,56 @@
              <string value="LOMv1.0"></string>
             </dictionary>
            </instance>
+           <string role="key" value="uniqueElementName"></string>
+           <string value="role"></string>
+           <string role="key" value="value"></string>
+           <instance class="exe.engine.lom.lomsubs.roleValueSub">
+            <dictionary>
+             <string role="key" value="extensiontype_"></string>
+             <none></none>
+             <string role="key" value="source"></string>
+             <none></none>
+             <string role="key" value="uniqueElementName"></string>
+             <string value="value"></string>
+             <string role="key" value="value"></string>
+             <none></none>
+             <string role="key" value="valueOf_"></string>
+             <string value="author"></string>
+            </dictionary>
+           </instance>
+          </dictionary>
+         </instance>
+        </dictionary>
+       </instance>
+      </list>
+      <string role="key" value="status"></string>
+      <none></none>
+      <string role="key" value="uniqueElementName"></string>
+      <none></none>
+      <string role="key" value="version"></string>
+      <none></none>
+     </dictionary>
+    </instance>
+    <string role="key" value="metaMetadata"></string>
+    <instance class="exe.engine.lom.lomsubs.metaMetadataSub">
+     <dictionary>
+      <string role="key" value="contribute"></string>
+      <list>
+       <instance class="exe.engine.lom.lomsubs.contributeMetaSub">
+        <dictionary>
+         <string role="key" value="date"></string>
+         <reference key="70"></reference>
+         <string role="key" value="entity"></string>
+         <list>
+          <reference key="71"></reference>
+         </list>
+         <string role="key" value="role"></string>
+         <instance class="exe.engine.lom.lomsubs.roleSub">
+          <dictionary>
+           <string role="key" value="extensiontype_"></string>
+           <none></none>
+           <string role="key" value="source"></string>
+           <reference key="72"></reference>
            <string role="key" value="uniqueElementName"></string>
            <string value="role"></string>
            <string role="key" value="value"></string>
@@ -3699,7 +4584,25 @@
       <string role="key" value="coverage"></string>
       <list></list>
       <string role="key" value="description"></string>
-      <list></list>
+      <list>
+       <instance class="exe.engine.lom.lomsubs.LanguageStringSub">
+        <dictionary>
+         <string role="key" value="extensiontype_"></string>
+         <none></none>
+         <string role="key" value="string"></string>
+         <list>
+          <instance class="exe.engine.lom.lomsubs.LangStringSub">
+           <dictionary>
+            <string role="key" value="language"></string>
+            <string value="es"></string>
+            <string role="key" value="valueOf_"></string>
+            <string value="Unidad 1"></string>
+           </dictionary>
+          </instance>
+         </list>
+        </dictionary>
+       </instance>
+      </list>
       <string role="key" value="identifier"></string>
       <list>
        <instance class="exe.engine.lom.lomsubs.identifierSub">
@@ -3710,7 +4613,7 @@
            <string role="key" value="uniqueElementName"></string>
            <string value="catalog"></string>
            <string role="key" value="valueOf_"></string>
-           <unicode value="My Catalog"></unicode>
+           <string value="My Catalog"></string>
           </dictionary>
          </instance>
          <string role="key" value="entry"></string>
@@ -3719,7 +4622,7 @@
            <string role="key" value="uniqueElementName"></string>
            <string value="entry"></string>
            <string role="key" value="valueOf_"></string>
-           <unicode value="4a7d755e-34a5-410a-a7d4-601881136623"></unicode>
+           <string value="4a7d755e-34a5-410a-a7d4-601881136623"></string>
           </dictionary>
          </instance>
         </dictionary>
@@ -3741,19 +4644,35 @@
       <string role="key" value="structure"></string>
       <none></none>
       <string role="key" value="title"></string>
-      <none></none>
+      <instance class="exe.engine.lom.lomsubs.titleSub">
+       <dictionary>
+        <string role="key" value="extensiontype_"></string>
+        <none></none>
+        <string role="key" value="string"></string>
+        <list>
+         <instance class="exe.engine.lom.lomsubs.LangStringSub">
+          <dictionary>
+           <string role="key" value="language"></string>
+           <string value="es"></string>
+           <string role="key" value="valueOf_"></string>
+           <string value="Modulo 1: Principios y fundamentos de los SIG"></string>
+          </dictionary>
+         </instance>
+        </list>
+        <string role="key" value="uniqueElementName"></string>
+        <string value="title"></string>
+       </dictionary>
+      </instance>
       <string role="key" value="uniqueElementName"></string>
       <string value="general"></string>
      </dictionary>
     </instance>
     <string role="key" value="lifeCycle"></string>
-    <none></none>
-    <string role="key" value="metaMetadata"></string>
-    <instance class="exe.engine.lom.lomsubs.metaMetadataSub">
+    <instance class="exe.engine.lom.lomsubs.lifeCycleSub">
      <dictionary>
       <string role="key" value="contribute"></string>
       <list>
-       <instance class="exe.engine.lom.lomsubs.contributeMetaSub">
+       <instance class="exe.engine.lom.lomsubs.contributeSub">
         <dictionary>
          <string role="key" value="date"></string>
          <instance class="exe.engine.lom.lomsubs.dateSub">
@@ -3764,7 +4683,7 @@
              <string role="key" value="uniqueElementName"></string>
              <string value="dateTime"></string>
              <string role="key" value="valueOf_"></string>
-             <string value="2020-11-16T12:19:54.00-03:00"></string>
+             <string value="2020-12-03T17:01:51.00-03:00"></string>
             </dictionary>
            </instance>
            <string role="key" value="description"></string>
@@ -3788,19 +4707,123 @@
            <string role="key" value="extensiontype_"></string>
            <none></none>
            <string role="key" value="uniqueElementName"></string>
-           <none></none>
+           <string value="date"></string>
            <string role="key" value="valueOf_"></string>
            <none></none>
           </dictionary>
          </instance>
          <string role="key" value="entity"></string>
          <list>
-          <instance class="exe.engine.lom.lomsubs.entitySub">
+          <instance class="exe.engine.lom.lomsubs.VCardSub">
            <dictionary>
             <string role="key" value="extensiontype_"></string>
             <none></none>
             <string role="key" value="valueOf_"></string>
-            <string value="BEGIN:VCARD VERSION:3.0 FN: EMAIL;TYPE=INTERNET: ORG: END:VCARD"></string>
+            <string value="BEGIN:VCARD VERSION:3.0 FN:LABGRS EMAIL;TYPE=INTERNET: ORG: END:VCARD"></string>
+           </dictionary>
+          </instance>
+         </list>
+         <string role="key" value="role"></string>
+         <instance class="exe.engine.lom.lomsubs.roleSub">
+          <dictionary>
+           <string role="key" value="extensiontype_"></string>
+           <none></none>
+           <string role="key" value="source"></string>
+           <instance class="exe.engine.lom.lomsubs.sourceValueSub">
+            <dictionary>
+             <string role="key" value="extensiontype_"></string>
+             <none></none>
+             <string role="key" value="string"></string>
+             <list></list>
+             <string role="key" value="uniqueElementName"></string>
+             <string value="source"></string>
+             <string role="key" value="valueOf_"></string>
+             <string value="LOM-ESv1.0"></string>
+            </dictionary>
+           </instance>
+           <string role="key" value="uniqueElementName"></string>
+           <string value="role"></string>
+           <string role="key" value="value"></string>
+           <instance class="exe.engine.lom.lomsubs.roleValueSub">
+            <dictionary>
+             <string role="key" value="extensiontype_"></string>
+             <none></none>
+             <string role="key" value="source"></string>
+             <none></none>
+             <string role="key" value="uniqueElementName"></string>
+             <string value="value"></string>
+             <string role="key" value="value"></string>
+             <none></none>
+             <string role="key" value="valueOf_"></string>
+             <string value="author"></string>
+            </dictionary>
+           </instance>
+          </dictionary>
+         </instance>
+        </dictionary>
+       </instance>
+      </list>
+      <string role="key" value="status"></string>
+      <none></none>
+      <string role="key" value="uniqueElementName"></string>
+      <string value="lifeCycle"></string>
+      <string role="key" value="version"></string>
+      <none></none>
+     </dictionary>
+    </instance>
+    <string role="key" value="metaMetadata"></string>
+    <instance class="exe.engine.lom.lomsubs.metaMetadataSub">
+     <dictionary>
+      <string role="key" value="contribute"></string>
+      <list>
+       <instance class="exe.engine.lom.lomsubs.contributeMetaSub">
+        <dictionary>
+         <string role="key" value="date"></string>
+         <instance class="exe.engine.lom.lomsubs.dateSub">
+          <dictionary>
+           <string role="key" value="dateTime"></string>
+           <instance class="exe.engine.lom.lomsubs.DateTimeValueSub">
+            <dictionary>
+             <string role="key" value="uniqueElementName"></string>
+             <string value="dateTime"></string>
+             <string role="key" value="valueOf_"></string>
+             <string value="2020-12-03T17:01:51.00-03:00"></string>
+            </dictionary>
+           </instance>
+           <string role="key" value="description"></string>
+           <instance class="exe.engine.lom.lomsubs.LanguageStringSub">
+            <dictionary>
+             <string role="key" value="extensiontype_"></string>
+             <none></none>
+             <string role="key" value="string"></string>
+             <list>
+              <instance class="exe.engine.lom.lomsubs.LangStringSub">
+               <dictionary>
+                <string role="key" value="language"></string>
+                <string value="es"></string>
+                <string role="key" value="valueOf_"></string>
+                <string value="Fecha de creaci\xc3\xb3n de los metadatos"></string>
+               </dictionary>
+              </instance>
+             </list>
+            </dictionary>
+           </instance>
+           <string role="key" value="extensiontype_"></string>
+           <none></none>
+           <string role="key" value="uniqueElementName"></string>
+           <string value="date"></string>
+           <string role="key" value="valueOf_"></string>
+           <none></none>
+          </dictionary>
+         </instance>
+         <string role="key" value="entity"></string>
+         <list>
+          <instance class="exe.engine.lom.lomsubs.VCardSub">
+           <dictionary>
+            <string role="key" value="extensiontype_"></string>
+            <none></none>
+            <string role="key" value="valueOf_"></string>
+            <string value="BEGIN:VCARD VERSION:3.0 FN:LABGRS EMAIL;TYPE=INTERNET: ORG: END:VCARD"></string>
            </dictionary>
           </instance>
          </list>
@@ -3925,7 +4948,7 @@
              <string role="key" value="language"></string>
              <string value="en"></string>
              <string role="key" value="valueOf_"></string>
-             <unicode value="Default"></unicode>
+             <string value="Default"></string>
             </dictionary>
            </instance>
           </list>
@@ -4002,11 +5025,15 @@
    </list>
    <string role="key" value="1442dfb733989f6da8606efb94e98370"></string>
    <list>
-    <reference key="38"></reference>
+    <reference key="41"></reference>
    </list>
    <string role="key" value="4821ba2c30b0c0c27d4f42cfe349aba6"></string>
    <list>
-    <reference key="33"></reference>
+    <reference key="37"></reference>
+   </list>
+   <string role="key" value="8a8e5734e35dd9ec1be3bea66f08e5e8"></string>
+   <list>
+    <reference key="73"></reference>
    </list>
    <string role="key" value="923adf2b5d25955c3c60192bb683d3c6"></string>
    <list>
@@ -4016,29 +5043,29 @@
    <list>
     <reference key="5"></reference>
    </list>
-   <string role="key" value="9956b06cfed1e5453b7e0a7814803e0d"></string>
-   <list>
-    <reference key="37"></reference>
-   </list>
    <string role="key" value="ebce808ef518cce0260fbd4c8160eee7"></string>
    <list>
     <reference key="32"></reference>
    </list>
    <string role="key" value="f9f5373a274e4e9e886705fe337a7018"></string>
    <list>
-    <reference key="51"></reference>
+    <reference key="54"></reference>
+   </list>
+   <string role="key" value="ffa59548b7d7a7e603989e5314f226b6"></string>
+   <list>
+    <reference key="33"></reference>
    </list>
   </dictionary>
   <string role="key" value="root"></string>
   <reference key="4"></reference>
   <string role="key" value="scolinks"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="scowsinglepage"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="scowwebsite"></string>
-  <bool value="0"></bool>
+  <bool value="1"></bool>
   <string role="key" value="style"></string>
-  <unicode value="INTEF"></unicode>
+  <unicode value="docs_editado"></unicode>
   <string role="key" value="sugaractivityname"></string>
   <string value=""></string>
   <string role="key" value="sugarservicename"></string>
