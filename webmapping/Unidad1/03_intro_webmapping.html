@@ -4,6 +4,7 @@
     <title>Fundamentos de webmapping</title>
     <meta charset="utf-8" />
     <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
+    <meta name="date" content="2020-05-12" />
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
   <body>
@@ -14,7 +15,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 30/11/2020
+### 05/12/2020
 
 ---
 
@@ -170,6 +171,7 @@ shinyApp(ui, server)
 
 --
 - La función *shinyApp(ui, server)* compila nuestra aplicación uniendo los dos componentes.
+
 ---
 .center[
 ![](shiny1.png)
@@ -180,6 +182,29 @@ shinyApp(ui, server)
 
 --
 - El funcionamiento dentro del server debe estar estructurado según los elementos en la UI e idealmente debe estar modularizado para identificar posibles fallos. 
+
+---
+class: middle, center
+
+&lt;iframe width="800" height="500" src="https://www.youtube.com/embed/3usTPpGw_Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
+---
+#Agregando elementos
+
+--
+- Dentro de nuestras aplicaciones podemos hacer uso de diferentes elementos disponibles dentro de la librería shiny.
+
+--
+- Además podemos ajustar estos elementos y considerar procesamiento y bloques de código dentro de nuestro servidor.
+
+--
+- A continuación veremos como ordenar de forma elemental nuestra UI y poner elementos en el SERVER.
+
+---
+
+class: middle, center
+
+&lt;iframe width="800" height="500" src="https://www.youtube.com/embed/JHAXFwhdF4w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
 
 ---
 #Conductores reactivos

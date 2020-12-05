@@ -170,6 +170,7 @@ shinyApp(ui, server)
 
 --
 - La función *shinyApp(ui, server)* compila nuestra aplicación uniendo los dos componentes.
+
 ---
 .center[
 ![](shiny1.png)
@@ -180,6 +181,29 @@ shinyApp(ui, server)
 
 --
 - El funcionamiento dentro del server debe estar estructurado según los elementos en la UI e idealmente debe estar modularizado para identificar posibles fallos. 
+
+---
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/3usTPpGw_Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+#Agregando elementos
+
+--
+- Dentro de nuestras aplicaciones podemos hacer uso de diferentes elementos disponibles dentro de la librería shiny.
+
+--
+- Además podemos ajustar estos elementos y considerar procesamiento y bloques de código dentro de nuestro servidor.
+
+--
+- A continuación veremos como ordenar de forma elemental nuestra UI y poner elementos en el SERVER.
+
+---
+
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/JHAXFwhdF4w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 #Conductores reactivos
