@@ -31,7 +31,9 @@ library(DT)
 
 ---
 class: middle,center
-<iframe width="800" height = "450" src="https://www.youtube.com/embed/aFkWYcD0RmM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="800" height="500" src="https://www.youtube.com/embed/4tEJrwOf8Tg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 ---
 Librerías utilizadas en esta sesión
 
@@ -46,6 +48,9 @@ library(readxl)
 --
 - Entender al menos las funciones básicas de lectura y manipulación de información es escencial para luego pasar de la codificación en R a la sintáxis de shiny.
 
+---
+class: middle,center
+<iframe width="800" height="500" src="https://www.youtube.com/embed/0cXsmtBNJts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 ---
 # Lectura de datos alfanuméricos
 
