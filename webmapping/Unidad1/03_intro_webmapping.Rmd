@@ -185,7 +185,7 @@ shinyApp(ui, server)
 ---
 class: middle, center
 
-<iframe width="800" height="500" src="https://www.youtube.com/embed/3usTPpGw_Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="800" height="500" src="https://www.youtube.com/embed/onMaUQaxUeo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 #Agregando elementos
@@ -203,7 +203,7 @@ class: middle, center
 
 class: middle, center
 
-<iframe width="800" height="500" src="https://www.youtube.com/embed/JHAXFwhdF4w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="800" height="500" src="https://www.youtube.com/embed/nicSZixRMi8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 #Conductores reactivos
@@ -288,6 +288,14 @@ observeEvent({})
 
 --
 - Como veremos más adelante son escenciales para los mapas web.
+
+--
+- A continuación incursionaremos en el uso de estos conductores.
+
+---
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/gn9tv3nbLu8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 background-image: url(logo_labgrs_color.png)
