@@ -4,6 +4,7 @@
     <title>Manipulación básica de geo-datos en R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
+    <meta name="date" content="2020-06-12" />
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
   <body>
@@ -14,7 +15,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 30/11/2020
+### 06/12/2020
 
 ---
 
@@ -63,7 +64,7 @@ library(rasterVis)
 - Debemos recordar lo básico dentro de una estructura espacial (geometría, resolución, sistema de referencia, etc.)
 
 --
-- Estos apesctos serán relevantes de acuerdo a la naturaleza de la información que estemos trabajando.
+- Estos aspectos serán relevantes de acuerdo a la naturaleza de la información que estemos trabajando.
 
 --
 - En el caso de la información vectorial lo importante será su geometría (puntos, líneas o polígonos) y su sistema de referencia espacial o sistema de coordenadas.
@@ -88,7 +89,7 @@ vinaDelMar &lt;- readOGR('viña_del_mar.shp')
 
 ```
 ##    user  system elapsed 
-##    1.78    0.51    2.35
+##    2.97    0.75    4.36
 ```
 
 --
@@ -116,7 +117,7 @@ class(vinaDelMar)
 
 ```
 ##    user  system elapsed 
-##    0.06    0.05    0.11
+##    0.14    0.05    0.18
 ```
 
 --
@@ -152,7 +153,7 @@ plot(vinaDelMar['PERSONA'])
 - Al igual que para el gráfico de información alfanumérica, podemos incorporar argumentos que mejoren la visualización.
 
 --
-- Podemos emplear *?plot.sf* en la consolta para ver más opciones
+- Podemos emplear *?plot.sf* en la consola para ver más opciones
 --
 
 ```r
@@ -212,6 +213,8 @@ vinaUTM &lt;- vinaDelMar %&gt;% st_transform(crs = '+proj=utm +zone=19 +south +d
 ## [1] "+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs "
 ```
 
+--
+- Lo importante es que podemos emplear el número EPSG o los parámetros.
 ---
 # Algunas cosas básicas
 
@@ -254,8 +257,11 @@ vinaUTM %&gt;% st_geometry() %&gt;% st_buffer(dist = 100) %&gt;% plot()
 gomezCarrenoDensity &lt;- gomezCarreno %&gt;% mutate(area_ha = st_area(gomezCarreno)/10000)
 
 #density by block
+#creando vector numerico con las areas en hectareas
 area_manzana &lt;- gomezCarrenoDensity$area_ha %&gt;% as.numeric()
+#creando vector numerico con la poblacion por manzana
 poblacion &lt;- gomezCarrenoDensity$PERSONA %&gt;% as.numeric()
+## creando nuevo sf con un campo de densidad.
 gomezCarrenoDensity &lt;- gomezCarrenoDensity %&gt;% mutate(densidad = (poblacion/area_manzana))
 ```
 
@@ -270,7 +276,7 @@ st_write(gomezCarrenoDensity,'densidad_GC.shp')
 # sf y ggplot2
 
 --
-- Gracias a la estructura con que son leídos nuestros archivos vectoriales con sf, podemos fácilmente graficar empleando ggplot como soporte gráfico empleando *geomo_sf()*
+- Gracias a la estructura con que son leídos nuestros archivos vectoriales con sf, podemos fácilmente graficar empleando ggplot como soporte gráfico empleando *geom_sf()* y el argumento *fill* para indicar el campo que mostrará la información de interés.
 
 
 ```r

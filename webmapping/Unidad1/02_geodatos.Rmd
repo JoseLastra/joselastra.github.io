@@ -69,7 +69,7 @@ library(rasterVis)
 - Debemos recordar lo básico dentro de una estructura espacial (geometría, resolución, sistema de referencia, etc.)
 
 --
-- Estos apesctos serán relevantes de acuerdo a la naturaleza de la información que estemos trabajando.
+- Estos aspectos serán relevantes de acuerdo a la naturaleza de la información que estemos trabajando.
 
 --
 - En el caso de la información vectorial lo importante será su geometría (puntos, líneas o polígonos) y su sistema de referencia espacial o sistema de coordenadas.
@@ -141,7 +141,7 @@ plot(vinaDelMar['PERSONA'])
 - Al igual que para el gráfico de información alfanumérica, podemos incorporar argumentos que mejoren la visualización.
 
 --
-- Podemos emplear *?plot.sf* en la consolta para ver más opciones
+- Podemos emplear *?plot.sf* en la consola para ver más opciones
 --
 ```{r fig.retina=2, fig.align='center', fig.height=5}
 plot(vinaDelMar['PERSONA'],breaks='quantile',key.pos = 4, axes=T)
@@ -189,6 +189,8 @@ vinaUTM <- vinaDelMar %>% st_transform(crs = '+proj=utm +zone=19 +south +datum=W
 st_crs(vinaUTM)[1]
 ```
 
+--
+- Lo importante es que podemos emplear el número EPSG o los parámetros.
 ---
 # Algunas cosas básicas
 
@@ -225,8 +227,11 @@ vinaUTM %>% st_geometry() %>% st_buffer(dist = 100) %>% plot()
 gomezCarrenoDensity <- gomezCarreno %>% mutate(area_ha = st_area(gomezCarreno)/10000)
 
 #density by block
+#creando vector numerico con las areas en hectareas
 area_manzana <- gomezCarrenoDensity$area_ha %>% as.numeric()
+#creando vector numerico con la poblacion por manzana
 poblacion <- gomezCarrenoDensity$PERSONA %>% as.numeric()
+## creando nuevo sf con un campo de densidad.
 gomezCarrenoDensity <- gomezCarrenoDensity %>% mutate(densidad = (poblacion/area_manzana))
 ```
 
@@ -240,7 +245,7 @@ st_write(gomezCarrenoDensity,'densidad_GC.shp')
 # sf y ggplot2
 
 --
-- Gracias a la estructura con que son leídos nuestros archivos vectoriales con sf, podemos fácilmente graficar empleando ggplot como soporte gráfico empleando *geomo_sf()*
+- Gracias a la estructura con que son leídos nuestros archivos vectoriales con sf, podemos fácilmente graficar empleando ggplot como soporte gráfico empleando *geom_sf()* y el argumento *fill* para indicar el campo que mostrará la información de interés.
 
 ```{r fig.retina=2, fig.align='center', fig.height= 5}
 ggplot() + geom_sf(data = gomezCarrenoDensity, aes(fill=densidad)) + 
