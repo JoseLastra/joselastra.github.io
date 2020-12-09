@@ -1,0 +1,77 @@
+---
+title: "Manipulación y generación de mapas en R"
+subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
+author: "Mg. José A. Lastra <br>Matías Olea<br>"
+institute: "Laboratorio Geo-Información y Percepción Remota"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  xaringan::moon_reader:
+    css: [fc]
+    lib_dir: libs
+    nature:
+      highlightStyle: zenburn
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+library(sf)
+library(raster)
+library(plotly)
+library(leaflet)
+library(DT)
+
+```
+
+
+---
+
+Librerías utilizadas en esta sesión
+
+```{r eval=F}
+library(tidyverse)
+library(sf)
+library(raster)
+library(plotly)
+library(leaflet)
+```
+
+---
+# Lectura de datos
+
+---
+# Manipulación básica vectores
+
+--
+# Cálculos básicos
+
+--
+# Mapa estático y dinámico
+
+--
+- ggplot + plotly
+
+--
+- leaflet
+
+---
+# Ejemplo plotly
+
+---
+# Ejemplo leaflet
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+
+
