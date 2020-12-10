@@ -24,11 +24,12 @@ background-size:40%
 options(htmltools.dir.version = FALSE)
 library(tidyverse)
 library(sf)
+library(rgdal)
+library(units)
 library(raster)
 library(plotly)
 library(leaflet)
-library(DT)
-
+library(kableExtra)
 ```
 
 
@@ -39,34 +40,310 @@ Librerías utilizadas en esta sesión
 ```{r eval=F}
 library(tidyverse)
 library(sf)
+library(units)
+library(rgdal)
 library(raster)
 library(plotly)
 library(leaflet)
 ```
 
 ---
-# Lectura de datos
+#Recordemos
+
+--
+> To understand computations in R, two slogans are helpful:
+- Everything that exists is an object, and
+- Everything that happens is a function call.
+
+.footnote[John Chambers creador de R, en Advanced R (2019) 2da Edición, p. 79.]
 
 ---
-# Manipulación básica vectores
+# Lectura de datos
 
 --
-# Cálculos básicos
+- Antes de comenzar con los análisis y con la información leeremos nuestros datos vectoriales a trabajar
 
 --
+- En esta sesión usaremos las capas de nombres: *censoINE_Valparaiso2017.gpkg* y *puntosVerdesyLimpios_MMA.gpkg*
+
+```{r echo=F, warning=F,message=F,error=F, fig.retina=2,fig.align='center'}
+valpo <- read_sf('censoINE_Valparaiso2017.gpkg')
+pvl <- read_sf('puntosVerdesyLimpios_MMA.gpkg')
+pvl %>% st_geometry() %>% plot(col='red',pch=3)
+valpo %>% st_geometry() %>% plot(add=T)
+```
+
+---
+# Datos INE
+
+--
+```{r echo=F}
+valpo %>% head(5) %>% kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),position = "center") %>% 
+  scroll_box(width = "1000px")
+```
+
+---
+# Datos MMA
+
+--
+```{r echo=F}
+pvl %>% head(5) %>%  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),position = "center")%>% 
+  scroll_box(width = "1000px")
+```
+
+
+---
+# Repaso manipulación básica vectores
+
+--
+- Dentro de los análisis más elementales podemos distinguir el proceso de *dissolve* o simplificación 
+
+--
+- En este ejemplo podemos obtener el total de población total por provincia
+
+--
+- *Importante*: haremos uso de nuestro *%>%* 
+
+--
+```{r message=F,error=F,warning=F}
+provincias <- valpo %>% #objeto sf de entrada o tabla
+    group_by(NOM_PROVIN) %>% # campo por el cual queremos simplificar 
+  summarize(poblacion = sum(T_POB)) # estadístico a calcular indicando el nombre en la nueva tabla
+```
+
+--
+- Si no ponemos nada en la función *summarize()* solo estará en el nuevo objeto el nombre de los elementos en el campo usado en *group_by()*
+
+```{r eval=F}
+provincias <- valpo %>% #objeto sf de entrada o tabla
+    group_by(NOM_PROVIN) %>% # campo por el cual queremos simplificar 
+  summarize() #dejando vacío solo se agrupa sin ningún estadístico adicional
+```
+
+---
+```{r fig.retina=2, echo=F ,fig.align='center',warning=F,error=F,message=F}
+library(tmap)
+
+tm_shape(provincias) +
+    tm_fill('poblacion',n = 12,style = 'jenks') +
+    tm_facets(by = "NOM_PROVIN")
+```
+
+---
+# Cálculos en tabla
+
+--
+- Además de alterar espacialmente la información, podemos realizar cálculos en la tabla de atricutos de nuestros objetos espaciales.
+
+--
+- Al calcular el área,por defecto se calcula en metros cuadrados. Por lo cual, realizaremos la conversión a km~2 y fijaremos las unidades correctas con *set_units()*
+
+```{r}
+area_km <- st_area(provincias) %>% set_units(km^2)
+provincias <- provincias %>% mutate(area_km = area_km)   
+```
+
+```{r echo=F}
+provincias %>%  kbl() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),position = "center")%>% 
+  scroll_box(width = "1000px")
+```
+
+---
 # Mapa estático y dinámico
 
 --
-- ggplot + plotly
+- En sesiones anteriores vimos que podíamos emplear *plot()* o *geom_sf()* para graficar un objeto espacial ya sea raster o vector.
 
 --
-- leaflet
+- A continuación combinaremos el uso de *ggplot()* y la librería *plotly* para crear un mapa dinámico base
+
+--
+- Mapa base con nuestros objetos sf y ggplot2
+
+```{r}
+# filtro de datos
+marga.marga <- valpo %>% filter(PROVINCIA =="58")
+
+```
 
 ---
-# Ejemplo plotly
+
+- *Importante*: Las capas se graficarán en el orden en que se pongan en el código
+
+```{r fig.retina=2, fig.align='center'}
+ggplot() + geom_sf(data = marga.marga, aes(fill=T_POB))+ 
+  geom_sf(data = pvl)+ theme_bw() + scale_fill_viridis_c()
+```
+
 
 ---
-# Ejemplo leaflet
+# Conviertiendo a mapa dinámico
+
+--
+- Un paso clave es guardar nuestro mapa en un objeto siguiendo el siguiente ejemplo
+
+--
+```{r}
+g <- ggplot() + geom_sf(data = marga.marga, aes(fill=T_POB))+ 
+  geom_sf(data = pvl)+ theme_bw() + scale_fill_viridis_c()
+
+class(g)
+```
+
+--
+- Ahora convertiremos el objeto usando la función *ggplotly()*
+
+```{r eval=F}
+ggplotly(g)
+```
+
+---
+```{r echo=F , out.width= "100%"}
+ggplotly(g)
+```
+
+---
+# Mapas dinámicos con Leaflet
+
+--
+- Leaflet es una de las librerías abiertas más populares para trabajar con mapas interactivos.
+
+--
+- En R disponemos de la librería *leaflet* para poder realizar los mapas dinámicos.
+
+--
+- Realicemos el código para nuestro mapa base
+
+```{r out.width="100%", eval = F}
+leaflet() %>% addTiles() 
+```
+
+---
+```{r out.width="100%", eval = T,echo=F}
+leaflet() %>% addTiles() 
+```
+
+- Si queremos cambiar el mapa base, podemos emplear la función *addProviderTiles()* y emplear entre caracteres algún proveedor disponible [[Ver más](http://leaflet-extras.github.io/leaflet-providers/preview/index.html)]
+
+---
+# Añadiendo nuestras capas
+
+--
+- Primero debemos reproyectar nuestra información para que opere en leaflet
+
+--
+- Acá utilizaremos la función *st_cast()* para pasar nuestro archiv a tipo puntos ya que, hasta la fecha no hay soporte para tipo multipuntos en leaflet.
+
+--
+- *Importante*: Siempre considere revisar bien las características de su capa de puntos y verifique que no haya repitición o inconsistencias en su capa. Incluso si viene desde fuentes oficiales
+
+--
+```{r out.width="100%", eval = F,echo=T}
+valpo_latlong <- valpo %>% st_transform(4326)
+pvl_latlong <- pvl %>% st_cast('POINT') %>% st_transform(4326)
+
+leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong) %>% 
+  addCircleMarkers(data = pvl_latlong,opacity = 1)
+```
+
+--
+- Podemos agregar y controlar variados elementos de nuestras capas espaciales
+
+--
+- Cada uno lo iremos viendo a medida que avancemos en el curso
+
+---
+```{r out.width="100%", eval = T,echo=F, warning=F,message=F,error=F}
+valpo_latlong <- valpo %>% st_transform(4326)
+pvl_latlong <- pvl %>% st_cast('POINT') %>% st_transform(4326)
+
+leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong) %>% 
+  addCircleMarkers(data = pvl_latlong,opacity = 1)
+```
+
+---
+# Leyendas
+
+--
+- El control de la leyenda y la visualización es importante para comunicar la información.
+
+--
+- A continuación revisaremos como configurar la leyenda de nuestros datos de población.
+
+--
+- Para buscar paletas de colores crearemos en este caso un vector de colores HTML usando la función *c()*
+
+--
+- Usaremos *stroke* para controlar la presencia de la línea y *weight* el ancho, *fillColor* para aplicar nuestra paleta y
+*markerClusterOptions()* para adaptar la visualización de los puntos verdes según la escala
+--
+```{r out.width="100%", eval = F,echo=T}
+valpo_latlong <- valpo %>% st_transform(4326)
+pvl_latlong <- pvl %>% st_cast('POINT') %>% st_transform(4326)
+# paleta de colores
+pal <- colorBin(palette = c('#ffffb2','#fed976','#feb24c',
+                            '#fd8d3c','#fc4e2a','#e31a1c','#b10026'),
+                domain = valpo_latlong$T_POB,bins = 7)
+#Mapa
+leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong,stroke = T,weight = 0.3,color='black', 
+                                         fillOpacity = 0.8,fillColor =  ~pal(T_POB)) %>% 
+  addCircleMarkers(data = pvl_latlong,opacity = 1,clusterOptions = markerClusterOptions()) %>% 
+  addLegend(pal = pal,values = valpo_latlong$T_POB,title = 'Población Total Censo 2017')
+```
+
+---
+```{r out.width="100%", eval = T,echo=F, warning=F,message=F,error=F}
+valpo_latlong <- valpo %>% st_transform(4326)
+pvl_latlong <- pvl %>% st_cast('POINT') %>% st_transform(4326)
+# paleta de colores
+pal <- colorBin(palette = c('#ffffb2','#fed976','#feb24c',
+                            '#fd8d3c','#fc4e2a','#e31a1c','#b10026'),
+                domain = valpo_latlong$T_POB,bins = 7)
+#Mapa
+leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong,stroke = T,weight = 0.3,color='black', 
+                                         fillOpacity = 0.8,fillColor =  ~pal(T_POB)) %>% 
+  addCircleMarkers(data = pvl_latlong,opacity = 1,clusterOptions = markerClusterOptions()) %>% 
+  addLegend(pal = pal,values = valpo_latlong$T_POB,title = 'Población Total Censo 2017')
+```
+
+---
+#Controlando las capas en el mapa
+
+--
+- Para que aparezca la información de nuestras capas y podamos activarlas o desactivarlas, usaremos el argumento *group* para asignarles un nombre distintivo y la función *addLayersControl()*
+
+--
+- Además cambiaremos la posición de la leyenda y los controles de capa
+--
+
+```{r out.width="100%", eval = F,echo=T, warning=F,message=F,error=F}
+leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong,stroke = T,weight = 0.3,color='black', 
+                                         fillOpacity = 0.8,fillColor =  ~pal(T_POB),
+                                         group = 'Censo INE, Comunas') %>% 
+  addCircleMarkers(data = pvl_latlong,opacity = 1,
+                   clusterOptions = markerClusterOptions(),group = 'Puntos Verdes, MMA') %>% 
+  addLegend(pal = pal,values = valpo_latlong$T_POB,
+            title = 'Población Total Censo 2017',position ="bottomright") %>% 
+  addLayersControl(overlayGroups = c('Censo INE, Comunas','Puntos Verdes, MMA'),position ="bottomright")
+```
+
+--
+- *Importante*: Varias capas pueden estar controladas por el mismo nombre de grupo y la legenda puede también disponer de un nombre de grupo para activarla y desactivarla.
+
+---
+```{r out.width="100%", eval = T,echo=F, warning=F,message=F,error=F}
+leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong,stroke = T,weight = 0.3,color='black', 
+                                         fillOpacity = 0.8,fillColor =  ~pal(T_POB),
+                                         group = 'Censo INE, Comunas') %>% 
+  addCircleMarkers(data = pvl_latlong,opacity = 1,
+                   clusterOptions = markerClusterOptions(),group = 'Puntos Verdes, MMA') %>% 
+  addLegend(pal = pal,values = valpo_latlong$T_POB,
+            title = 'Población Total Censo 2017',position ="bottomright") %>% 
+  addLayersControl(overlayGroups = c('Censo INE, Comunas','Puntos Verdes, MMA'),position ="bottomright")
+```
 
 ---
 background-image: url(logo_labgrs_color.png)
