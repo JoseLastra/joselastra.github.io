@@ -66,12 +66,18 @@ library(leaflet)
 --
 - En esta sesión usaremos las capas de nombres: *censoINE_Valparaiso2017.gpkg* y *puntosVerdesyLimpios_MMA.gpkg*
 
+```{r echo=T,eval=F, warning=F,message=F,error=F, fig.retina=2,fig.align='center'}
+valpo <- read_sf('censoINE_Valparaiso2017.gpkg')
+pvl <- read_sf('puntosVerdesyLimpios_MMA.gpkg')
+```
+
 ```{r echo=F, warning=F,message=F,error=F, fig.retina=2,fig.align='center'}
 valpo <- read_sf('censoINE_Valparaiso2017.gpkg')
 pvl <- read_sf('puntosVerdesyLimpios_MMA.gpkg')
 pvl %>% st_geometry() %>% plot(col='red',pch=3)
 valpo %>% st_geometry() %>% plot(add=T)
 ```
+
 
 ---
 # Datos INE
@@ -138,7 +144,7 @@ tm_shape(provincias) +
 - Además de alterar espacialmente la información, podemos realizar cálculos en la tabla de atricutos de nuestros objetos espaciales.
 
 --
-- Al calcular el área,por defecto se calcula en metros cuadrados. Por lo cual, realizaremos la conversión a km~2 y fijaremos las unidades correctas con *set_units()*
+- Al calcular el área, por defecto se calcula en metros cuadrados. Por lo cual, realizaremos la conversión a km~2 y fijaremos las unidades correctas con *set_units()*
 
 ```{r}
 area_km <- st_area(provincias) %>% set_units(km^2)
@@ -204,6 +210,8 @@ ggplotly(g)
 ```{r echo=F , out.width= "100%"}
 ggplotly(g)
 ```
+
+En este mapa se puede hacer zoom, revisar valores, realizar snapshots, entre otras cosas integradas en plotly.
 
 ---
 # Mapas dinámicos con Leaflet
@@ -326,8 +334,8 @@ leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong,stroke = T,weight 
   addCircleMarkers(data = pvl_latlong,opacity = 1,
                    clusterOptions = markerClusterOptions(),group = 'Puntos Verdes, MMA') %>% 
   addLegend(pal = pal,values = valpo_latlong$T_POB,
-            title = 'Población Total Censo 2017',position ="bottomright") %>% 
-  addLayersControl(overlayGroups = c('Censo INE, Comunas','Puntos Verdes, MMA'),position ="bottomright")
+            title = 'Población Total Censo 2017',position ="bottomleft") %>% 
+  addLayersControl(overlayGroups = c('Censo INE, Comunas','Puntos Verdes, MMA'),position ="bottomleft")
 ```
 
 --
@@ -341,8 +349,8 @@ leaflet() %>% addTiles() %>% addPolygons(data = valpo_latlong,stroke = T,weight 
   addCircleMarkers(data = pvl_latlong,opacity = 1,
                    clusterOptions = markerClusterOptions(),group = 'Puntos Verdes, MMA') %>% 
   addLegend(pal = pal,values = valpo_latlong$T_POB,
-            title = 'Población Total Censo 2017',position ="bottomright") %>% 
-  addLayersControl(overlayGroups = c('Censo INE, Comunas','Puntos Verdes, MMA'),position ="bottomright")
+            title = 'Población Total Censo 2017',position ="bottomleft") %>% 
+  addLayersControl(overlayGroups = c('Censo INE, Comunas','Puntos Verdes, MMA'),position ="bottomleft")
 ```
 
 ---
