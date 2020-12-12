@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Aplicaciones con geo-datos: Vectores</title>
+    <title>Aplicaciones con geo-datos: Parte I</title>
     <meta charset="utf-8" />
     <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
-    <meta name="date" content="2020-10-12" />
+    <meta name="date" content="2020-12-12" />
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Aplicaciones con geo-datos: Vectores
+# Aplicaciones con geo-datos: Parte I
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 10/12/2020
+### 12/12/2020
 
 ---
 
@@ -32,21 +32,126 @@ Librerías utilizadas en esta sesión
 
 
 ```r
+library(shiny)
 library(tidyverse)
-library(readxl)
+library(sf)
+library(rgdal)
+library(raster)
+library(plotly)
+library(leaflet)
 ```
 
 ---
 # Estructurando nuestra app
 
 --
-- Selección de tipo de página
+- De momento, hemos utilizado la página fluída (fluidPage) en nuestra aplicación inicial con datos.
 
 --
-- Incorporando Elementos reactivos
+- Una mejor alternativa es el uso de las páginas de tipo bootstrap (bootstrapPage) ya que:
+  + Se integra eficientemente con JavaScript (sobre todo si posteriormente personalizamos nuestra página)
+  + Compatibe con la mayoría de los navegadores
+  + Responsive
 
 ---
-# Creando mapa Base
+# Diagrama general
+
+--
+- Primero configuraremos el cuerpo general del script y para poder emplear nuestro mapa a página completa emplearemos *tags*
+
+--
+- Nuestro mapa base lo haremos con *leatletOutput()*
+
+--
+- Leeremos nuestras capas de información vectorial y la reproyectaremos de inmediato para operar en leaflet
+
+---
+
+```r
+library(shiny)
+library(tidyverse)
+library(sf)
+library(rgdal)
+library(raster)
+library(plotly)
+library(leaflet)
+########### UI #######################
+ui &lt;- bootstrapPage(
+  tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
+  leafletOutput('map', width = "100%", height = "100%")
+)
+############SERVER###################
+server &lt;- function(input, output, session) {
+  #Load data
+  valpo &lt;- read_sf('censoINE_Valparaiso2017.gpkg') %&gt;% st_transform(4326)
+  pvl &lt;- read_sf('puntosVerdesyLimpios_MMA.gpkg') %&gt;% st_transform(4326)
+  ## rendering base map
+  output$map &lt;- renderLeaflet({
+    leaflet() %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% 
+      fitBounds(lng1 =-109.5 ,lat1 =-33.96 ,lng2 =-69.9 ,lat2 = -26.29) #ajustar extensión inicial del mapa
+  })
+}
+##########Compile####################
+shinyApp(ui,server)
+```
+
+--
+- *fitBounds()* nos permite fijar la extensión inicial del mapa base
+
+---
+class: middle, center
+![:scale 75%](app1.1.png)
+---
+# Incorporando Elementos en la UI
+
+--
+- Agregaremos un panel donde pondremos nuestras opciones
+
+--
+- Importante conocer esto sobre los paneles y su posición en la página [Más info.](https://leafletjs.com/reference-1.7.1.html#map-pane)
+
+--
+- Usaremos un panel que irá sobre nuestro mapa e iremos incorporando opciones en el. 
+
+--
+
+```r
+absolutePanel(id="controls",
+                style="z-index:500;", top = 90, left = "auto", right = 20, 
+                bottom = "auto",
+                width = 400, height ="auto",
+                class = "panel panel-default"
+                )
+```
+
+--
+- El argumento *style = "z-index:500;"* controla la posición de nuestro panel en nuestra página.
+
+--
+- Es importante poner 500 para que el panel esté por sobre nuestro mapa de leaflet.
+
+---
+class: middle, center
+![:scale 75%](app1.2.png)
+---
+# Antes de empezar
+
+- Además de utilizar eventos puestos en la UI (sliders, select inputs, acction buttons, etc.), podemos hacer uso de eventos de mapa y objeto para pasarlos por el server.
+
+--
+- Los eventos de objeto se configuran así `input$MAPID_OBJCATEGORY_EVENTNAME` donde:
+  + MAPID: nombre del mapa;
+  + OBJCATEGORY: tipo de elemento para pasaro por el evento reactivo (marker, shape, geojson o topojson);
+  + EVENTNAME: reacción al mouse (click, mouseover y mouseout)
+
+--
+- Los eventos de mapa se configuran así `input$MAPID_EVENTNAME` donde las opciones de evento disponibles son:
+  + Click;
+  + Bounds;
+  + Zoom;
+  + Center;
+
+- Usaremos algunos de estos eventos durante el desarrollo de nuestra aplicación
 
 ---
 # Eventos de mouse
