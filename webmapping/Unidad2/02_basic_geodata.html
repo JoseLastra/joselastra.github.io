@@ -4,7 +4,6 @@
     <title>Aplicaciones con geo-datos: Parte I</title>
     <meta charset="utf-8" />
     <meta name="author" content="Mg. José A. Lastra  Matías Olea" />
-    <meta name="date" content="2020-12-12" />
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
   <body>
@@ -15,7 +14,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 12/12/2020
+### 13/12/2020
 
 ---
 
@@ -186,8 +185,196 @@ absolutePanel(id="controls",
 class: middle, center
 ![:scale 95%](app1.3.png)
 
+---
+# Operacionalizando en el server
+
+--
+- Cada elemento de entrada reactivo que pongamos en la UI puede y debe, ser operacionalizado en el server para conducir cambios en el mapa.
+
+--
+- En el caso de las aplicaciones simples vistas anteriormente esas operaciones pueden ser directas o llevadas a cabo con un conductor reactivo (reactive u observer)
+
+--
+- Para conducir los cambios en nuestro mapa base emplearemos principalmente los *observers* y la función *leafletProxy()* oara que nuestro mapa se actualice sin tener que recargarse cada vez que haya un cambio en la UI
+
+--
+- A continuación lo primero será establecer el cambio reactivo de leyenda creando un *observeEvent({})*, que pondremos en el server después de nuestro mapa base.
+
+--
+
+```r
+#mapa temático en proxy
+  observeEvent(input$campo, {
+    
+  })
+```
+
+--
+- Debemos indicar cuál es la entrada reactiva a observar y escribir el código a ejecutar dentro de las {}
+
+---
+
+--
 
 
+
+
+```r
+#mapa temático en proxy
+  observeEvent(input$campo, {
+    tabla &lt;- valpo %&gt;% as.data.frame() # convirtiendo sf a data frame simple
+    valores &lt;- tabla[,input$campo] %&gt;% as.numeric() #extrayendo valores de columna
+    pal &lt;- colorQuantile(palette = "viridis",domain = valores,n = 10)#paleta
+    pal_colors &lt;-  sort(valores) %&gt;% pal() %&gt;% unique() #Colores para leyenda
+    pal_labels &lt;- quantile(valores, seq(0, 1, 0.1)) # creación de quantiles para etiquetas
+    pal_labels &lt;- paste(lag(pal_labels), pal_labels, sep = " - ")[-1] # removemos el primer lag por ser NA
+    
+    # mapa reactivo
+    proxyMap &lt;- leafletProxy('map') %&gt;% clearControls() %&gt;% clearShapes() 
+  })
+```
+
+--
+- Esta sección de código nos permite  crear la paleta de colores de acuerdo a la selección en la UI
+
+--
+- Luego se crea el objeto *proxyMap* limpiando los controles y los shapes, para que al cambiar dinámicamente no haya una superposición de capas.
+
+--
+- Para asegurar la disposición correcta de la información crearemos 1 versión de nuestro mapa para cada variable, 4 en este caso, y emplearemos la función condicional *if()* para el control del renderizado
+
+---
+
+--
+- Ejemplo para un condicional
+
+--
+
+```r
+if(input$campo == "T_POB"){
+     proxyMap %&gt;% addPolygons(data = valpo,group = 'CENSO INE, 2017', fillColor = ~pal(T_POB), 
+                               fillOpacity = 0.8,stroke = T,weight = 0.25, smoothFactor = 0.2) %&gt;%
+        addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                  title = "Total de personas por comuna",opacity = 0.8,group = 'Leyenda') %&gt;% 
+        addLayersControl(overlayGroups = c('CENSO INE, 2017'),position ="bottomleft")
+    }
+```
+
+--
+- Este código debemos replicarlo cambiando el nombre de la columna, el título de la leyenda y el campo de relleno en el argumento *fillColor*
+
+---
+class: middle, center
+![:scale 70%](app1.4.png)
+---
+# Etiquetas
+
+--
+- Además incorporar la leyenda, podemos hacer mucho más amigable la navegación por el mapa incorporndo etiquetas a nuestra información.
+
+--
+- Para esto disponemos de dos argumentos que son *popup* y *label*
+
+--
+- Ambos argumentos se pueden emplear en las funciones de addPolygons, addMarkers, etc.
+
+--
+- Ejemplo para popup
+
+--
+
+```r
+ if(input$campo == "T_POB"){
+     proxyMap %&gt;% addPolygons(data = valpo,group = 'CENSO INE, 2017', fillColor = ~pal(T_POB), 
+                               fillOpacity = 0.8,stroke = T,weight = 0.25, smoothFactor = 0.2,
+                              popup = ~T_POB %&gt;% as.character()) %&gt;%
+        addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                  title = "Total de personas por comuna",opacity = 0.8,group = 'Leyenda') %&gt;% 
+        addLayersControl(overlayGroups = c('CENSO INE, 2017'),position ="bottomleft")
+    }
+```
+
+--
+- *Importante*: Aquí empleamos la función *as.character()* para indicar que debe mostrar texto, ya que a veces al mostrar númros popup presenta problemas.
+
+---
+class: middle, center
+![:scale 70%](app1.5.png)
+---
+- Ejemplo para label
+
+--
+
+```r
+ if(input$campo == "T_POB"){
+     proxyMap %&gt;% addPolygons(data = valpo,group = 'CENSO INE, 2017', fillColor = ~pal(T_POB), 
+                               fillOpacity = 0.8,stroke = T,weight = 0.25, smoothFactor = 0.2,
+                              label = ~T_POB) %&gt;%
+        addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                  title = "Total de personas por comuna",opacity = 0.8,group = 'Leyenda') %&gt;% 
+        addLayersControl(overlayGroups = c('CENSO INE, 2017'),position ="bottomleft")
+    }
+```
+
+--
+- Label mostrará lo mismo que popup pero sin necesidad de pinchar el polígono.
+
+--
+- *label* suele ser más simple y fácil de manipular empleando HTML a través de la función *labelOptions()*
+
+--
+
+```r
+ if(input$campo == "T_POB"){
+     proxyMap %&gt;% addPolygons(data = valpo,group = 'CENSO INE, 2017', fillColor = ~pal(T_POB), 
+                               fillOpacity = 0.8,stroke = T,weight = 0.25, smoothFactor = 0.2,
+                              label = ~T_POB,labelOptions = labelOptions(style = list("color" = "black", 
+                                                             "font-size" = "16px",
+                                                             "font-family" = "serif",
+                                                             "font-weight" = "bold")) %&gt;%
+        addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                  title = "Total de personas por comuna",opacity = 0.8,group = 'Leyenda') %&gt;% 
+        addLayersControl(overlayGroups = c('CENSO INE, 2017'),position ="bottomleft")
+    }
+```
+
+---
+class: middle, center
+![:scale 65%](app1.6.png)
+
+---
+# Opciones de realce de polígonos
+
+--
+- Podemos controlar la vista de un polígono al posicionarnos sobre él empleando el argumento *highlight* y la función *highlightOptions()*
+
+--
+- Ejemplo para un solo condicional
+
+--
+
+```r
+if(input$campo == "T_POB"){
+     proxyMap %&gt;% addPolygons(data = valpo,group = 'CENSO INE, 2017', fillColor = ~pal(T_POB), 
+                               fillOpacity = 0.8,stroke = T,weight = 0.25, smoothFactor = 0.2,
+                              label = ~T_POB,labelOptions = labelOptions(style = list("color" = "black", 
+                                                                                      "font-size" = "16px",
+                                                                                      "font-family" = "serif",
+                                                                                      "font-weight" = "bold")),
+                              highlight = highlightOptions(weight = 5,color = "white",
+                                fillOpacity = 1,bringToFront = TRUE)) %&gt;%
+        addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                  title = "Total de personas por comuna",opacity = 0.8,group = 'Leyenda') %&gt;% 
+        addLayersControl(overlayGroups = c('CENSO INE, 2017'),position ="bottomleft")
+    }
+```
+
+--
+- *Importante*: recuerde que estos argumentos nuevos deben estar en los 4 bloques condicionales para que se vean los efectos en las capas al cambiar de variable a mapear.
+
+---
+class: middle, center
+![:scale 70%](app1.7.png)
 ---
 background-image: url(logo_labgrs_color.png)
 background-position: center
