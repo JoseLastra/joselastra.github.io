@@ -106,9 +106,8 @@ server <- function(input, output, session) {
     #select file
     n <- which(dates==input$fechas)
     #colorramp
-    colores <- c('#a50026','#d73027','#f46d43','#fdae61','#fee090',
-                 '#ffffbf','#e0f3f8','#abd9e9','#74add1','#4575b4','#313695')
-    pal <- colorNumeric(palette = rev(colores), domain = seq(10,25,1), na.color = "transparent")
+    colores <- c("#ad0000","#ff0000","#ff9901","#fbff01","#11ff01","#05e8ff","#0519ff","#030d81")
+    pal <- colorBin(palette = rev(colores), domain = seq(10,25,1),bins = seq(10,25,0.1), na.color = "transparent")
     #raster file
     r <- sst.list[n] %>% raster()
     #add to map

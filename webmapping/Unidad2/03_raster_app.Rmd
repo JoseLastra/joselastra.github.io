@@ -1,5 +1,5 @@
 ---
-title: "Lectura y visualización básica de datos en RStudio"
+title: "Aplicaciones con geo-datos: Parte II"
 subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
 author: "Mg. José A. Lastra <br>Matías Olea<br>"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -22,344 +22,365 @@ background-size:40%
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+library(shiny)
+library(leaflet)
 library(tidyverse)
-library(readxl)
-library(DT)
+library(sf)
+library(raster)
+library(plotly)
+library(shinythemes)
+library(ggfortify)
 
 ```
-
 
 ---
 
 Librerías utilizadas en esta sesión
 
 ```{r eval=F}
+library(shiny)
+library(leaflet)
 library(tidyverse)
-library(readxl)
-```
-
---
-- Con estas librerías podremos leer, manipular, modificar y realizar análisis sobre matrices, vectores y data frames con información alfanumérica dentro de R.
-
---
-- Entender al menos las funciones básicas de lectura y manipulación de información es escencial para luego pasar de la codificación en R a la sintáxis de shiny.
-
----
-# Lectura de datos alfanuméricos
-
---
-- En R, podemos crear diferentes objetos y almacenar en ellos valores de distinto tipo (números, caracteres, matrices, etc.)
-
---
-- Estos valores pueden ser creados dentro de R o pueden ser leídos desde distintas fuentes de archivo.
-
---
-- A medida que vayamos avanzando ,veremos las diferentes estructuras que puede tener un objeto en R considerando la fuente de datos que utilicemos y la función de lectura empleada.
-
----
-# Lectura de archivos excel
-
---
-```{r ,eval=T, echo=T, error=FALSE,warning=FALSE,message=FALSE}
-
-## Leer archivo
-CTD <- read_excel("Araucania2018_CTD_C1.xls")
-```
-
---
-- Otras funciones de lectura son:
-  + read.csv(base R) ó read_csv(tidyverse)
-  + readRDS(base R)
-  + read.table(base R)
-
---
-- *Importante*: siempre debe revisar el directorio de trabajo donde se encuentra y asegurarse de que el archivo se encuentre en ese directorio.
-
-```{r echo=F, eval=T}
-CTD %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
+library(sf)
+library(raster)
+library(plotly)
+library(shinythemes)
+library(ggfortify)
 ```
 
 ---
-# Revisando la estructura
+# Aplicación de geodatos con Raster
 
 --
-- Un aspecto importante es poder ver algunas características de nuestra información, para lo cual disponemos de algunas funciones como:
+- Como ya vimos, shiny nos otorga flexibilidad para el trabajo con datos vectoriales y leaflet
 
 --
-- Para revisar primeros registros
-```{r}
-head(CTD)
+- Ahora utilizaremos información raster para  usar las reacciones de mapa sobre la información
+
+--
+- En esta aplicación usaremos datos satelitales de temperatura superficial del océano (SST) mensual MODIS Aqua, 4 km.
+
+--
+- Las imágenes las podrá encontrar en la carpeta *monthly_sst* y las tablas en la carpeta *tables*
+- La carpeta de imágenes tiene 204 archivos en formato *GeoTiff* desde enero de 2003 hasta diciembre de 2019 (medianas  mensuales)
+- En la carpeta de tablas disponemos del archivo de fechas *allDates_sst.csv*, la serie de tiempo *Charleston_TS.csv* y un archivo de nombre *pixels.RData* que contiene la información de todos los pixeles de SST
+- Disponga de estos en una carpeta de nombre data en el directorio de su aplicación
+
+--
+- *Recuerde*: revisar las librerías necesarias para la aplicación e instalarlas antes de comenzar.
+
+
+---
+#Estructura de la aplicación
+
+--
+- Esta vez veremos otro tipo de estrucura que disponible es ques el *navbarPage()*
+
+--
+- Crearemos dos páginas una con un mapa full page empleando *tags* y la función *div()*. La otra tendrá un módulo de trabajo adicional con series de tiempo, este módulo lo poblaremos con información en la *Unidad 4*
+
+--
+- Configuraremos la interfaz inicial y leeremos los datos raster empleando una lista para optimizar el despliegue de la aplicación
+
+---
+# UI
+
+```{r eval=F}
+library(shiny)
+library(leaflet)
+library(tidyverse)
+library(sf)
+library(raster)
+library(plotly)
+library(shinythemes)
+library(ggfortify)
+##########UI####################
+ui <- navbarPage(title = "SST data",theme = shinytheme('cerulean'),
+                 #primer panel
+                 tabPanel(title = "Mapa principal",
+                          div(class='outer',
+                          tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0;
+                                         overflow: hidden; padding: 0}"),
+                          leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
+                          )
+                          ),
+                 #segundo panel
+                 tabPanel(title = "Tab secundario")
+  
+)
 ```
 
 ---
-- Para revisar los últimos
-```{r}
-tail(CTD)
+# Server
+
+```{r eval=F}
+
+server <- function(input, output, session) {
+  #fechas
+  dates.table <- read_csv('data/tables/allDates_sst.csv') 
+  dates <- dates.table$x
+  #raster data
+  sst.list <- list.files(path = 'data/monthly_sst/',pattern = glob2rx('*sst*.tif'),full.names = T)
+  #load pixels data
+  load('data/tables/pixels.RData')
+}
+#Compile
+shinyApp(ui, server)
 ```
 
---- 
-- Podemos revisar la clase de objeto
+--
+.center[
+![:scale 70%](app2.1.png)
+]
 
-```{r}
-class(CTD)
+---
+# Agregado entradas y salidas
+
+--
+- Primero agregaremos un panel absoluto luego de nuestro mapa de leaflet donde pondremos las opciones
+
+--
+- Y añadiremos la opción *uiOutput()* que permetirá renderizar una entrada reactiva a partir de información en el servidor.
+
+--
+```{r eval=F}
+absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+              width = 300, height ="auto",
+              style="z-index:500;",
+              uiOutput('fechasInput'))
+```
+
+--
+- La salida de nombre *fechasInput* será renderizada a partir de nuestra tabla de fechas cargada en el server
+
+--
+- Para esto agregaremos la función renderUI({}) luego de la carga de nuestra información.
+
+---
+#Render UI
+
+--
+- Usaremos el objeto *dates* creado al inicio del server y usaremos ese listado para manipular nuestros datos
+
+--
+- Ordenaremos las fechas de la más actual a la más antigua con la función *rev()*
+
+--
+```{r eval=F}
+#renderizar la ui
+  output$fechasInput <- renderUI({
+    selectInput(inputId = 'fechas',label = 'Seleccione una fecha',
+                choices = rev(dates),selected = tail(dates,1))
+  })
+```
+
+.center[
+![:scale 70%](app2.2.png)
+]
+
+---
+# Render base map
+
+--
+- Después de incorporar el render de nuestro uiOutput renderizaremos el mapa empleando una vista inicial con la función *setView()*
+
+--
+```{r eval=F}
+#basemap
+  output$map <- renderLeaflet({
+    leaflet() %>% addProviderTiles(providers$Esri.WorldImagery) %>% 
+      setView(lng = -71.5, lat = -33.12,zoom = 6)
+  })
+```
+
+.center[
+![:scale 50%](app2.3.png)
+]
+
+---
+# Visualización dinámica de raster
+
+--
+- Al igual que para los datos vectoriales, eplearemos un *observeEvent* que controle los cambios en el proxy de nuestro mapa
+
+--
+- El evento deberá ser controlado por *input$fechas* creado en el server y generaremos la simbología de nuestra información.
+
+--
+```{r eval=F}
+observeEvent(input$fechas,{
+    #select file
+    n <- which(dates==input$fechas)
+    #colorramp
+    colores <- c("#ad0000","#ff0000","#ff9901","#fbff01","#11ff01","#05e8ff","#0519ff","#030d81")
+    pal <- colorNumeric(palette = rev(colores), domain = seq(10,25,1), na.color = "transparent")
+    
+  })
+```
+
+--
+- El objeto de nombre *"n"* cumplirá el rol de indicar cuál elemento de la lista debe ser desplegado en la aplicación a partir de la función *raster()*
+
+---
+# Creando archivo raster y mapa reactivo
+
+--
+```{r eval=F}
+observeEvent(input$fechas,{
+    #select file
+    n <- which(dates==input$fechas)
+    #colorramp
+    colores <- c("#ad0000","#ff0000","#ff9901","#fbff01","#11ff01","#05e8ff","#0519ff","#030d81")
+    pal <- colorNumeric(palette = rev(colores), domain = seq(10,25,1), na.color = "transparent")
+    #raster file
+    r <- sst.list[n] %>% raster()
+    #add to map
+    leafletProxy('map') %>% clearControls() %>% clearImages() %>% 
+      addRasterImage(r,group = 'MODIS Aqua 4km', method = 'ngb', colors = pal) %>% 
+      addLegend(pal = pal, values = seq(10,25,1),title = "SST °C",group = 'Leyenda',
+                position = 'bottomleft',layerId = 'anoma') %>% 
+      addLayersControl(overlayGroups = c('MODIS Aqua 4km'),position = 'bottomleft')
+  })
 ```
 
 ---
-- La estructura
-```{r}
-str(CTD)
+class: middle, center
+![:scale 95%](app2.4.png)
+---
+# Click reactivo
+
+--
+- Leaflet proporciona diferentes interacciones con nuestro server.
+
+--
+- En este caso usaremos la opción reactiva para extraer las coordenadas del punto
+
+--
+- Crearemos un objeto reactivo mediante *eventReactive()* y la opción *input$map_click* y la colocaremos en nuestro server
+
+--
+```{r eval=F}
+  xy.map <- eventReactive(input$map_click,{
+    click <- isolate({input$map_click})
+    clat <- click$lat
+    clng <- click$lng
+    dts <- SpatialPoints(data.frame(clng,clat),
+                         proj4string = CRS("+proj=longlat +datum=WGS84 +no_defs"))
+    dts
+  })
+```
+
+--
+- Con la función *SpatialPoints()* convertimos las coordenadas en un objeto espacial, considerando el *EPSG 4326*
+
+--
+- El objeto *xy.map()* servirá para poder extraer las series de tiempo que queremos.
+
+--
+- Para facilitar la extracción de las series usaremos el archivo *pixels.RData* que dispone del valor de cada pixel, con su respeciva coordenada en formato data frame en un objeto de nombre *tabla* que se genera al leer el archivo en el server.
+
+---
+# Marcadores reactivos en el mapa
+
+--
+- Con las coordenadas reactivas, agregaremos marcadores que muestren a los usuarios y usuarias que punto marcaron en el mapa
+
+--
+- *Tip:* cada reacción que modifique el mapa (agregar markers, polígonos, rasters, cambio de colores, etc.), es recomendable ponerlo en un *observer distinto*
+
+--
+- Agregue el código a su server
+
+```{r eval=F}
+ # click markers
+  observeEvent(input$map_click,{
+    click <- input$map_click
+     clat <- click$lat %>% round(4)
+    clng <- click$lng %>% round(4)
+    leafletProxy("map")  %>% clearMarkers() %>% addMarkers(lng=click$lng, lat=click$lat, 
+                                                           label= paste('lat:',clat,'lng',clng))
+  })
 ```
 
 ---
-# Uso de funciones
-
---
-- En R muchas veces emplearemos diferentes funciones sobre un mismo objeto.
-
---
-- Por esto es importante entender el concepto de anidar funciones y como R las lee.
-
---
-- En una forma convencional R lee el código desde dentro hacia afuera, como se puede ver en este ejemplo:
-
-```{r}
-## creando números aleatorios y calculando el mínimo
-min(rnorm(n = 100,mean = 10,sd = 4))
-```
-
---
-- Lo primero en ejecutarse es la función *rnorm()* y luego la función *min()*
-
+class: middle, center
+![:scale 80%](app2.5.png)
 ---
-
-- Al usar *tidyverse* podemos valernos de `%>%` para usar funciones consecutivas y leer de izquierda a derecha
-
---
-- Esto es útil porque hace que nuestro código en general sea más ordenado y encontrar errores también sea más simple.
+# Serie de tiempo reactiva
 
 --
-- Mismo ejemplo:
+- Para facilitar la secuencia lógica, crearemos un elemento reactivo que almacene la información del pixel seleccionado.
 
+--
+- Emplearemos para esto las coordenadas *xy.map()* y la función *cellFromXY()*.
 
-```{r echo=T}
-rnorm(n = 100, mean = 10, sd = 4) %>%
-min() 
+--
+- Con estos datos extraeremos la información de la tabla para nuestra serie de tiempo
+
+--
+- Crearemos un objeto de nombre *d.select* al principio de nuestro servidor, después de crear la lista de archivos de SST. Este servirá para dar la referencia de número de filas y columnas de nuestros rasters
+
+```{r eval=F}
+#cargar una banda para seleccionar el número de pixel
+d.select <- sst.list[1] %>% raster()
 ```
 
 --
-- *El resultado no es el mismo porque usamos números aleatorios sin configurar una semilla con la función `set.seed()`*
+- Ahora crearemos el objeto reactivo *r.cell()* que almacenará los valores de la serie para el pixel seleccionado
 
----
-# Seleccionando datos dentro de nuestro data frame
-
---
-# Columnas
-
-- Seleccionar datos puede ser bastante flexible y dependerá de lo que nos resulte más cómodo o más eficiente.
---
-```{r  echo=T,eval=T}
-#Forma 1
-CTD.sub <- CTD[,6:9] %>% as.data.frame()
-#esto es lo mismo
-CTD.sub <- as.data.frame(CTD[,6:9])
-```
-
-```{r echo=F}
-CTD.sub %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
-```
----
-
---
-- Aquí podemos crear un objeto con las columnas de interés y luego usarlo para seleccionarlas en nuestra tabla.
-
-```{r  echo=T,eval=T}
-#Forma 2
-columnas <- colnames(CTD)[6:9] #creando objeto para seleccionar columnas
-CTD.sub <- CTD[,columnas] %>% as.data.frame()
-
-#esto es lo mismo
-CTD.sub <- as.data.frame(CTD[,columnas])
-
-```
---
-```{r echo=F}
-CTD.sub %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
+```{r eval=F}
+#Creando vector con la serie
+r.cell <-  reactive({
+  a1 <- cellFromXY(d.select,xy.map()) #número de la celda o fila de nuestra tabla
+  c <- tabla[a1,3:ncol(tabla)] %>% as.numeric() #serie de datos para esa celda
+  return(c)
+  })
 ```
 
 ---
+# Mostrando la serie
 
 --
-- Aquí se emplea una función de la librería *dplyr*, que se carga cuando empleamos *tidyverse* y nos permite usar otras herramientas de manipulación de datos.
-
-```{r  echo=T,eval=T}
-#Forma 3
-CTD.sub <- CTD %>% dplyr::select(`Temperatura (°C)`, `Sigma T (Kg/m3)`, `Salinidad (UPS)`,`Oxigeno (ml/L)`)
-#esto es lo mismo
-CTD.sub <- dplyr::select(CTD, `Temperatura (°C)`, `Sigma T (Kg/m3)`, `Salinidad (UPS)`,`Oxigeno (ml/L)`)
-```
---
-```{r echo=F}
-CTD.sub %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
-```
----
-
-# Filas
+- Para mostrar la serie de manera adecuada, agregaremos en la UI un panel luego de nuestro panel de opciones, que contendrá la salida de nuestro gráfico empleando *plotlyOutput()*
 
 --
--La selección de filas también puede ser realizada de varias maneras
---
-```{r eval=T}
-##seleccionando 50 registros
-CTD_50 <- CTD[1:50,]
-```
-
-```{r echo=F}
-CTD_50 %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
+```{r eval=F}
+absolutePanel(id="tSeries",
+style="z-index:500;background-color: transparent; opacity: 1;margin: auto;border-color: transparent; padding-bottom: 2mm;padding-top: 1mm;",
+class = "panel panel-default",
+fixed = TRUE,draggable = F, top = 'auto', left = 5,
+right = 10, bottom = 10,width = '100%', height = "auto",
+plotlyOutput(outputId = 'ts',height = "250px")
+)
 ```
 
 ---
---
-```{r eval=T}
-##seleccionando registros según condiciones
-CTD_nehuentue2 <- CTD %>% filter(Estaciones=='Nehuentué2')
+# Renderizando el gráfico
 
-#esto es lo mismo
-CTD_nehuentue2 <- filter(CTD, Estaciones=='Nehuentué2')
+--
+- Ahora emplearemos la función *renderPlotly()* para trabajar renderizar la serie de tiempo en el server
+
+--
+```{r eval=F}
+#render plotly
+  output$ts <- renderPlotly({
+    ts.px <- ts(r.cell(),start = c(2003,1),end = c(2019,12),frequency = 12)
+    g <- ts.px %>% autoplot(ylab = 'SST °C',asp = 0.2)
+    #plot
+    ggplotly(g)
+  })
 ```
 
 --
-```{r echo=F}
-CTD_nehuentue2 %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
-```
+- Aquí transformamos nuestros valores en un objeto serie de tiempo mediante la función *ts()* y creamos nuestro gráfico con *autoplot()*
+
+--
+- *ggplotly()* convierte nuestro gráfico a un gráfico dinámico
 
 ---
-#¿Y si quiero las estaciones a 2, 5 y 10 millas?
-
---
-- Podemos emplear diferentes formas de establecer valores para filtrar nuestra información
-
---
-- Lo irmpotante es asegurarse que el valor esté dentro de la tabla (si es numérico) o escribirlo igual a como aparece en la tabla (si es caracter)
-
---
-- En este ejemplo se usa la función *unique()* para identificar los elementos únicos dentro de la coumna *Estaciones* y se seleccionan los primeros tres empleando los *[ ]*
-
---
-```{r}
-#solo para ver resultado
-unique(CTD$Estaciones)[1:3]
-```
-
----
-
---
-```{r eval=T}
-##seleccionando registros 
-estaciones <- unique(CTD$Estaciones)[1:3] #creando bjeto con valores de interes
-CTD_nehuentue <- CTD %>% filter(Estaciones %in% estaciones)
-#esto es lo mismo 
-CTD_nehuentue <- filter(CTD, Estaciones %in% estaciones)
-```
-
---
-```{r echo=F}
-CTD_nehuentue %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
-```
-
----
-#Graficando en R
-
---
-- En R podemos realizar todo tipo de análisis y además podemos obtener resultados gráficos de los mismos y de los datos de origen.
-
---
-- La función base de R para realizar gráficos es *plot()* y dispone de diferentes parámetros configurables [[Más detalles.](https://www.statmethods.net/advgraphs/parameters.html)]
-
---
-- Un ejemplo
-
-```{r eval = F,warning=F,error=F,message=F,fig.width=3.5,fig.retina=2,fig.align='center'}
- ctd_filter <- CTD %>% filter(Estaciones == 'Nehuentué2') #filtrando
-
-#Graficando
-plot(ctd_filter$`Temperatura (°C)`,ctd_filter$`Profundidad (m)`*-1, type = 'l', 
-     xlab='Temperatura',ylab = 'Profundidad', main='Perfil de temperatura Nehuentué 2 millas')
-```
-
----
-```{r echo=F,eval = T,warning=F,error=F,message=F,fig.width=3.5,fig.retina=2,fig.align='center'}
- ctd_filter <- CTD %>% filter(Estaciones == 'Nehuentué2') #filtrando
-
-#Graficando
-plot(ctd_filter$`Temperatura (°C)`,ctd_filter$`Profundidad (m)`*-1, type = 'l', 
-     xlab='Temperatura',ylab = 'Profundidad', main='Perfil de temperatura Nehuentué 2 millas')
-```
-
----
-
---
-- También podemos construir otro tipo de gráficos como boxplot o histogramas con las funciones base
-
---
-```{r echo=T,eval = T,warning=F,error=F,message=F,fig.width=6,fig.retina=2,fig.align='center'}
-#histograma
-hist(ctd_filter$`Temperatura (°C)`, xlab='Temperatura', 
-     main='Histograma de temperatura Nehuentué 2 millas')
-```
-
----
-```{r echo=T,eval = T,warning=F,error=F,message=F,fig.width=5,fig.retina=2,fig.align='center'}
-#histograma
-boxplot(ctd_filter$`Temperatura (°C)`, ylab='Temperatura', 
-     main='Histograma de temperatura Nehuentué 2 millas')
-```
-
----
-# ggplot2
-
---
-- Además de poder realizar la mayoría de los gráficos usando las funciones base de R, existen diferentes librerías gráficas que permiten llevar más allá la calidad de las figuras.
-
---
-- Una de las más conocidas es *ggplot2*[[Más información](https://ggplot2.tidyverse.org/)], que se carga en nuestro entorno de trabajo al cargar *tidyverse*
-
---
-- Un código base ejemplo consiste en:
-  + Indicar la tabla (data frame) -> *data = mtcars*
-  + Indicar qué graficaremos, lo normal es indicar un *x* e *y* -> *aes(x = mpg,y = wt)*
-
-```{r eval=T,warning=F,error=F,message=F,fig.width=4,fig.height=3,fig.retina=2,fig.align='center'}
-## basic plot
-##usando datos propios de R
-ggplot(data = mtcars, aes(x = mpg,y = wt))
-```
-
---
-- Esto solo crea el crea un lienzo para disponer del gráfico
-
---
-- Además debemos indicar como queremos que la información se visualice (líneas, puntos, etc.)
-
----
-
---
-- *Importante*: veremos muchas más alternativas más adelante, pero un buen ugar para indagar es el siguiente [sitio](https://www.r-graph-gallery.com/)
-
-```{r eval=T,warning=F,error=F,message=F,fig.width=5,fig.height=5,fig.retina=2,fig.align='center'}
-## basic plot
-##usando datos propios de R
-ggplot(data = mtcars, aes(x = mpg,y = wt)) +
-  geom_point()
-```
-
-
+class: middle, center
+![:scale 80%](app2.6.png)
 ---
 background-image: url(logo_labgrs_color.png)
 background-position: center
