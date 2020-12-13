@@ -14,7 +14,9 @@ ui <- bootstrapPage(
                 style="z-index:500;", top = 90, left = "auto", right = 20, 
                 bottom = "auto",
                 width = 400, height ="auto",
-                class = "panel panel-default"
+                class = "panel panel-default",
+                selectInput(inputId = "campo",label = 'Seleccione un campo de la lista',
+                            choices = c("T_HOM","T_MUJ","T_POB","T_VIV"), selected = "T_POB")
   )
 )
 

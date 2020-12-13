@@ -84,7 +84,6 @@ ui &lt;- bootstrapPage(
 server &lt;- function(input, output, session) {
   #Load data
   valpo &lt;- read_sf('censoINE_Valparaiso2017.gpkg') %&gt;% st_transform(4326)
-  pvl &lt;- read_sf('puntosVerdesyLimpios_MMA.gpkg') %&gt;% st_transform(4326)
   ## rendering base map
   output$map &lt;- renderLeaflet({
     leaflet() %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% 
@@ -101,6 +100,27 @@ shinyApp(ui,server)
 ---
 class: middle, center
 ![:scale 75%](app1.1.png)
+
+---
+# Antes de empezar
+
+- Además de utilizar eventos puestos en la UI (sliders, select inputs, acction buttons, etc.), podemos hacer uso de eventos de mapa y objeto para pasarlos por el server.
+
+--
+- Los eventos de objeto se configuran así `input$MAPID_OBJCATEGORY_EVENTNAME` donde:
+  + MAPID: nombre del mapa;
+  + OBJCATEGORY: tipo de elemento para pasaro por el evento reactivo (marker, shape, geojson o topojson);
+  + EVENTNAME: reacción al mouse (click, mouseover y mouseout)
+
+--
+- Los eventos de mapa se configuran así `input$MAPID_EVENTNAME` donde las opciones de evento disponibles son:
+  + Click;
+  + Bounds;
+  + Zoom;
+  + Center;
+
+- Usaremos algunos de estos eventos durante el desarrollo de nuestra aplicación
+
 ---
 # Incorporando Elementos en la UI
 
@@ -133,34 +153,40 @@ absolutePanel(id="controls",
 ---
 class: middle, center
 ![:scale 75%](app1.2.png)
----
-# Antes de empezar
 
-- Además de utilizar eventos puestos en la UI (sliders, select inputs, acction buttons, etc.), podemos hacer uso de eventos de mapa y objeto para pasarlos por el server.
+---
 
 --
-- Los eventos de objeto se configuran así `input$MAPID_OBJCATEGORY_EVENTNAME` donde:
-  + MAPID: nombre del mapa;
-  + OBJCATEGORY: tipo de elemento para pasaro por el evento reactivo (marker, shape, geojson o topojson);
-  + EVENTNAME: reacción al mouse (click, mouseover y mouseout)
+- A continuación, incorporaremos la opción de seleccionar un campo para visualizar en el mapa como información temática.
 
 --
-- Los eventos de mapa se configuran así `input$MAPID_EVENTNAME` donde las opciones de evento disponibles son:
-  + Click;
-  + Bounds;
-  + Zoom;
-  + Center;
+- Es importante considerar que cada elemento en la UI va serparado por una coma y que podemos revisar los elementos disponibles en el siguiente [vínculo](https://shiny.rstudio.com/gallery/widget-gallery.html)
 
-- Usaremos algunos de estos eventos durante el desarrollo de nuestra aplicación
+--
+- Nuestros input los pondremos en el panel absoluto.
+
+--
+
+```r
+absolutePanel(id="controls",
+              style="z-index:500;", top = 90, left = "auto", right = 20,bottom = "auto",
+              width = 400, height ="auto",class = "panel panel-default",
+              selectInput(inputId = "campo",label = 'Seleccione un campo de la lista',
+                          choices = c("T_HOM","T_MUJ","T_POB","T_VIV"), selected = "T_POB")
+              )
+```
+
+--
+- Puede usar diferentes elementos para definir las opciones (vectores, listas, caracteres, números, etc.)
+
+--
+- Lo importante es considerar la operación posterior en el server.
 
 ---
-# Eventos de mouse
+class: middle, center
+![:scale 95%](app1.3.png)
 
----
-# Cambios en el proxy
 
----
-# Procesamiento básico
 
 ---
 background-image: url(logo_labgrs_color.png)

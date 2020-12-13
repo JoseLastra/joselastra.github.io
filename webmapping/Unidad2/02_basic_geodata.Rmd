@@ -89,7 +89,6 @@ ui <- bootstrapPage(
 server <- function(input, output, session) {
   #Load data
   valpo <- read_sf('censoINE_Valparaiso2017.gpkg') %>% st_transform(4326)
-  pvl <- read_sf('puntosVerdesyLimpios_MMA.gpkg') %>% st_transform(4326)
   ## rendering base map
   output$map <- renderLeaflet({
     leaflet() %>% addProviderTiles(providers$CartoDB.DarkMatter) %>% 
@@ -160,6 +159,36 @@ class: middle, center
 ![:scale 75%](app1.2.png)
 
 ---
+
+--
+- A continuación, incorporaremos la opción de seleccionar un campo para visualizar en el mapa como información temática.
+
+--
+- Es importante considerar que cada elemento en la UI va serparado por una coma y que podemos revisar los elementos disponibles en el siguiente [vínculo](https://shiny.rstudio.com/gallery/widget-gallery.html)
+
+--
+- Nuestros input los pondremos en el panel absoluto.
+
+--
+```{r eval=F}
+absolutePanel(id="controls",
+              style="z-index:500;", top = 90, left = "auto", right = 20,bottom = "auto",
+              width = 400, height ="auto",class = "panel panel-default",
+              selectInput(inputId = "campo",label = 'Seleccione un campo de la lista',
+                          choices = c("T_HOM","T_MUJ","T_POB","T_VIV"), selected = "T_POB")
+              )
+```
+
+--
+- Puede usar diferentes elementos para definir las opciones (vectores, listas, caracteres, números, etc.)
+
+--
+- Lo importante es considerar la operación posterior en el server.
+
+---
+class: middle, center
+![:scale 95%](app1.3.png)
+
 
 
 ---
