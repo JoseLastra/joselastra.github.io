@@ -43,6 +43,14 @@ library(rgdal)
 library(leaflet)
 ```
 
+--
+A continuación, dispone de todas las líneas de código para seguir el tutorial de manera complementaria.
+
+---
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l48" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ---
 # Estructurando nuestra app
 
