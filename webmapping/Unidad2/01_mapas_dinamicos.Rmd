@@ -186,10 +186,10 @@ ggplot() + geom_sf(data = marga.marga, aes(fill=T_POB))+
 
 
 ---
-# Conviertiendo a mapa dinámico
+# Convirtiendo a mapa dinámico
 
 --
-- Un paso clave es guardar nuestro mapa en un objeto siguiendo el siguiente ejemplo
+- Un paso clave es guardar nuestro mapa en un objeto siguiendo el ejemplo
 
 --
 ```{r}
@@ -243,7 +243,7 @@ leaflet() %>% addTiles()
 - Primero debemos reproyectar nuestra información para que opere en leaflet
 
 --
-- Acá utilizaremos la función *st_cast()* para pasar nuestro archiv a tipo puntos ya que, hasta la fecha no hay soporte para tipo multipuntos en leaflet.
+- Acá utilizaremos la función *st_cast()* para pasar nuestro archivo a tipo puntos ya que, hasta la fecha no hay soporte para tipo multipuntos en leaflet.
 
 --
 - *Importante*: Siempre considere revisar bien las características de su capa de puntos y verifique que no haya repitición o inconsistencias en su capa. Incluso si viene desde fuentes oficiales

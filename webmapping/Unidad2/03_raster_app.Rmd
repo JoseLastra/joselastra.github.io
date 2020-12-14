@@ -25,7 +25,6 @@ options(htmltools.dir.version = FALSE)
 library(shiny)
 library(leaflet)
 library(tidyverse)
-library(sf)
 library(raster)
 library(plotly)
 library(shinythemes)
@@ -41,7 +40,6 @@ Librerías utilizadas en esta sesión
 library(shiny)
 library(leaflet)
 library(tidyverse)
-library(sf)
 library(raster)
 library(plotly)
 library(shinythemes)
@@ -74,7 +72,7 @@ library(ggfortify)
 #Estructura de la aplicación
 
 --
-- Esta vez veremos otro tipo de estrucura que disponible es ques el *navbarPage()*
+- Esta vez veremos otro tipo de estrucura disponible que es el *navbarPage()*
 
 --
 - Crearemos dos páginas una con un mapa full page empleando *tags* y la función *div()*. La otra tendrá un módulo de trabajo adicional con series de tiempo, este módulo lo poblaremos con información en la *Unidad 4*
@@ -89,7 +87,6 @@ library(ggfortify)
 library(shiny)
 library(leaflet)
 library(tidyverse)
-library(sf)
 library(raster)
 library(plotly)
 library(shinythemes)
@@ -99,8 +96,7 @@ ui <- navbarPage(title = "SST data",theme = shinytheme('cerulean'),
                  #primer panel
                  tabPanel(title = "Mapa principal",
                           div(class='outer',
-                          tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0; right: 0; bottom: 0;
-                                         overflow: hidden; padding: 0}"),
+                          tags$style(type = "text/css",".outer {position: fixed; top: 41px; left: 0; right: 0;bottom: 0;overflow: hidden; padding: 0}"),
                           leafletOutput(outputId = "map", width = "100%", height = "100%"), # Main map
                           )
                           ),
@@ -134,7 +130,7 @@ shinyApp(ui, server)
 ]
 
 ---
-# Agregado entradas y salidas
+# Agregando entradas y salidas
 
 --
 - Primero agregaremos un panel absoluto luego de nuestro mapa de leaflet donde pondremos las opciones
@@ -180,7 +176,7 @@ absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
 ]
 
 ---
-# Render base map
+# Render basemap
 
 --
 - Después de incorporar el render de nuestro uiOutput renderizaremos el mapa empleando una vista inicial con la función *setView()*
@@ -202,7 +198,7 @@ absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
 # Visualización dinámica de raster
 
 --
-- Al igual que para los datos vectoriales, eplearemos un *observeEvent* que controle los cambios en el proxy de nuestro mapa
+- Al igual que para los datos vectoriales, emplearemos un *observeEvent* que controle los cambios en el proxy de nuestro mapa
 
 --
 - El evento deberá ser controlado por *input$fechas* creado en el server y generaremos la simbología de nuestra información.
@@ -212,7 +208,7 @@ absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
 observeEvent(input$fechas,{
     #select file
     n <- which(dates==input$fechas)
-    #colorramp
+    #color ramp
     colores <- c("#ad0000","#ff0000","#ff9901","#fbff01","#11ff01","#05e8ff","#0519ff","#030d81")
     pal <- colorNumeric(palette = rev(colores), domain = seq(10,25,1), na.color = "transparent")
     
@@ -230,7 +226,7 @@ observeEvent(input$fechas,{
 observeEvent(input$fechas,{
     #select file
     n <- which(dates==input$fechas)
-    #colorramp
+    #color ramp
     colores <- c("#ad0000","#ff0000","#ff9901","#fbff01","#11ff01","#05e8ff","#0519ff","#030d81")
     pal <- colorNumeric(palette = rev(colores), domain = seq(10,25,1), na.color = "transparent")
     #raster file
@@ -278,7 +274,7 @@ class: middle, center
 - El objeto *xy.map()* servirá para poder extraer las series de tiempo que queremos.
 
 --
-- Para facilitar la extracción de las series usaremos el archivo *pixels.RData* que dispone del valor de cada pixel, con su respeciva coordenada en formato data frame en un objeto de nombre *tabla* que se genera al leer el archivo en el server.
+- Para facilitar la extracción de las series usaremos el archivo *pixels.RData* que dispone del valor de cada pixel, con su respectiva coordenada en formato data frame en un objeto de nombre *tabla* que se genera al leer el archivo en el server.
 
 ---
 # Marcadores reactivos en el mapa

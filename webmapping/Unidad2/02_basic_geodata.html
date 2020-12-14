@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 13/12/2020
+### 14/12/2020
 
 ---
 
@@ -35,8 +35,6 @@ library(shiny)
 library(tidyverse)
 library(sf)
 library(rgdal)
-library(raster)
-library(plotly)
 library(leaflet)
 ```
 
@@ -71,8 +69,6 @@ library(shiny)
 library(tidyverse)
 library(sf)
 library(rgdal)
-library(raster)
-library(plotly)
 library(leaflet)
 ########### UI #######################
 ui &lt;- bootstrapPage(
@@ -98,7 +94,7 @@ shinyApp(ui,server)
 
 ---
 class: middle, center
-![:scale 75%](app1.1.png)
+![:scale 65%](app1.1.png)
 
 ---
 # Antes de empezar
@@ -151,7 +147,7 @@ absolutePanel(id="controls",
 
 ---
 class: middle, center
-![:scale 75%](app1.2.png)
+![:scale 65%](app1.2.png)
 
 ---
 
@@ -195,7 +191,7 @@ class: middle, center
 - En el caso de las aplicaciones simples vistas anteriormente esas operaciones pueden ser directas o llevadas a cabo con un conductor reactivo (reactive u observer)
 
 --
-- Para conducir los cambios en nuestro mapa base emplearemos principalmente los *observers* y la función *leafletProxy()* oara que nuestro mapa se actualice sin tener que recargarse cada vez que haya un cambio en la UI
+- Para conducir los cambios en nuestro mapa base emplearemos principalmente los *observers* y la función *leafletProxy()* para que nuestro mapa se actualice sin tener que recargarse cada vez que haya un cambio en la UI
 
 --
 - A continuación lo primero será establecer el cambio reactivo de leyenda creando un *observeEvent({})*, que pondremos en el server después de nuestro mapa base.
@@ -270,7 +266,7 @@ class: middle, center
 # Etiquetas
 
 --
-- Además incorporar la leyenda, podemos hacer mucho más amigable la navegación por el mapa incorporndo etiquetas a nuestra información.
+- Además incorporar la leyenda, podemos hacer mucho más amigable la navegación por el mapa incorporando etiquetas a nuestra información.
 
 --
 - Para esto disponemos de dos argumentos que son *popup* y *label*
@@ -295,7 +291,7 @@ class: middle, center
 ```
 
 --
-- *Importante*: Aquí empleamos la función *as.character()* para indicar que debe mostrar texto, ya que a veces al mostrar númros popup presenta problemas.
+- *Importante*: Aquí empleamos la función *as.character()* para indicar que debe mostrar texto, ya que a veces al mostrar números popup presenta problemas.
 
 ---
 class: middle, center
@@ -340,7 +336,7 @@ class: middle, center
 
 ---
 class: middle, center
-![:scale 65%](app1.6.png)
+![:scale 60%](app1.6.png)
 
 ---
 # Opciones de realce de polígonos
@@ -376,7 +372,6 @@ if(input$campo == "T_POB"){
 ---
 class: middle, center
 ![:scale 70%](app1.7.png)
----
 
 ---
 background-image: url(logo_labgrs_color.png)
