@@ -1,0 +1,73 @@
+---
+title: "Lectura y visualización básica de datos en RStudio"
+subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
+author: "Mg. José A. Lastra <br>Matías Olea<br>"
+institute: "Laboratorio Geo-Información y Percepción Remota"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  xaringan::moon_reader:
+    css: [fc]
+    lib_dir: libs
+    nature:
+      highlightStyle: zenburn
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+
+---
+# Función map()
+
+---
+# Usando map sobre una colección de imágenes
+
+--
+Construyendo una función
+
+--
+Aplicando función
+
+---
+# Aplicando varias funciones y agregando bandas a la colección
+
+---
+# Agregaciones temporales
+
+--
+Estadísticas en el tiempo: Agregaciones temporales
+
+--
+Estadísticas de zona: agregaciones espaciales
+
+--
+Exportación de información tabular
+
+---
+# Series de tiempo
+
+--
+Extracción de series
+
+--
+
+
+
+
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+
+
