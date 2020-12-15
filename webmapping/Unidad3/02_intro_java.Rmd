@@ -137,6 +137,103 @@ print( funcion_saludo( 'José' ) );
 --
 - **Strings**: Para definir un string, tenemos que agregarlo al contenedor ee.String() y el contenedor será enviado a GEE.
 
+```{js}
+// Definimos un string y lo agregamos al contenedor
+var unString = 'procesando';
+var eeString = ee.String(unString);
+print('Donde estabas? ', eeString);
+```
+
+---
+- **Números**: Utilice ee.Number() para crear un objeto número en el servidor. Por ejemplo, utilice el método JavaScript Math.E para crear un valor de la constante en el servidor:
+
+```{js}
+// Definimos un número en el servidor
+var serverNumber = ee.Number(Math.E);
+print('e = ', serverNumber);
+```
+
+--
+Los métodos *ee.String()* y *ee.Number()* son constructores, y por tanto, tienen argumentos (y posiblemente otros parámetros) que ponemos en un contenedor, y retornamos el contenedor y su contenido como un objeto EE que manipulamos en nuestro código. Un constructor comienza siempre con ee y retorna un objeto EE.
+
+---
+# Métodos en un objeto EE
+
+--
+- Para operar con un objeto de EE vamos a utilizar los métodos que son provistos según la clase de objeto con la que pretendemos trabajar. 
+
+
+```{js}
+// Utilice una función incorporada para realizar una operación en el número.
+var logE = serverNumber.log();
+print('log(e) = ', logE);
+```
+
+
+**Listas**: Podemos hacer una lista de JavaScript como un objeto ee.List en el servidor, ponemos un literal de JavaScript en un contenedor como con números y cadenas.
+
+```{js}
+// Ejemplos de listas, secuencia por extensión
+var eeList = ee.List([1, 2, 3, 4, 5]);
+// Secuencia usando el método del objeto list
+var secuencia = ee.List.sequence(1, 5);
+print('Secuencia:', secuencia);
+
+```
+
+---
+Podemos recuperar un elemento de la lista con el operador *get()*. Recuerde que esta lista solo existe en el servidor, EE nos permite acceder a esos objetos solo a través de sus métodos.
+
+--
+```{js}
+// Usamos un método de ee.List para recuperar un valor
+var valor = secuencia.get(2);
+print('Valor en la posición 2:', valor);
+
+```
+
+**Diccionarios**: Podemos crear un diccionario en Earth Engine a partir de un objeto JavaScript, de la misma manera que lo hicimos con String, Number y List. La función **ee.Dictionary** se construye desde un objeto JavaScript.
+
+--
+```{js}
+// Crear un diccionario en el servidor
+var diccionario = ee.Dictionary({
+  e: Math.E,
+  pi: Math.PI,
+  phi: (1 + Math.sqrt(5)) / 2
+});
+
+// Recuperar algunos valores desde el diccionario.
+print('Euler:', diccionario.get('e'));
+print('Pi:', diccionario.get('pi'));
+print('Golden ratio:', diccionario.get('phi'));
+
+// Recuperar todas las claves
+print('Claves: ', diccionario.keys());
+
+```
+
+---
+**Fechas**: Los objetos de tipo **ee.Date** nos permiten representar tiempo. Al igual que con los otros tipos de datos, **NO** se debe confundir entre **Date** de JavaScript y el ee.Date de EE.
+
+--
+```{js}
+// Definir una fecha en Earth Engine.
+var fecha = ee.Date('2015-12-31');
+print('Fecha:', fecha);
+
+// Recuperar la fecha actual usando el método Date.now() de JavaScript.
+var now = Date.now();
+print('Milisegundos desde el 1 de Enero de 1970', now);
+
+// Inicializar el objeto ee.Date
+var eeNow = ee.Date(now);
+print('Now:', eeNow);
+
+```
+
+Los objetos fechas son muy importantes para filtrar las colecciones, utilizando la función **filterDate()**.
+
 ---
 background-image: url(logo_labgrs_color.png)
 background-position: center
