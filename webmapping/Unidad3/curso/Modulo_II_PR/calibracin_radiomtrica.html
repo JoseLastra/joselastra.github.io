@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es" xml:lang="es" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Calibración radiométrica | Procesamiento Digital (Parte 1) </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta http-equiv="content-language" content="es" />
+<meta name="author" content="LABGRS" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.5 - exelearning.net" />
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+<body class="exe-web-site" id="exe-node-2"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Saltar la navegación</a></p>
+<div id="header"  style="background-image: url(bannertele.png); background-repeat: repeat-x;"><div id="headerContent">Procesamiento Digital (Parte 1)</div></div>
+<div id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">ANÁLISIS DE IMÁGENES SATELITALES PARA EL ESTUDIO DE LA SUPERFICIE TERRESTRE</a></li>
+   <li class="current-page-parent"><a href="unidad_de_aprendizaje_2_procesamiento_digital_parte_i.html" class="current-page-parent daddy">Unidad de Aprendizaje 2: Procesamiento Digital (Parte I)</a>
+   <ul>
+      <li id="active"><a href="calibracin_radiomtrica.html" class="active no-ch">Calibración radiométrica</a></li>
+      <li><a href="porque_es_importante_calibrar_una_imagen.html" class="no-ch">¿Porque es importante calibrar una imagen?</a></li>
+      <li><a href="tipos_de_correcciones.html" class="no-ch">Tipos de correcciones</a></li>
+      <li><a href="correccin_geomtrica.html" class="no-ch">Corrección geométrica</a></li>
+      <li><a href="correccin_atmosfrica.html" class="no-ch">Corrección atmosférica</a></li>
+      <li><a href="correccin_atmosfrica0.html" class="no-ch">Corrección atmosférica</a></li>
+      <li><a href="correccin_en_rango_termal.html" class="no-ch">Corrección en rango termal</a></li>
+   </ul>
+   </li>
+</ul>
+</div>
+<div id='topPagination'>
+<div class="pagination noprt">
+<a href="unidad_de_aprendizaje_2_procesamiento_digital_parte_i.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="porque_es_importante_calibrar_una_imagen.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+</div>
+</div>
+<div id="main-wrapper">
+<div id="main"><a name="main"></a>
+<div id="nodeDecoration"><h1 id="nodeTitle">Calibración radiométrica</h1></div>
+<div class="iDevice_wrapper textIdevice" id="id2">
+<div class="iDevice emphasis0" >
+<div id="ta2_110_2" class="block iDevice_content">
+<div class="exe-text"><p style="text-align: justify;"><span style="font-size: 12pt;">Uno de los procesos importantes para trabajar con los datos provenientes de imágenes satelitales consiste en realizar una adecuada <strong>calibración de la información</strong>, esto con el fin de evitar errores en la información espectral que se busca utilizar. </span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt;">En un gran número de sensores (TM, ETM+, OLI, ALI, etc.) se establece la conversión a radianza espectral en base a una relación lineal existente entre el nivel digital bruto y los valores de radianza. Aunque siempre se deben consultar los manuales de usuario de cada uno de los productos que estemos empleando.<br /></span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt;">De esta forma la ecuación que describe la radianza espectral es (Chander et al., 2009):</span></p>
+<p><span style="font-size: 12pt;"><img src="Captura_de_pantalla_de_2020-12-12_20-20-58.png" style="display: block; margin-left: auto; margin-right: auto;" width="699" height="164" /></span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt;">En el caso del sensor OLI del satélite Landsat 8, la ecuación se describe de la siguiente forma (Landsat Mission, 2013):</span></p>
+<p style="text-align: center;"><span style="font-size: 12pt;"><img src="Captura_de_pantalla_de_2020-12-12_20-23-49.png" width="750" height="144" /><br /></span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">Los datos para obtener la radianza espectral aparente, están disponibles en la información de cabecera de la imagen contenida en el archivo *.txt correspondiente al metadato y el cálculo puede generarse de forma manual utilizando cualquier módulo matemático de la imagen en un software SIG o de procesamiento de imágenes y datos, o también de forma automática. De igual manera, existen alternativas automáticas para calibración  y corrección y módulos que pueden asociarse en diferentes plataformas como ENVI, ERDAS, PCI y también en QGIS.<br /></span></p>
+<div style="text-align: justify;"><span style="font-size: 12pt;">Nuestro software QGIS no está especializado en elanálisis de imágenes satelitales propiamente tal, pero su versatilidad le permite combinar herramientas de otros softwares y ejecutar algoritmos de análisis a través de complementos o plug-in. Le invitamos a que revise el siguiente <span style="color: #0000ff;"><strong>videotutorial</strong> </span>dónde aprenderá a descargar complementos:</span></div>
+<div style="text-align: center;"><span style="font-size: 12pt; color: #ffffff;">.</span></div>
+<div style="text-align: justify;"></div>
+<div style="text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/8rasLRaW9sM" allowfullscreen="allowfullscreen"></iframe></div></div>
+</div>
+</div>
+</div>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Obra publicada con</span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Reconocimiento Compartir igual 4.0</a></p>
+</div>
+</div>
+</div>
+<div id='bottomPagination'>
+<div class="pagination noprt">
+<a href="unidad_de_aprendizaje_2_procesamiento_digital_parte_i.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="porque_es_importante_calibrar_una_imagen.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+</div>
+</div>
+<div id="siteFooter">LAB. DE GEO-INFORMACIÓN Y PERCEPCIÓN REMOTA | PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO</div></div>
+<script type="text/javascript" src="_style_js.js"></script></body></html>

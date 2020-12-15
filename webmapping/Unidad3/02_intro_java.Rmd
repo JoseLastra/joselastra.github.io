@@ -1,0 +1,146 @@
+---
+title: "Lectura y visualización básica de datos en RStudio"
+subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
+author: "Mg. José A. Lastra <br>Matías Olea<br>"
+institute: "Laboratorio Geo-Información y Percepción Remota"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
+output:
+  xaringan::moon_reader:
+    css: [fc]
+    lib_dir: libs
+    nature:
+      highlightStyle: zenburn
+      ratio: '16:9'
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "macros.js"
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+
+---
+# Recordando a Google Earth Engine
+
+--
+- Google Earth Engine (GEE) es una plataforma basada en la nube para el análisis geoespacial a escala planetaria que ofrece las capacidades computacionales masivas de Google permitiendo abordar una variedad de problemas sociales de alto impacto, incluyendo deforestación, sequía, desastres, enfermedades, seguridad alimentaria, gestión del agua, monitoreo del clima y protección del medio ambiente (Gorelick *et al.*, 2017)
+
+--
+- Nosotros haremos uso de la consola online que funciona en base a JavaScript.
+
+--
+- Lo primero será abrir el [(https://code.earthengine.google.com/)](https://code.earthengine.google.com/), conviene utilizar Google Chrome de preferencia ya que funciona mejor que en otros navegadores web.
+
+--
+- Usemos la consola
+
+--
+```{js}
+print('Hola Mundo!');
+```
+
+--
+- Podemos agregar comentarios usando *//*
+
+---
+# Tipos de datos
+
+--
+-**Strings**: Variables de tipo textos o cadenas de caracteres, se utilizan las comillas simples o dobles para definir una cadena.
+
+```{js}
+// Usamos comillas simples o dobles para crear un string
+var saludoString = 'Hola Mundo!!';
+print( saludoString );
+```
+
+- **Importante**: Tenga en cuenta que las variables se definen utilizando **var**
+
+
+--
+-**Números**: En las variables podemos almacenar números de distinta longitud y precisión.
+
+```{js}
+// Asignamos un número a una variable
+var numero = 38;
+print('El valor es:', numero);
+```
+
+
+--
+- **Listas**: Las listas las definimos con corchetes [ ]. En GEE son útiles para realizar selecciones de elementos y podemos almacenar números, caracteres u otros elementos.
+
+```{js}
+// Lista de números
+var listDeNumeros = [0, 1, 1, 2, 3, 5];
+print('Lista de Números:', listDeNumeros);
+// Lista de strings.
+var listDeStrings = ['a', 'b', 'c', 'd'];
+print('Lista de strings:', listDeStrings);
+```
+
+---
+
+--
+- **Objetos**: En JavaScript los objetos son diccionarios de pares **clave: valor**. Para crear un objeto (o diccionario) se utilizan las llaves **{ }**. Útil en procesos como creación de parámetros de visualización o exportación de elementos 
+
+```{js}
+// Usamos las llaves {} para hacer un diccionario de pares clave:valor
+var object = {
+  foo: 'bar',
+  baz: 38,
+  stuff: ['Algo', 'eso', 'otro más']
+};
+print('Diccionario:', object);
+
+// Para acceder al valor de un diccionario se utiliza la clave y los corchetes [ ].
+print('Imprime la clave foo:', object['foo']);
+// También se puede acceder utilizando la notación con punto.
+print('Print stuff:', object.stuff);
+```
+
+---
+
+--
+- **Funciones**: Las funciones son otra forma de mejorar la legibilidad y reutilización del código mediante el agrupamiento de operaciones.
+
+--
+- Una función se define con mediante function.
+- Los nombres de las funciones comienzan con una letra y tienen un par de paréntesis al final.
+- Las funciones a menudo toman parámetros que le dicen a la función qué hacer. Estos parámetros van dentro de los paréntesis ().
+- El conjunto de declaraciones que componen la función van dentro de las llaves { }. finalmente, return indica cuál es la salida de la función.
+
+--
+```{js}
+// Ejemplo de cómo se define una función
+var funcion_saludo = function( nombre ) {
+  var mensaje = '¡Hola ' + nombre + '! ¿Cómo estas?';
+  return mensaje;
+};
+// llamamos a la función con su parámetro.
+print( funcion_saludo( 'José' ) );
+
+```
+
+---
+# Objetos de GEE
+
+--
+- La forma de definir elementos en GEE tiene algunos contenedores específicos para ser enviados y utilizados en sus servidores.
+
+--
+- **Strings**: Para definir un string, tenemos que agregarlo al contenedor ee.String() y el contenedor será enviado a GEE.
+
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
+
+
+
