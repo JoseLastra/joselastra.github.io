@@ -1,5 +1,5 @@
 ---
-title: "Lectura y visualización básica de datos en RStudio"
+title: "Análisis masivo en GEE"
 subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
 author: "Mg. José A. Lastra <br>Matías Olea<br>"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -26,15 +26,62 @@ options(htmltools.dir.version = FALSE)
 
 
 ---
+# Funciones
+
+--
+- Dentro de la sección *Docs* de GEE usted tiene a disposición funciones específicas para trabajar con imágenes y con colecciones de imágenes, dependiendo de cuál sea el análisis a realizar: funciones booleanas, matemáticas, transformaciones, análisis espectral, entre otros.
+
+--
+- Para aplicar masivamente un análisis nomralmente se recurre al uso de ciclos
+
+--
+- *Importante*: En nuestro code editor se recomienda evitar a toda costa el uso convencional de ciclos; debido a que esto trae la operación al explorador y puede generar errores de funcionamiento
+
+---
 # Función map()
+
+--
+- En GEE se dispone de la función *map()* para lograr el procesamiento masivo de datos (colecciones de imágenes, geometrías, etc.)
+
+--
+- La función *map()* envía automáticamente la operación a los servidores de Google para ser paralelizado permitiendo tener resultados en segundos
 
 ---
 # Usando map sobre una colección de imágenes
 
 --
-Construyendo una función
+- Usaremos el producto *Landsat 8 de nivel 2* y filtraremos una zona de interés considerando todas las imágenes disponibles en nuestra zona.
 
 --
+- *Importante*: recuerde que puede agregar más filtros: nubosidad, calidad de la imagen, etc.
+
+--
+
+```{js}
+//Funciones avanzadas de imágenes satelitales
+//Carga colección Landsat 8 (SR)
+var l8collection = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+          .filterBounds(geometry);
+print(l8collection,'colección landsat');
+
+```
+
+--
+- Construyendo una función
+
+
+```{js}
+var nombre_funcion = function(objeto){
+  PROCESAMIENTO;
+  return objeto_salida;   
+};
+
+```
+
+--
+- Considerando un nombre de función, el objeto al cual se aplicará (imagen, feature), el procesamiento que se hará sobre el objeto y la salida que se desea.
+
+---
 Aplicando función
 
 ---
