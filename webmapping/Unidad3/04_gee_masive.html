@@ -14,7 +14,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### Mg. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 18/12/2020
+### 20/12/2020
 
 ---
 
@@ -78,60 +78,652 @@ print(l8collection,'colección landsat');
 &lt;/script&gt;
 
 --
-- Construyendo una función
+- Crearemos una función que solo considere los valores de información asociados a *clear terrain* dentro de la escena, según el manual de los productos landsat de nivel 2 y su banda QA [Landsat Product Guide Colección 1 Level 2, p11](https://prd-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1368_L8_C1-LandSurfaceReflectanceCode-LASRC_ProductGuide-v3.pdf) 
+---
+# Construyendo una función
+
+- En este caso necesitaremos la banda de nombre *pixel_qa*
+
+
+```js
+// Crea la función
+var maskClouds = function(image){//indica que la función se realizará sobre una imagen
+  // crea una nueva imagen desde la banda pixel_qa de cada archivo en la colección
+  var pixel_qa = image.select('pixel_qa');
+  var cl1 = pixel_qa.eq(322);
+  var cl2 = pixel_qa.eq(386);
+  var cl3 = pixel_qa.eq(834);
+  var cl4 = pixel_qa.eq(898);
+  var cl5 = pixel_qa.eq(1346);
+  var mask = cl1.or(cl2).or(cl3).or(cl4).or(cl5);
+  //actualiza información que se mantendrá en el dato de salida por pixel
+  return image.updateMask(mask);   
+};
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Crea la función
+var maskClouds = function(image){//indica que la función se realizará sobre una imagen
+  // crea una nueva imagen desde la banda pixel_qa de cada archivo en la colección
+  var pixel_qa = image.select('pixel_qa');
+  var cl1 = pixel_qa.eq(322);
+  var cl2 = pixel_qa.eq(386);
+  var cl3 = pixel_qa.eq(834);
+  var cl4 = pixel_qa.eq(898);
+  var cl5 = pixel_qa.eq(1346);
+  var mask = cl1.or(cl2).or(cl3).or(cl4).or(cl5);
+  //actualiza información que se mantendrá en el dato de salida por pixel
+  return image.updateMask(mask);   
+};
+&lt;/script&gt;
+
+---
+# Aplicando función
+
+--
+- Ahora usaremos *map()* para aplicar nuestra función a todas las bandas dentro de la colección de imágenes.
+
+
+```js
+// usando map para la colección de imágenes
+var l8masked = l8collection.map(maskClouds);
+```
+
+
+&lt;script type="text/javascript"&gt;
+// usando map para la colección de imágenes
+var l8masked = l8collection.map(maskClouds);
+&lt;/script&gt;
+
+
+```js
+// Visualización de resultados
+var visParams = {bands: ['B4','B3','B2'], min: 150, max: 2000}; //crear parámetros de visualización de datos
+Map.addLayer(ee.Image(l8masked.first()), visParams, 'enmascarada');
+Map.addLayer(ee.Image(l8collection.first()), visParams, 'original');
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Visualización de resultados
+var visParams = {bands: ['B4','B3','B2'], min: 150, max: 2000}; //crear parámetros de visualización de datos
+Map.addLayer(ee.Image(l8masked.first()), visParams, 'enmascarada');
+Map.addLayer(ee.Image(l8collection.first()), visParams, 'original');
+&lt;/script&gt;
+
+---
+class: middle
+.center[
+![:scale 95%](GEE1.png)
+]
+
+---
+# Aplicando varias funciones
+
+--
+- Dentro de nuestra código podemos emplear una sola función que ejecute todos los análisis y procesamientos que requerimos y aplicarlos de una sola vez.
+
+--
+- La desventaja de esto, es que si algo falla en el código es más difícil de encontrar.
+
+--
+- Por esta razón, lo recomendable es modularizar los procesos y ponerlos en funciones diferentes.
+
+--
+- A continuación crearemos una función para cortar la imagen a un área de interés. Creada a partir de las herramientas de geometría.
 
 
 
 ```js
-var nombre_funcion = function(objeto){
-  PROCESAMIENTO;
-  return objeto_salida;   
+//función para cortar imágenes al área de estudio
+var crop = function (image){
+  var crop1 = image.clip(roi);
+  return crop1;
+};
+// usando map para la colección de imágenes
+var l8masked = l8collection.map(maskClouds).map(crop);
+```
+
+
+&lt;script type="text/javascript"&gt;
+//función para cortar imágenes al área de estudio
+var crop = function (image){
+  var crop1 = image.clip(roi);
+  return crop1;
+};
+// usando map para la colección de imágenes
+var l8masked = l8collection.map(maskClouds).map(crop);
+&lt;/script&gt;
+
+---
+# Agregando información a la colección
+
+--
+- Además de la información que viene por defecto en el producto que estemos empleando en GEE, el usuario puede crear nueva información a partir de una función de cálculo (ej. NDVI, EVI, temperatura, etc.) y agregarla a dentro de la colección para que forme parte de un posterior análisis o descarga.
+
+--
+- Realizaremos el cálculo del Índice de diferencia normalizado de vegetación (*NDVI*, en inglés), empleando la información de nuestra colección de nombre *l8masked*
+
+--
+- *Importante:* podemos generar una función empleando operadores matemáticos directos o a partir de funciones disponibles dentro de GEE. El resultado es el mismo.
+
+
+```js
+// Crear función para cálculo de NDVI versión simple
+var NDVI = function(img){
+  return img.addBands(img.normalizedDifference(['B5','B4']).rename('NDVI'));
+};
+// Crear función para cálculo de NDVI versión con operadores matemáticos
+var NDVI2 = function(img){
+  return img.addBands(img.select('B5').subtract(img.select('B4'))
+            .divide(img.select('B5').add(img.select('B3'))));
+};
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Crear función para cálculo de NDVI versión simple
+var NDVI = function(img){
+  return img.addBands(img.normalizedDifference(['B5','B4']).rename('NDVI'));
+};
+// Crear función para cálculo de NDVI versión con operadores matemáticos
+var NDVI2 = function(img){
+  return img.addBands(img.select('B5').subtract(img.select('B4'))
+            .divide(img.select('B5').add(img.select('B3'))));
+};
+&lt;/script&gt;
+
+---
+
+--
+- Apliquemos la nueva función y revisemos la  información de una de las imágenes en nuestra nueva colección.
+
+--
+
+
+```js
+// Cálculo deNDVI para la colección completa
+var l8ndvi = l8masked.map(NDVI);
+// imprimir una imagen en la consola
+print(ee.Image(l8ndvi.first()));
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Cálculo deNDVI para la colección completa
+var l8ndvi = l8masked.map(NDVI);
+// imprimir una imagen en la consola
+print(ee.Image(l8ndvi.first()));
+
+&lt;/script&gt;
+
+.center[
+![](GEE2.png)
+]
+
+---
+# Agregaciones temporales (Reducers)
+
+--
+- Las reducciones (*reducers*) se utilizan para agregar información dentro de una colección a nivel temporal y espacial.
+
+--
+- Estas agregaciones pueden ser de diferentes estadísticas y tipos, disponiendo de elementos como suma o conteo hasta regresiones lineales y otros.
+
+.center[
+![](https://developers.google.com/earth-engine/images/Reduce_ImageCollection.png)
+]
+.center[
+.footnote[[Google Developers, 2019](https://developers.google.com/earth-engine/guides/reducers_image_collection)]
+]
+
+---
+# Estadísticas en el tiempo: Agregaciones temporales
+
+--
+- Un ejemplo sencillo de agregación temporal es el NDVI acumulado.
+
+--
+- Para esto usaremos toda nuestra área de interés actual y emplearemos las funciones *reduce()* y *ee.Reducer()*
+
+
+```js
+//Suma temporal de NDVI
+var suma = l8ndvi.select('NDVI').reduce(ee.Reducer.sum());// también se puede escribir l8ndvi.select(‘NDVI’).sum()
+print(suma,'suma: agregación');
+```
+
+
+&lt;script type="text/javascript"&gt;
+//Suma temporal de NDVI
+var suma = l8ndvi.select('NDVI').reduce(ee.Reducer.sum());// también se puede escribir l8ndvi.select(‘NDVI’).sum()
+print(suma,'suma: agregación');
+&lt;/script&gt;
+
+Visualicemos
+
+
+```js
+//Parámetros de visualización NDVI
+var ndviParams = {min: 4, max: 50, palette: ['#d73027','#f46d43','#fdae61','#fee08b',
+'#d9ef8b','#a6d96a','#66bd63','#1a9850']};
+Map.addLayer(suma,ndviParams,'NDVI sum')
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+//Parámetros de visualización NDVI
+var ndviParams = {min: 4, max: 50, palette: ['#d73027','#f46d43','#fdae61','#fee08b',
+'#d9ef8b','#a6d96a','#66bd63','#1a9850']};
+Map.addLayer(suma,ndviParams,'NDVI sum')
+
+&lt;/script&gt;
+
+---
+class: middle, center
+
+![:scale 95%](GEE3.png)
+---
+# Estadísticas de zona: agregaciones espaciales
+
+--
+- Una forma simple de calcular la estadística de un área es creando una geometría y calculando un estadístico sobre la misma.
+
+--
+- Para este ejemplo calcularemos el promedio de un área de interés dentro de nuestra suma de NDVI
+
+
+```js
+//Estadísticas de zona
+// valor promedio para polígono de interés
+var mean = suma.reduceRegion({
+  geometry: zona,
+  reducer: ee.Reducer.mean(),
+  scale: 30 // resolución de archivos Landsat
+});
+print(mean);
+```
+
+
+&lt;script type="text/javascript"&gt;
+//Estadísticas de zona
+// valor promedio para polígono de interés
+var mean = suma.reduceRegion({
+  geometry: zona,
+  reducer: ee.Reducer.mean(),
+  scale: 30 // resolución de archivos Landsat
+});
+print(mean);
+&lt;/script&gt;
+
+---
+- Para calcular las estadícticas de zona en áreas específicas, cargue en sus *Assets* el archivo de nombre *zonas.zip*
+
+--
+- Luego lo importaremos a nuestro script y calcularemos el valor promedio para todos los polígonos en nuestro asset
+
+
+```js
+//Para varios polígonos
+var means = suma.reduceRegions({
+  collection: zonas,
+  reducer: ee.Reducer.mean(),
+  scale: 30 // resolución de archivos Landsat
+});
+print(means,'means values');
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+//Para varios polígonos
+var means = suma.reduceRegions({
+  collection: zonas,
+  reducer: ee.Reducer.mean(),
+  scale: 30 // resolución de archivos Landsat
+});
+print(means,'means values');
+
+&lt;/script&gt;
+
+---
+# Exportación de información tabular
+
+--
+- La información extraída a los polígonos puede ser exportada al igual que las imágenes, para ser analizada posteriormente en otro programa o plataforma.
+
+
+```js
+//descarga de datos
+// Selección de columnas
+var salida = means.select(['Name','mean'],null,false);
+// Table to Drive Export Example
+Export.table.toDrive({
+  collection: salida,
+  description: 'ejemplo_descarga_csv',
+  fileFormat: 'CSV'
+});   
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+//descarga de datos
+// Selección de columnas
+var salida = means.select(['Name','mean'],null,false);
+// Table to Drive Export Example
+Export.table.toDrive({
+  collection: salida,
+  description: 'ejemplo_descarga_csv',
+  fileFormat: 'CSV'
+});   
+
+&lt;/script&gt;
+
+--
+- Esto activará la opción de descarga en la pestaña *Task* donde debe oprimir *Run* para iniciar el proceso de exportación del archivo.
+
+---
+# Series de tiempo
+
+--
+- GEE tiene disponibles un gran número de datasets que disponen de información estandarizada en el tiempo muy útil para análisis de cambios y dinámica espacio-temporal. 
+
+--
+- Por ejemplo:
+  + GIMMS NDVI (Jul 1981 – Dec 2013), 
+  + Hybrid Coordinate Ocean Model (Oct 1992 – actualidad), 
+  + MOD13Q1/ MYD13Q1 Versión 6 Vegetation Indices 16-Day L3 Global 250 m (Feb 18, 2000 - actualidad), 
+  + Landsat 5/7/8 (Ene 1984 - actualidad)
+  
+--
+- Además de información climática de diferentes modelos
+
+
+---
+# Extracción de series
+
+--
+- Para este ejercicio aplicaremos algunas herramientas ya usadas: (i) uso de *map()*, (ii) agregación espacial y temporal y (iii) unión de colecciones de datos
+
+--
+- Landsat 5 y 8 L2 (Surface reflectance) y calcularemos el Moisture Stress Index (MSI, [Welikhe et al., 2017](https://www.longdom.org/open-access/estimation-of-soil-moisture-percentage-using-landsatbased-moisturestress-index-2469-4134-1000200.pdf)) para todas las imágenes disponibles
+
+--
+- Para filtrar las colecciones haremos uso de una geometría y consideraremos todas las escenas que tengan 30% o menos de cobertura nubosa.
+
+--
+- *Importante*: se puede considerar un umbral más alto o más bajo dependiendo de la zona de estudio y la cantidad de pérdida de datos.
+
+---
+# Importando colecciones de datos
+
+
+--
+
+
+```js
+//Series de tiempo básicas
+//colecciones de imágenes
+var landsat8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
+.filterBounds(muestra)
+.filter(ee.Filter.lt('CLOUD_COVER',30));
+
+var landsat5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+    .filterBounds(muestra)
+    .filter(ee.Filter.lt('CLOUD_COVER',30));
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+//Series de tiempo básicas
+//colecciones de imágenes
+var landsat8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR")
+.filterBounds(muestra)
+.filter(ee.Filter.lt('CLOUD_COVER',30));
+
+var landsat5 = ee.ImageCollection('LANDSAT/LT05/C01/T1_SR')
+    .filterBounds(muestra)
+    .filter(ee.Filter.lt('CLOUD_COVER',30));
+
+&lt;/script&gt;
+
+
+--
+Debido a que ambos sensores poseen distinto número de bandas, realizaremos un cambio en los nombres de las mismas para que posteriormente sea más sencillo crear la función de cálculo de nuestro índice.
+
+---
+# Renombrando bandas
+
+--
+- Seleccionaremos solo las bandas de interés incluída la banda *pixel_qa* para trabajar nuestras colecciones
+
+
+```js
+// Renombrar bandas
+var landsat8k = landsat8.select(
+                ['B1', 'B2', 'B3','B4', 'B5', 'B6','B7', 'pixel_qa', 'radsat_qa'], // viejos nombres
+                ['aerosol', 'azul', 'verde','rojo', 'nir', 'swir1','swir2', 'pixel_qa','radsat_qa']);//nuevos nombres
+var landsat5k = landsat5.select(
+                ['B1', 'B2', 'B3','B4', 'B5', 'B6','B7', 'pixel_qa','radsat_qa'], // viejos nombres
+                ['azul', 'verde','rojo', 'nir', 'swir1', 'tir1','swir2', 'pixel_qa','radsat_qa']); // nuevos nombres
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Renombrar bandas
+var landsat8k = landsat8.select(
+                ['B1', 'B2', 'B3','B4', 'B5', 'B6','B7', 'pixel_qa', 'radsat_qa'], // viejos nombres
+                ['aerosol', 'azul', 'verde','rojo', 'nir', 'swir1','swir2', 'pixel_qa','radsat_qa']);//nuevos nombres
+var landsat5k = landsat5.select(
+                ['B1', 'B2', 'B3','B4', 'B5', 'B6','B7', 'pixel_qa','radsat_qa'], // viejos nombres
+                ['azul', 'verde','rojo', 'nir', 'swir1', 'tir1','swir2', 'pixel_qa','radsat_qa']); // nuevos nombres
+
+&lt;/script&gt;
+
+---
+# Quality assesment
+
+--
+- A continuación, emplearemos una función simplificada de limpieza considerando solo los uno de los valores *clear terrain* para los dos sensores.
+
+--
+
+
+```js
+// Enmascarar nubes y sombras de nubes
+//Landsat 8
+var l8Clouds = function(image){
+  var pixel_qa = image.select('pixel_qa');
+  //actualiza información que se mantendrá en el dato de salida por pixel
+  return image.updateMask(pixel_qa.eq(322));   
+};
+
+//Landsat 5
+var l5Clouds = function(image){
+  var pixel_qa = image.select('pixel_qa');
+  //actualiza información que se mantendrá en el dato de salida por pixel
+  return image.updateMask(pixel_qa.eq(66));   
 };
 
 ```
 
 
 &lt;script type="text/javascript"&gt;
-var nombre_funcion = function(objeto){
-  PROCESAMIENTO;
-  return objeto_salida;   
+// Enmascarar nubes y sombras de nubes
+//Landsat 8
+var l8Clouds = function(image){
+  var pixel_qa = image.select('pixel_qa');
+  //actualiza información que se mantendrá en el dato de salida por pixel
+  return image.updateMask(pixel_qa.eq(322));   
+};
+
+//Landsat 5
+var l5Clouds = function(image){
+  var pixel_qa = image.select('pixel_qa');
+  //actualiza información que se mantendrá en el dato de salida por pixel
+  return image.updateMask(pixel_qa.eq(66));   
 };
 
 &lt;/script&gt;
 
+
 --
-- Considerando un nombre de función, el objeto al cual se aplicará (imagen, feature), el procesamiento que se hará sobre el objeto y la salida que se desea.
+*Importante:* la aplicación de quality assesment sobre nuestros datos, dependerá de la zona, el nivel de rigurosidad que queamos en la limpieza, la cantidad de información que estemos dispuesto a perder, entre muchos otros factores.
 
 ---
-Aplicando función
+# Creando función para el índice
+
+--
+- Crearemos el MSI y lo agregaremos a nuestra colección
+
+
+```js
+////Función para calcular msi
+var MSI = function(image) {
+  var msi = image.select('swir1').divide(image.select('nir')).rename('MSI');//calcula índice
+  return image.addBands(msi);//agrega índice a la colección de bandas
+};
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+////Función para calcular msi
+var MSI = function(image) {
+  var msi = image.select('swir1').divide(image.select('nir')).rename('MSI');//calcula índice
+  return image.addBands(msi);//agrega índice a la colección de bandas
+};
+
+&lt;/script&gt;
+
+Ahora aplicaremos las funciones a ambas colecciones y las fusionaremos en una sola, ordenándolas de la más reciente a la más antigua.
+
+
+
+```js
+//aplicando funciones a ambas colecciones
+var L8sr = landsat8k
+.map(l8Clouds)
+.map(MSI)
+.sort('system:time_start', false);
+var L5sr = landsat5k
+.map(l5Clouds)
+.map(MSI)
+.sort('system:time_start', false);
+//fusión de colecciones L5 y L8
+var collection = L5sr.merge(L8sr)
+.sort('system:time_start',false);
+//Productos disponibles entre ambas colecciones
+print(collection,'dataset final');
+```
+
+
+&lt;script type="text/javascript"&gt;
+//aplicando funciones a ambas colecciones
+var L8sr = landsat8k
+.map(l8Clouds)
+.map(MSI)
+.sort('system:time_start', false);
+var L5sr = landsat5k
+.map(l5Clouds)
+.map(MSI)
+.sort('system:time_start', false);
+//fusión de colecciones L5 y L8
+var collection = L5sr.merge(L8sr)
+.sort('system:time_start',false);
+//Productos disponibles entre ambas colecciones
+print(collection,'dataset final');
+&lt;/script&gt;
 
 ---
-# Aplicando varias funciones y agregando bandas a la colección
+# Visualizando índice
+
+--
+- Añadiremos la información al mapa para poder inspeccionar los valores.
+
+
+```js
+//visualización de datos
+var MSI_view= collection.first().select('MSI');
+print(MSI_view,'MSI reciente');
+//Display MSI más reciente
+//paleta
+var palette = ["#003c30","#01665e","#35978f","#80cdc1","#c7eae5","#f5f5f5",
+"#f6e8c3","#dfc27d","#bf812d","#8c510a","#543005"];
+//agregar al mapa  
+Map.addLayer(MSI_view,{min: 0, max: 2, palette: palette},'MSI Test');
+```
+
+
+&lt;script type="text/javascript"&gt;
+//visualización de datos
+var MSI_view= collection.first().select('MSI');
+print(MSI_view,'MSI reciente');
+//Display MSI más reciente
+//paleta
+var palette = ["#003c30","#01665e","#35978f","#80cdc1","#c7eae5","#f5f5f5",
+"#f6e8c3","#dfc27d","#bf812d","#8c510a","#543005"];
+//agregar al mapa  
+Map.addLayer(MSI_view,{min: 0, max: 2, palette: palette},'MSI Test');
+&lt;/script&gt;
 
 ---
-# Agregaciones temporales
+# Creación de serie de tiempo
 
 --
-Estadísticas en el tiempo: Agregaciones temporales
+- Ahora crearemos una geometría en algún sitio de interés y mostraremos el gráfico en la consola
+
+
+```js
+// Gráfico de serie de tiempo.
+var tempTimeSeries = ui.Chart.image.seriesByRegion(//gráfico utilizando región de referencia
+    collection, geom, ee.Reducer.median(), 'MSI', 30, 'system:time_start', 'label') //agregación de mediana
+        .setChartType('ScatterChart')//tipo de gráfico
+        .setOptions({//opciones
+          title: 'MSI',//título de gráfico
+          vAxis: {title: 'MSI median'},//eje y
+          
+          lineWidth: 1,
+          pointSize: 2.5,
+          series: {
+            0: {color: '#4e00f4'}, 
+}});
+// Display.
+print(tempTimeSeries, 'serie de tiempo ejemplo');
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Gráfico de serie de tiempo.
+var tempTimeSeries = ui.Chart.image.seriesByRegion(//gráfico utilizando región de referencia
+    collection, geom, ee.Reducer.median(), 'MSI', 30, 'system:time_start', 'label') //agregación de mediana
+        .setChartType('ScatterChart')//tipo de gráfico
+        .setOptions({//opciones
+          title: 'MSI',//título de gráfico
+          vAxis: {title: 'MSI median'},//eje y
+          
+          lineWidth: 1,
+          pointSize: 2.5,
+          series: {
+            0: {color: '#4e00f4'}, 
+}});
+// Display.
+print(tempTimeSeries, 'serie de tiempo ejemplo');
+&lt;/script&gt;
+
 
 --
-Estadísticas de zona: agregaciones espaciales
-
---
-Exportación de información tabular
+*Importante:* si nuestra serie tiene más de 5000 elementos no la podremos mostrar de forma directa en la consola.
 
 ---
-# Series de tiempo
-
---
-Extracción de series
-
---
-
-
-
-
-
+class: middle, center
+![](GEE4.png)
 ---
 background-image: url(logo_labgrs_color.png)
 background-position: center
