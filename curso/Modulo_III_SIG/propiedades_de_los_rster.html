@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<link rel="stylesheet" type="text/css" href="base.css" />
+<link rel="stylesheet" type="text/css" href="content.css" />
+<link rel="stylesheet" type="text/css" href="nav.css" />
+<meta http-equiv="content-type" content="text/html;  charset=utf-8" />
+<title>Propiedades de los ráster | Unidad 2: Manipulación de Geodatos (Parte 2) </title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<meta name="author" content="LABGRS" />
+<link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-sa/4.0/" />
+<meta name="generator" content="eXeLearning 2.5 - exelearning.net" />
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="exe_jquery.js"></script>
+<script type="text/javascript" src="common_i18n.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+<body class="exe-web-site" id="exe-node-2"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<p id="skipNav"><a href="#main" class="sr-av">Saltar la navegación</a></p>
+<header id="header"  style="background-image: url(bannersig2.png); background-repeat: repeat-x;"><div id="headerContent">Unidad 2: Manipulación de Geodatos (Parte 2)</div></header>
+<nav id="siteNav">
+<ul>
+   <li><a href="index.html" class="daddy main-node">Introducción a los SIG y al Análisis Espacial</a></li>
+   <li class="current-page-parent"><a href="manipulacin_de_datos_espaciales_parte_ii.html" class="current-page-parent daddy">Manipulación de Datos Espaciales (Parte II)</a>
+   <ul>
+      <li id="active"><a href="propiedades_de_los_rster.html" class="active daddy">Propiedades de los ráster</a>
+      <ul>
+         <li><a href="pxel.html" class="no-ch">Píxel</a></li>
+         <li><a href="resolucin_espacial.html" class="no-ch">Resolución espacial</a></li>
+         <li><a href="resolucin_radiomtrica.html" class="no-ch">Resolución radiométrica</a></li>
+      </ul>
+      </li>
+      <li><a href="anlisis_espacial.html" class="daddy">Análisis espacial</a>
+      <ul class="other-section">
+         <li><a href="operaciones_de_consulta.html" class="no-ch">Operaciones de consulta</a></li>
+         <li><a href="remuestreos.html" class="no-ch">Remuestreos</a></li>
+         <li><a href="operaciones_de_transformacin.html" class="no-ch">Operaciones de transformación</a></li>
+         <li><a href="operaciones_de_alteracin.html" class="no-ch">Operaciones de alteración</a></li>
+         <li><a href="automatizacin_de_procesos.html" class="no-ch">Automatización de procesos</a></li>
+      </ul>
+      </li>
+   </ul>
+   </li>
+</ul>
+</nav>
+<div id='topPagination'>
+<nav class="pagination noprt">
+<a href="manipulacin_de_datos_espaciales_parte_ii.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="pxel.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+</nav>
+</div>
+<div id="main-wrapper">
+<section id="main">
+<header id="nodeDecoration"><h1 id="nodeTitle">Propiedades de los ráster</h1></header>
+<article class="iDevice_wrapper textIdevice" id="id3">
+<div class="iDevice emphasis0" >
+<div id="ta3_111_2" class="block iDevice_content">
+<div class="exe-text"><p style="text-align: justify;"><span style="font-size: 12pt; color: #000000;">Los datos espaciales de tipo ráster representan la realidad a partir de una <strong>matriz de datos</strong> o retícula rectangular dividida en <strong>píxeles</strong> de igual tamaño, donde cada  píxel tiene un valor asociado. De esta forma, el espacio se divide de forma sistemática en una serie de<strong> unidades mínimas</strong> (grilla de celdas o píxeles).</span></p>
+<p style="text-align: center;"><span style="font-size: 12pt; color: #000000;"><img src="Captura_de_pantalla_de_2020-12-17_21-37-13.png" width="300" height="365" /></span></p>
+<p style="text-align: center;"><span style="font-size: 10pt;">Ilustración: gvSIG</span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt; color: #000000;">La división del espacio en unidades mínimas se lleva a cabo de forma sistemática de acuerdo con algún patrón, de tal modo que existe una relación implícita entre las celdas, ya que estas son <strong>contiguas entre sí</strong>, <strong>cubren todo el espacio</strong>, y <strong>no se solapan</strong> (Olaya, 2014).</span></p>
+<p><img src="Captura_de_pantalla_de_2020-12-17_19-08-55.png" style="display: block; margin-left: auto; margin-right: auto;" width="350" height="235" /></p>
+<p style="text-align: center;"><span style="font-size: 10pt; color: #000000;">Ilustración: Celdas de una malla ráster con sus valores asociados (Olaya, 2014).</span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt; color: #000000;">Existen dos <strong>elementos principales</strong> para definir una capa ráster:</span></p>
+<ul style="list-style-type: disc;">
+<li style="text-align: justify;"><span style="font-size: 12pt; color: #000000;"> Una <strong>localización geográfica exacta de alguna celda</strong> y una <strong>distancia</strong> entre celdas (para así determinar las coordenadas de las otras), y</span></li>
+<li style="text-align: justify;"><span style="font-size: 12pt; color: #000000;">Un <strong>conjunto de valores</strong> (que corresponden a los valores asociados a los píxeles o celdas).</span></li>
+</ul>
+<p style="text-align: justify;"><span style="font-size: 12pt; color: #000000;">De forma explícita, el modelo ráster no incorpora las coordenadas de cada una de las celdas, por lo que para situar la malla en el espacio <strong>se define el emplazamiento de una única celda</strong> que generalmente es la celda superior izquierda. A partir de esta se establecen las coordenadas del resto, las cuales serán definidas por la fila o columna en la que se ubica dentro de la matriz.</span></p>
+<p style="text-align: center;"><img src="Captura_de_pantalla_de_2020-12-17_19-29-14.png" width="300" height="263" /></p>
+<p style="text-align: center;"><span style="font-size: 10pt; color: #000000;">Ilustración: (Olaya, 2014).</span></p>
+<p style="text-align: justify;"><span style="font-size: 12pt; color: #000000;">Respecto de los <strong>valores de las celdas</strong>, si bien es posible que contenga más de un valor, generalmente una celda contiene solo un valor que dependerá de la variable estudiada.</span></p></div>
+</div>
+</div>
+</article>
+<div id="packageLicense" class="cc cc-by-sa">
+<p><span>Obra publicada con</span> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Licencia Creative Commons Reconocimiento Compartir igual 4.0</a></p>
+</div>
+</section>
+</div>
+<div id='bottomPagination'>
+<nav class="pagination noprt">
+<a href="manipulacin_de_datos_espaciales_parte_ii.html" class="prev"><span><span>&laquo; </span>Anterior</span></a> <span class="sep">| </span><a href="pxel.html" class="next"><span>Siguiente<span> &raquo;</span></span></a>
+</nav>
+</div>
+<footer id="siteFooter">LAB. DE GEO-INFORMACIÓN Y PERCEPCIÓN REMOTA | PONTIFICIA UNIVERSIDAD CATÓLICA DE VALPARAÍSO</footer></div>
+<script type="text/javascript" src="_style_js.js"></script></body></html>
