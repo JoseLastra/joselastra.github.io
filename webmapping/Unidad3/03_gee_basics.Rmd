@@ -1,5 +1,5 @@
 ---
-title: "Lectura y visualización básica de datos en RStudio"
+title: "Introducción al Code Editor y GEE"
 subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
 author: "Mg. José A. Lastra <br>Matías Olea<br>"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -30,11 +30,8 @@ options(htmltools.dir.version = FALSE)
 
 --
 - Dentro de GEE disponemos de una gran cantidad de información, que está agrupada en colecciones.
-
- 
 - Cada colección corresponde a un producto diferente, ya sea satelital, modelo climático, etc.
-
-- Las colecciones van a considerar una estructura mínima similar a lo siguiente:
+- Para llamar colecciones, vamos a considerar una estructura mínima similar a lo siguiente:
 
 --
 ```{js}
@@ -44,26 +41,26 @@ var imageCollection = ee.ImageCollection('NOMBRE/PRODUCTO')
 - De esta forma importaremos la colección de datos completa, y podemos imprimir la colección en la consola usando `print()`
 
 ---
-# Insertar video de las colecciones
-
----
 # Filtrando una colección
 
 --
 - Para poder visualizar solo la información que nos interesa o filtrar en base a criterios específicos (región de interés ,fechas, cobertura nubosa, etc.)
 
 --
-- GEE dispone de varias formas de filtrar que podemos emplear como: *filter()*, *filterBounds()*,
+- GEE dispone de varias formas que podemos emplear como: *filter()*, *filterBounds()*,
 *filterDate()*, etc.
 
 --
-- Filtrar la información nos permitirá poder imprimir en la consola los resultados e inspecionarlos de forma más simple.
+- Filtrar la información nos permitirá poder imprimir en la consola los resultados e inspeccionarlos de forma más simple.
 
 --
-- Considere que en consola solo se puede imprimir hasta 5000 elementos, después de eso los resultados no se pueden ver en la consola, pero si estarán disponibles para analizar.
+- Considere que en consola solo se pueden imprimir hasta 5000 elementos, después de eso los resultados no se pueden ver en la consola, pero si estarán disponibles para analizar.
+
 
 ---
-#Insertar video de filtro de colecciones
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 # Creando una imagen desde una colección
@@ -78,13 +75,15 @@ var imageCollection = ee.ImageCollection('NOMBRE/PRODUCTO')
 - *Importante*: Debemos tener en cuenta como se almacena la información y los nombres de las capas de información para seleccionar.
 
 ---
-# Video de crear imagen y seleccionar bandas
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 # Exportando imagen desde GEE
 
 --
-- Al procesar la información dentro de GEE, podemos optimizar el uso de espacio y descargar solo los resultados o solo la imagen a una zona acotada de nuestro interés.
+- Al procesar la información dentro de GEE, podemos optimizar el uso de espacio y descargar solo los resultados o solo la imagen acotada a una zona de nuestro interés.
 
 --
 - Para exportar podemos hacerlo a un asset (dentro de la memoria de GEE), a Google Cloud o a Google Drive.
@@ -93,10 +92,12 @@ var imageCollection = ee.ImageCollection('NOMBRE/PRODUCTO')
 - En el caso de Google Cloud debemos considerar pago por uso de almacenamiento.
 
 --
-- En el caso de Gogole Drive y assets estamos limitados al espacio de cada plataforma.
+- En el caso de Google Drive y assets estamos limitados al espacio de cada plataforma.
 
 ---
-#Insertar video de exportación
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ---
@@ -142,7 +143,7 @@ var imageCollection = ee.ImageCollection('NOMBRE/PRODUCTO')
 - Podemos disponer de métodos de clasificación *NO SUPERVISADOS* y *SUPERVISADOS*
 
 --
-- En el primer caso necesitaremos defnir inicalmente un número base de clases y seleccionar el algortismo de clasificación para obtener un resultado.
+- En el primer caso necesitaremos definir inicialmente un número base de clases y seleccionar el algoritmo de clasificación para obtener un resultado.
 
 --
 - Para el segundo caso, se deben considerar los siguientes pasos:
@@ -155,7 +156,7 @@ var imageCollection = ee.ImageCollection('NOMBRE/PRODUCTO')
 # Ahora en GEE
 
 --
-- En GEE disponemos de un número importante de funciones dedicadas al aprendizaje de máquinas (ML, Machine Learning en inglés) como ee.Classifier, ee.Clusterer o ee.Reducer, este último utilizado anteriormente. En los ejemplos que utilizaremos a continuación, veremos cómo emplear clasificación no supervisada y supervisada para imágenes multiespectrales.
+- En GEE disponemos de un número importante de funciones dedicadas al aprendizaje de máquinas (ML, Machine Learning en inglés) como ee.Classifier, ee.Clusterer o ee.Reducer. En los ejemplos que utilizaremos a continuación, veremos cómo emplear clasificación no supervisada y supervisada para imágenes multiespectrales.
 
 --
 - En el siguiente ejemplo realizaremos una clasificación no supervisada en base imágenes Landsat 8 Level 2 Surface Reflectance; entre 2018-01-01 / 2019-01-01
@@ -174,6 +175,11 @@ var collection = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 ```
 
 ---
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
 # Creando mosaico base
 
 --
@@ -182,7 +188,7 @@ var collection = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 - Añadiremos el resultado a la vista de mapa con una composición en falso color.
 
 ```{js}
-// Selección de mínimo valor de pixel y ajuste a área de estudio.
+// Selección valor mediano de pixel y ajuste a área de estudio.
 var composite = collection.select('B1','B2','B3','B4','B5','B6','B7').median().clip(geometry);
 // Selección de bandas para visualización.
 var result = composite.select('B5', 'B4', 'B3');
@@ -198,7 +204,6 @@ Con nuestra imagen a clusterizar ya disponible, los siguientes pasos lógicos a 
 - Iniciar la búsqueda de clusters a partir de esas entidades.
 - Entrenar los clusters empleando la información de entrenamiento.
 - Aplicar los clusters.
-- Etiquetar opcionalmente la información.
 
 --
 
@@ -234,23 +239,28 @@ Map.addLayer(clusters_result.randomVisualizer(), {}, 'clusters',false);
 ```
 
 .center[
-![:scale 70%](clasificacion2.png)
+![:scale 60%](clasificacion2.png)
 ]
 
 ---
 # Clasificación supervisada
 
 --
-- como se mencionó anteriormente, para realizar una clasificación supervisada se requiere inicialmente de información conocida del lugar a analizar, ya sea, obtenida mediante campañas de terreno o a partir de fotointerpretación u otra información secundaria. Otro aspecto relevante es el algoritmo empleado para la realización del proceso de clasificación y la selección de la o las imágenes a clasificar.
+- Como se mencionó anteriormente, para realizar una clasificación supervisada se requiere inicialmente de información conocida del lugar a analizar, ya sea, obtenida mediante campañas de terreno o a partir de fotointerpretación u otra información secundaria. Otro aspecto relevante es el algoritmo empleado para la realización del proceso de clasificación y la selección de la o las imágenes a clasificar.
 
 --
 - Haremos uso de imágenes Sentinel 2 (A/B) pertenecientes a la Agencia Espacial Europea (ESA, en inglés), que disponen de 13 bandas espectrales útiles para el mapeo de diferentes elementos tanto terrestres como acuáticos a diferentes resoluciones espaciales.
 
 --
-- Filtraremos las imágenes a un área de interés considerando menos de un 15% de nubosidad y que vayan entre septiembre de 2018 y febrero de 2019, generando un mosaido primavera verano de la mediana.
+- Filtraremos las imágenes a un área de interés considerando menos de un 15% de nubosidad y que vayan entre septiembre de 2018 y febrero de 2019, generando un mosaico de primavera/verano de la mediana.
 
 ---
-# código para selección
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+# Código para selección
 
 --
 
@@ -295,8 +305,6 @@ Map.centerObject(muestra);
 --
 Con nuestro mosaico listo, crearemos regiones de entrenamiento considerando las clases: agua, bosque, urbano, pradera, cultivos, suelo y nieve.
 
----
-# Video de creación de features de entrenamiento
 
 ---
 # Puntos de referencia

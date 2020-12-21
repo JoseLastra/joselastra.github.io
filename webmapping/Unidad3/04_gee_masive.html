@@ -32,7 +32,7 @@ background-size:40%
 - Dentro de la sección *Docs* de GEE usted tiene a disposición funciones específicas para trabajar con imágenes y con colecciones de imágenes, dependiendo de cuál sea el análisis a realizar: funciones booleanas, matemáticas, transformaciones, análisis espectral, entre otros.
 
 --
-- Para aplicar masivamente un análisis nomralmente se recurre al uso de ciclos
+- Para aplicar masivamente un análisis normalmente se recurre al uso de ciclos
 
 --
 - *Importante*: En nuestro code editor se recomienda evitar a toda costa el uso convencional de ciclos; debido a que esto trae la operación al explorador y puede generar errores de funcionamiento
@@ -79,6 +79,12 @@ print(l8collection,'colección landsat');
 
 --
 - Crearemos una función que solo considere los valores de información asociados a *clear terrain* dentro de la escena, según el manual de los productos landsat de nivel 2 y su banda QA [Landsat Product Guide Colección 1 Level 2, p11](https://prd-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/atoms/files/LSDS-1368_L8_C1-LandSurfaceReflectanceCode-LASRC_ProductGuide-v3.pdf) 
+
+---
+class: middle, center
+
+&lt;iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
 ---
 # Construyendo una función
 
@@ -162,7 +168,7 @@ class: middle
 # Aplicando varias funciones
 
 --
-- Dentro de nuestra código podemos emplear una sola función que ejecute todos los análisis y procesamientos que requerimos y aplicarlos de una sola vez.
+- Dentro de nuestro código, podemos emplear una sola función que ejecute todos los análisis y procesamientos que requerimos y aplicarlos de una sola vez.
 
 --
 - La desventaja de esto, es que si algo falla en el código es más difícil de encontrar.
@@ -171,7 +177,7 @@ class: middle
 - Por esta razón, lo recomendable es modularizar los procesos y ponerlos en funciones diferentes.
 
 --
-- A continuación crearemos una función para cortar la imagen a un área de interés. Creada a partir de las herramientas de geometría.
+- A continuación, crearemos una función para cortar la imagen a un área de interés. Empleando un ROI creado a partir de las herramientas de geometría.
 
 
 
@@ -330,10 +336,10 @@ class: middle, center
 # Estadísticas de zona: agregaciones espaciales
 
 --
-- Una forma simple de calcular la estadística de un área es creando una geometría y calculando un estadístico sobre la misma.
+- Una forma simple de calcular la estadística de un área, es creando una geometría y calculando un estadístico sobre la misma.
 
 --
-- Para este ejemplo calcularemos el promedio de un área de interés dentro de nuestra suma de NDVI
+- Para este ejemplo, calcularemos el promedio de un área de interés dentro de nuestra suma de NDVI
 
 
 ```js
@@ -430,7 +436,7 @@ Export.table.toDrive({
 # Series de tiempo
 
 --
-- GEE tiene disponibles un gran número de datasets que disponen de información estandarizada en el tiempo muy útil para análisis de cambios y dinámica espacio-temporal. 
+- GEE tiene disponible un gran número de datasets que disponen de información estandarizada en el tiempo, muy útil para análisis de cambios y dinámica espacio-temporal. 
 
 --
 - Por ejemplo:
@@ -447,16 +453,21 @@ Export.table.toDrive({
 # Extracción de series
 
 --
-- Para este ejercicio aplicaremos algunas herramientas ya usadas: (i) uso de *map()*, (ii) agregación espacial y temporal y (iii) unión de colecciones de datos
+- Para este ejercicio, aplicaremos algunas herramientas ya usadas: (i) uso de *map()*, (ii) agregación espacial y temporal y (iii) unión de colecciones de datos
 
 --
-- Landsat 5 y 8 L2 (Surface reflectance) y calcularemos el Moisture Stress Index (MSI, [Welikhe et al., 2017](https://www.longdom.org/open-access/estimation-of-soil-moisture-percentage-using-landsatbased-moisturestress-index-2469-4134-1000200.pdf)) para todas las imágenes disponibles
+- Cargaremos las colecciones Landsat 5 y 8 L2 (Surface reflectance) y calcularemos el Moisture Stress Index (MSI, [Welikhe et al., 2017](https://www.longdom.org/open-access/estimation-of-soil-moisture-percentage-using-landsatbased-moisturestress-index-2469-4134-1000200.pdf)) para todas las imágenes disponibles
 
 --
 - Para filtrar las colecciones haremos uso de una geometría y consideraremos todas las escenas que tengan 30% o menos de cobertura nubosa.
 
 --
 - *Importante*: se puede considerar un umbral más alto o más bajo dependiendo de la zona de estudio y la cantidad de pérdida de datos.
+
+---
+class: middle, center
+
+&lt;iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
 
 ---
 # Importando colecciones de datos
@@ -530,7 +541,7 @@ var landsat5k = landsat5.select(
 # Quality assesment
 
 --
-- A continuación, emplearemos una función simplificada de limpieza considerando solo los uno de los valores *clear terrain* para los dos sensores.
+- A continuación, emplearemos una función simplificada de limpieza considerando solo uno de los valores *clear terrain* para los dos sensores.
 
 --
 
@@ -574,7 +585,7 @@ var l5Clouds = function(image){
 
 
 --
-*Importante:* la aplicación de quality assesment sobre nuestros datos, dependerá de la zona, el nivel de rigurosidad que queamos en la limpieza, la cantidad de información que estemos dispuesto a perder, entre muchos otros factores.
+*Importante:* la aplicación de quality assesment sobre nuestros datos, dependerá de la zona, el nivel de rigurosidad que queramos en la limpieza, la cantidad de información que estemos dispuesto a perder, entre muchos otros factores.
 
 ---
 # Creando función para el índice

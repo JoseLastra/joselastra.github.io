@@ -1,5 +1,5 @@
 ---
-title: "Lectura y visualización básica de datos en RStudio"
+title: "JavaScript objetos básicos y GEE"
 subtitle: "Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>"
 author: "Mg. José A. Lastra <br>Matías Olea<br>"
 institute: "Laboratorio Geo-Información y Percepción Remota"
@@ -24,6 +24,10 @@ background-size:40%
 options(htmltools.dir.version = FALSE)
 ```
 
+---
+class: middle, center
+
+<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 # Recordando a Google Earth Engine
@@ -111,7 +115,7 @@ print('Print stuff:', object.stuff);
 - **Funciones**: Las funciones son otra forma de mejorar la legibilidad y reutilización del código mediante el agrupamiento de operaciones.
 
 --
-- Una función se define con mediante function.
+- Una función se define mediante *function*.
 - Los nombres de las funciones comienzan con una letra y tienen un par de paréntesis al final.
 - Las funciones a menudo toman parámetros que le dicen a la función qué hacer. Estos parámetros van dentro de los paréntesis ().
 - El conjunto de declaraciones que componen la función van dentro de las llaves { }. finalmente, return indica cuál es la salida de la función.
