@@ -26,8 +26,8 @@ options(htmltools.dir.version = FALSE)
 
 ---
 class: middle, center
-
-<iframe width="800" height="500" src="https://www.youtube.com/embed/rzcdsb22l47" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## Introducción al Code Editor
+<iframe width="800" height="500" src="https://www.youtube.com/embed/Khr31D_jP3w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 # Recordando a Google Earth Engine
