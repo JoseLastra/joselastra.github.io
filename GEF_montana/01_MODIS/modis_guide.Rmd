@@ -1,0 +1,74 @@
+---
+title: "Procesamiento de datos MODIS para reconstrucción fenológica - GEF Montaña"
+author: "MSc. José A. Lastra"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output:
+  rmdformats::downcute:
+    includes:
+    self_contained: true
+    thumbnails: true
+    lightbox: true
+    gallery: true
+    highlight: tango
+  #html_document:
+    #toc: true
+    #toc_depth: 3
+    #toc_float:
+    #  collapsed: true
+    #  smooth_scroll: true
+    code_folding: show
+    ##theme: readable
+    #highlight: zenburn
+
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+library(DT)
+library(magrittr)
+```
+<style>
+body {
+text-align: justify}
+details:hover { cursor: pointer }
+</style>
+
+<center>
+
+</center>
+
+# Introducción
+
+
+
+
+## 1.- Vista inicial de ArcMap 10.8.x
+
+
+
+
+### 1.1.- Disposición de  elementos y activación de extensiones
+
+
+### 1.2.- Lectura de archivos
+
+
+## 2.- Ejercicios iniciales
+
+### 2.1.- Creación de campos y cálculos geométricos básicos
+
+### 2.2.- Georreferenciación
+
+### 2.3.- Creación de vectores
+
+## 3.- Ejercicios
+
+
+
+
+
+
+
+
+
