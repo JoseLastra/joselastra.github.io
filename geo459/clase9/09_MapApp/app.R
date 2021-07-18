@@ -40,6 +40,8 @@ server <- function(input, output, session) {
       fitBounds(lng1 =-71.586 ,lat1 =-33.105 ,lng2 =-71.45 ,lat2 = -32.944) %>%
       addLayersControl(overlayGroups = 'Manzanas',position = 'topleft')
   })
+  
+ 
   #proxy map changes
   observe({
     #preparando paletas
