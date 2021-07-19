@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Introducción al análisis espacial y web-mapping <br>con Google Earth Engine y R Shiny<br>
 ### MSc. José A. Lastra <br>Matías Olea<br>
 ### Laboratorio Geo-Información y Percepción Remota
-### 18/07/2021
+### 19/07/2021
 
 ---
 
@@ -52,11 +52,6 @@ class: middle, center
 print(&#39;Hola Mundo!&#39;);
 ```
 
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-print(&#39;Hola Mundo!&#39;);
-&lt;/script&gt;
-
 --
 - Podemos agregar comentarios usando *//*
 
@@ -73,13 +68,6 @@ var saludoString = &#39;Hola Mundo!!&#39;;
 print( saludoString );
 ```
 
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Usamos comillas simples o dobles para crear un string
-var saludoString = &#39;Hola Mundo!!&#39;;
-print( saludoString );
-&lt;/script&gt;
-
 - **Importante**: Tenga en cuenta que las variables se definen utilizando **var**
 
 
@@ -94,13 +82,6 @@ print(&#39;El valor es:&#39;, numero);
 ```
 
 
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Asignamos un número a una variable
-var numero = 38;
-print(&#39;El valor es:&#39;, numero);
-&lt;/script&gt;
-
-
 --
 - **Listas**: Las listas las definimos con corchetes [ ]. En GEE son útiles para realizar selecciones de elementos y podemos almacenar números, caracteres u otros elementos.
 
@@ -113,16 +94,6 @@ print(&#39;Lista de Números:&#39;, listDeNumeros);
 var listDeStrings = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;];
 print(&#39;Lista de strings:&#39;, listDeStrings);
 ```
-
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Lista de números
-var listDeNumeros = [0, 1, 1, 2, 3, 5];
-print(&#39;Lista de Números:&#39;, listDeNumeros);
-// Lista de strings.
-var listDeStrings = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;];
-print(&#39;Lista de strings:&#39;, listDeStrings);
-&lt;/script&gt;
 
 ---
 
@@ -144,22 +115,6 @@ print(&#39;Imprime la clave foo:&#39;, object[&#39;foo&#39;]);
 // También se puede acceder utilizando la notación con punto.
 print(&#39;Print stuff:&#39;, object.stuff);
 ```
-
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Usamos las llaves {} para hacer un diccionario de pares clave:valor
-var object = {
-  foo: &#39;bar&#39;,
-  baz: 38,
-  stuff: [&#39;Algo&#39;, &#39;eso&#39;, &#39;otro más&#39;]
-};
-print(&#39;Diccionario:&#39;, object);
-
-// Para acceder al valor de un diccionario se utiliza la clave y los corchetes [ ].
-print(&#39;Imprime la clave foo:&#39;, object[&#39;foo&#39;]);
-// También se puede acceder utilizando la notación con punto.
-print(&#39;Print stuff:&#39;, object.stuff);
-&lt;/script&gt;
 
 ---
 
@@ -185,18 +140,6 @@ print( funcion_saludo( &#39;José&#39; ) );
 
 ```
 
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Ejemplo de cómo se define una función
-var funcion_saludo = function( nombre ) {
-  var mensaje = &#39;¡Hola &#39; + nombre + &#39;! ¿Cómo estas?&#39;;
-  return mensaje;
-};
-// llamamos a la función con su parámetro.
-print( funcion_saludo( &#39;José&#39; ) );
-
-&lt;/script&gt;
-
 ---
 # Objetos de GEE
 
@@ -214,14 +157,6 @@ var eeString = ee.String(unString);
 print(&#39;Donde estabas? &#39;, eeString);
 ```
 
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Definimos un string y lo agregamos al contenedor
-var unString = &#39;procesando&#39;;
-var eeString = ee.String(unString);
-print(&#39;Donde estabas? &#39;, eeString);
-&lt;/script&gt;
-
 ---
 - **Números**: Utilice ee.Number() para crear un objeto número en el servidor. Por ejemplo, utilice el método JavaScript Math.E para crear un valor de la constante en el servidor:
 
@@ -231,13 +166,6 @@ print(&#39;Donde estabas? &#39;, eeString);
 var serverNumber = ee.Number(Math.E);
 print(&#39;e = &#39;, serverNumber);
 ```
-
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Definimos un número en el servidor
-var serverNumber = ee.Number(Math.E);
-print(&#39;e = &#39;, serverNumber);
-&lt;/script&gt;
 
 --
 Los métodos *ee.String()* y *ee.Number()* son constructores, y por tanto, tienen argumentos (y posiblemente otros parámetros) que ponemos en un contenedor, y retornamos el contenedor y su contenido como un objeto EE que manipulamos en nuestro código. Un constructor comienza siempre con ee y retorna un objeto EE.
@@ -257,13 +185,6 @@ print(&#39;log(e) = &#39;, logE);
 ```
 
 
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Utilice una función incorporada para realizar una operación en el número.
-var logE = serverNumber.log();
-print(&#39;log(e) = &#39;, logE);
-&lt;/script&gt;
-
-
 **Listas**: Podemos hacer una lista de JavaScript como un objeto ee.List en el servidor, ponemos un literal de JavaScript en un contenedor como con números y cadenas.
 
 
@@ -276,16 +197,6 @@ print(&#39;Secuencia:&#39;, secuencia);
 
 ```
 
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Ejemplos de listas, secuencia por extensión
-var eeList = ee.List([1, 2, 3, 4, 5]);
-// Secuencia usando el método del objeto list
-var secuencia = ee.List.sequence(1, 5);
-print(&#39;Secuencia:&#39;, secuencia);
-
-&lt;/script&gt;
-
 ---
 Podemos recuperar un elemento de la lista con el operador *get()*. Recuerde que esta lista solo existe en el servidor, EE nos permite acceder a esos objetos solo a través de sus métodos.
 
@@ -297,14 +208,6 @@ var valor = secuencia.get(2);
 print(&#39;Valor en la posición 2:&#39;, valor);
 
 ```
-
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Usamos un método de ee.List para recuperar un valor
-var valor = secuencia.get(2);
-print(&#39;Valor en la posición 2:&#39;, valor);
-
-&lt;/script&gt;
 
 **Diccionarios**: Podemos crear un diccionario en Earth Engine a partir de un objeto JavaScript, de la misma manera que lo hicimos con String, Number y List. La función **ee.Dictionary** se construye desde un objeto JavaScript.
 
@@ -328,25 +231,6 @@ print(&#39;Claves: &#39;, diccionario.keys());
 
 ```
 
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Crear un diccionario en el servidor
-var diccionario = ee.Dictionary({
-  e: Math.E,
-  pi: Math.PI,
-  phi: (1 + Math.sqrt(5)) / 2
-});
-
-// Recuperar algunos valores desde el diccionario.
-print(&#39;Euler:&#39;, diccionario.get(&#39;e&#39;));
-print(&#39;Pi:&#39;, diccionario.get(&#39;pi&#39;));
-print(&#39;Golden ratio:&#39;, diccionario.get(&#39;phi&#39;));
-
-// Recuperar todas las claves
-print(&#39;Claves: &#39;, diccionario.keys());
-
-&lt;/script&gt;
-
 ---
 **Fechas**: Los objetos de tipo **ee.Date** nos permiten representar tiempo. Al igual que con los otros tipos de datos, **NO** se debe confundir entre **Date** de JavaScript y el ee.Date de EE.
 
@@ -366,22 +250,6 @@ var eeNow = ee.Date(now);
 print(&#39;Now:&#39;, eeNow);
 
 ```
-
-
-&lt;script type=&quot;text/javascript&quot;&gt;
-// Definir una fecha en Earth Engine.
-var fecha = ee.Date(&#39;2015-12-31&#39;);
-print(&#39;Fecha:&#39;, fecha);
-
-// Recuperar la fecha actual usando el método Date.now() de JavaScript.
-var now = Date.now();
-print(&#39;Milisegundos desde el 1 de Enero de 1970&#39;, now);
-
-// Inicializar el objeto ee.Date
-var eeNow = ee.Date(now);
-print(&#39;Now:&#39;, eeNow);
-
-&lt;/script&gt;
 
 Los objetos fechas son muy importantes para filtrar las colecciones, utilizando la función **filterDate()**.
 
