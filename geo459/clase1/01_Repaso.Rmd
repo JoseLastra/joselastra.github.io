@@ -1,15 +1,16 @@
 ---
 title: "Ayuda memoria [Datos]"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
-author: "Mg. José A. Lastra"
+author: "MSc. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   xaringan::moon_reader:
+    self_contained: true
     css: [fc]
     lib_dir: libs
     nature:
-      highlightStyle: github
+      highlightStyle: zenburn
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false
@@ -24,46 +25,173 @@ background-size:40%
 options(htmltools.dir.version = FALSE)
 library(tidyverse)
 library(readxl)
-library(scales)
 library(DT)
 
 ```
 
+---
+# R y RStudio
+
+--
+- En este curso haremos uso del lenguaje de programación [R](https://www.r-project.org/) para todo lo que conlleva la lectura, manipulación y análisis de datos alfanuméricos y espaciales
+
+--
+- Con el fin de disponer de una interfaz de trabajo amigable y más adecuada para el desarrollo haremos uso de [RStudio](https://www.rstudio.com/)
+
+***
+.center[
+![:scale 80%](rlogo.png)
+]
+
+***
+
 
 ---
-
 Librerías utilizadas en esta sesión
 
 ```{r eval=F}
-library(tidyverse)
-library(readxl)
-library(scales)
+library(tidyverse) #multiples herramientas de análisis, manipulación y visualización
+library(readxl) #carga de archivos excel
+```
 
+--
+- Con estas librerías podremos leer, manipular, modificar y realizar análisis sobre matrices, vectores y data frames con información alfanumérica dentro de R.
+
+--
+- Entender al menos las funciones básicas de lectura y manipulación de información es escencial para luego pasar de la codificación en R a la sintáxis de shiny.
+
+---
+# Lectura de datos alfanuméricos
+
+--
+- En R, podemos crear diferentes objetos y almacenar en ellos valores de distinto tipo (números, caracteres, matrices, etc.)
+
+--
+- Estos valores pueden ser creados dentro de R o pueden ser leídos desde distintas fuentes de archivo.
+
+--
+- A medida que vayamos avanzando, veremos las diferentes estructuras que puede tener un objeto en R considerando la fuente de datos que utilicemos y la función de lectura empleada.
+
+.center[![:scale 32.5%](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-blanks/r_first_then_blank.png)
+
+]
+
+.center[
+.footnote[© Allison Horst]
+]
+
+
+---
+# Lectura de archivos excel
+
+--
+- Es importante siempre tener la noción de donde estaremos trabajando, para esto se puede crear un proyecto y asignarlo a un directorio con nuestros datos *(File/New Project)* o emplear la función *setwd()* para indicar en el script nuestro directorio de lectura y guardado.
+
+--
+```{r eval=F, echo=T, error=FALSE,warning=FALSE,message=FALSE}
+setwd('C:/Carpeta') #ruta de trabajo
 ```
 
 
----
-class: inverse, center, middle
-
-# LECTURA DE DATOS ALFANUMÉRICOS
-
----
-
 --
-En R podemos trabajar con diferentes datos (tablas, shapefiles, rasters, etc.)
-
---
-
 ```{r ,eval=T, echo=T, error=FALSE,warning=FALSE,message=FALSE}
 
-#read shapefile
+## Leer archivo
 CTD <- read_excel("Araucania2018_CTD_C1.xls")
 ```
 
-```{r echo=F}
+--
+- Otras funciones de lectura son:
+  + read.csv(base R) ó read_csv(tidyverse)
+  + readRDS(base R)
+  + read.table(base R)
+
+***
+
+Cada una de las funciones de lectura, dependerá de la naturaleza de la información a trabajar.
+
+--
+- *Importante*: siempre debe revisar el directorio de trabajo donde se encuentra y asegurarse de que el archivo esté en ese directorio.
+
+---
+
+```{r echo=F, eval=T}
 CTD %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
+  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 6))
 ```
+
+---
+# Revisando la estructura
+
+--
+- Un aspecto importante es poder ver algunas características de nuestra información, para lo cual disponemos de algunas funciones como:
+
+--
+- Para revisar primeros registros
+```{r}
+head(CTD)
+```
+
+---
+- Para revisar los últimos
+```{r}
+tail(CTD)
+```
+
+--- 
+- Podemos revisar la clase de objeto
+
+```{r}
+class(CTD)
+```
+
+---
+- La estructura
+```{r}
+str(CTD)
+```
+
+---
+# Uso de funciones
+
+--
+- En R muchas veces emplearemos diferentes funciones sobre un mismo objeto.
+
+--
+- Por esto es importante entender el concepto de anidar funciones y como R las lee.
+
+--
+- En una forma convencional R lee el código desde dentro hacia afuera, como se puede ver en este ejemplo:
+
+```{r}
+## creando números aleatorios y calculando el mínimo
+min(rnorm(n = 100,mean = 10,sd = 4))
+```
+
+--
+- Lo primero en ejecutarse es la función *rnorm()* y luego la función *min()*
+
+---
+
+- Al usar *tidyverse* podemos valernos de `%>%` para usar funciones consecutivas y leer de izquierda a derecha.
+
+--
+- Esto es útil porque hace que nuestro código en general sea más ordenado y encontrar errores también sea más simple.
+
+--
+- Además de incorporar las funciones de otras librerías como ggplot2, dplyr, tidyr entre otras
+
+--
+- Mismo ejemplo:
+
+
+```{r echo=T}
+rnorm(n = 100, mean = 10, sd = 4) %>%
+min() 
+```
+
+--
+- *El resultado no es el mismo porque usamos números aleatorios sin configurar una semilla con la función `set.seed()`*
 
 ---
 # Seleccionando datos dentro de nuestro data frame
@@ -86,9 +214,12 @@ CTD.sub %>%
 ```
 ---
 
+--
+- Aquí podemos crear un objeto con las columnas de interés y luego usarlo para seleccionarlas en nuestra tabla.
+
 ```{r  echo=T,eval=T}
 #Forma 2
-columnas <- colnames(CTD)[6:9]
+columnas <- colnames(CTD)[6:9] #creando objeto para seleccionar columnas
 CTD.sub <- CTD[,columnas] %>% as.data.frame()
 
 #esto es lo mismo
@@ -98,10 +229,13 @@ CTD.sub <- as.data.frame(CTD[,columnas])
 --
 ```{r echo=F}
 CTD.sub %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 5))
+  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
 ```
 
 ---
+
+--
+- Aquí se emplea una función de la librería *dplyr*, que se carga cuando empleamos *tidyverse* y nos permite usar otras herramientas de manipulación de datos.
 
 ```{r  echo=T,eval=T}
 #Forma 3
@@ -112,7 +246,7 @@ CTD.sub <- dplyr::select(CTD, `Temperatura (°C)`, `Sigma T (Kg/m3)`, `Salinidad
 --
 ```{r echo=F}
 CTD.sub %>% 
-  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 5))
+  datatable(class = 'cell-border stripe',rownames = FALSE,options = list(pageLength = 3))
 ```
 ---
 
@@ -151,9 +285,26 @@ CTD_nehuentue2 %>%
 #¿Y si quiero las estaciones a 2, 5 y 10 millas?
 
 --
+- Podemos emplear diferentes formas de establecer valores para filtrar nuestra información
+
+--
+- Lo importante es asegurarse que el valor esté dentro de la tabla (si es numérico) o escribirlo igual a como aparece en la tabla (si es caracter)
+
+--
+- En este ejemplo se usa la función *unique()* para identificar los elementos únicos dentro de la coumna *Estaciones* y se seleccionan los primeros tres empleando los *[ ]*
+
+--
+```{r}
+#solo para ver resultado
+unique(CTD$Estaciones)[1:3]
+```
+
+---
+
+--
 ```{r eval=T}
 ##seleccionando registros 
-estaciones <- unique(CTD$Estaciones)[1:3]
+estaciones <- unique(CTD$Estaciones)[1:3] #creando objeto con valores de interes
 CTD_nehuentue <- CTD %>% filter(Estaciones %in% estaciones)
 #esto es lo mismo 
 CTD_nehuentue <- filter(CTD, Estaciones %in% estaciones)
@@ -166,32 +317,145 @@ CTD_nehuentue %>%
 ```
 
 ---
+# Resúmenes de información
 
 --
-```{r , warning=F,error=F,message=F}
-#leyendo los datos
-cimar <- read_excel('cimarfiordos20.xls')
+- Además de las cosas que podemos calcular de forma directa empleando las funciones de base de R, también podemos realizar resúmenes estadísticos empleando algunas funciones de las librerías que se cargan al agregar *tidyverse* a nuestro entorno de trabajo.
 
+--
+- Un flujo normal para obtener el promedio de temperatura por estación sería algo como lo siguiente:
+
+--
+```{r}
+lat <- filter(CTD, Estaciones == 'Nehuentué2')
+mean(lat$`Temperatura (°C)`, na.rm = T)
 ```
---
-```{r warning=F,error=F,message=F, echo=F}
+***
 
-head(cimar) %>%
+--
+- El *“problema”* de esta aproximación es que si tenemos muchas latitudes (estaciones, zonas, cuadrantes, etc.) tendremos que repetir este procedimiento o deberemos armar un ciclo de programación que nos entregue el reporte, de una forma más eficiente
+
+---
+
+--
+- Una alternativa para esto y muchos otros casos, puede ser el siguiente ejemplo que emplea funciones de *dplyr* (importado con *tidyverse*):
+
+```{r eval=F}
+#función nos entrega número de datos por estaciones
+CTD %>% group_by(Estaciones) %>% summarise(mean_temp = mean(`Temperatura (°C)`, na.rm=T)) 
+```
+
+
+```{r echo=F}
+CTD %>% group_by(Estaciones) %>% summarise(mean_temp = mean(`Temperatura (°C)`, na.rm=T)) %>% 
   datatable(class = 'cell-border stripe',extensions = 'FixedColumns',rownames = FALSE,
-            options = list(pageLength = 5,dom = 't', scrollX = TRUE,fixedColumns = TRUE))
+            options = list(dom = 'tp', scrollX = TRUE,fixedColumns = TRUE))
 ```
 
 ---
 
 --
+```{r eval=F}
+CTD %>% group_by(Estaciones) %>% 
+  summarise(mean_temp = mean(`Temperatura (°C)`),mean_psu = mean(`Salinidad (UPS)`),
+            mean_dens = mean(`Sigma T (Kg/m3)`),mean_ox = mean(`Oxigeno (ml/L)`),
+            n_datos = n()) 
+```
 
-```{r warning=F,error=F,message=F,fig.width=3.5,fig.retina=2,fig.align='center'}
-#filtrar datos
-estacion <- cimar %>% filter(ESTACIÓN == 2) %>% as.data.frame()
-#grafiquemos la información
-plot(x = estacion$`TEMPERATURA (°C)`,y = estacion$`PROFUNDIDAD (m)`*-1, 
-     type='l',xlab='Temp (°C)', ylab='Depth (m)')
+```{r echo=F}
+CTD %>% group_by(Estaciones) %>% 
+  summarise(mean_temp = mean(`Temperatura (°C)`),mean_psu = mean(`Salinidad (UPS)`),
+            mean_dens = mean(`Sigma T (Kg/m3)`),mean_ox = mean(`Oxigeno (ml/L)`),
+            n_datos = n())  %>% 
+  datatable(class = 'cell-border stripe',extensions = 'FixedColumns',rownames = FALSE,
+            options = list(dom = 'tp', scrollX = TRUE,fixedColumns = TRUE))
+```
 
+---
+#Graficando en R
+
+--
+- En R podemos realizar todo tipo de análisis y además podemos obtener resultados gráficos de los mismos y de los datos de origen.
+
+--
+- La función base de R para realizar gráficos es *plot()* y dispone de diferentes parámetros configurables [[Más detalles.](https://www.statmethods.net/advgraphs/parameters.html)]
+
+--
+- Un ejemplo
+
+```{r eval = F,warning=F,error=F,message=F,fig.width=3.5,fig.retina=2,fig.align='center'}
+ ctd_filter <- CTD %>% filter(Estaciones == 'Nehuentué2') #filtrando
+
+#Graficando
+plot(ctd_filter$`Temperatura (°C)`,ctd_filter$`Profundidad (m)`*-1, type = 'l', 
+     xlab='Temperatura',ylab = 'Profundidad', main='Perfil de temperatura Nehuentué 2 millas')
+```
+
+---
+```{r echo=F,eval = T,warning=F,error=F,message=F,fig.width=3.5,fig.retina=2,fig.align='center'}
+ ctd_filter <- CTD %>% filter(Estaciones == 'Nehuentué2') #filtrando
+
+#Graficando
+plot(ctd_filter$`Temperatura (°C)`,ctd_filter$`Profundidad (m)`*-1, type = 'l', 
+     xlab='Temperatura',ylab = 'Profundidad', main='Perfil de temperatura Nehuentué 2 millas')
+```
+
+
+---
+
+--
+- También podemos construir otro tipo de gráficos como boxplot o histogramas con las funciones base
+
+--
+```{r echo=T,eval = T,warning=F,error=F,message=F,fig.width=6,fig.retina=2,fig.align='center'}
+#histograma
+hist(ctd_filter$`Temperatura (°C)`, xlab='Temperatura', 
+     main='Histograma de temperatura Nehuentué 2 millas')
+```
+
+---
+```{r echo=T,eval = T,warning=F,error=F,message=F,fig.width=5,fig.retina=2,fig.align='center'}
+#histograma
+boxplot(ctd_filter$`Temperatura (°C)`, ylab='Temperatura', 
+     main='Histograma de temperatura Nehuentué 2 millas')
+```
+
+---
+# ggplot2
+
+--
+- Además de poder realizar la mayoría de los gráficos usando las funciones base de R, existen diferentes librerías gráficas que permiten llevar más allá la calidad de las figuras.
+
+--
+- Una de las más conocidas es *ggplot2*[[Más información](https://ggplot2.tidyverse.org/)], que se carga en nuestro entorno de trabajo al cargar *tidyverse*
+
+--
+- Un código base ejemplo consiste en:
+  + Indicar la tabla (data frame) -> *data = mtcars*
+  + Indicar qué graficaremos, lo normal es indicar un *x* e *y* -> *aes(x = mpg,y = wt)*
+
+```{r eval=T,warning=F,error=F,message=F,fig.width=4,fig.height=3,fig.retina=2,fig.align='center'}
+## basic plot
+##usando datos propios de R
+ggplot(data = mtcars, aes(x = mpg,y = wt))
+```
+
+--
+- Esto solo crea el crea un lienzo para disponer del gráfico
+
+--
+- Además debemos indicar como queremos que la información se visualice (líneas, puntos, etc.)
+
+---
+
+--
+- *Importante*: veremos muchas más alternativas más adelante, pero un buen lugar para indagar es el siguiente [sitio](https://www.r-graph-gallery.com/)
+
+```{r eval=T,warning=F,error=F,message=F,fig.width=5,fig.height=5,fig.retina=2,fig.align='center'}
+## basic plot
+##usando datos propios de R
+ggplot(data = mtcars, aes(x = mpg,y = wt)) +
+  geom_point()
 ```
 
 ---
@@ -249,8 +513,27 @@ class: middle
 ggplot(data = plot.data,aes(x=comuna, fill=descripcion)) + 
   geom_bar(position = 'dodge') + scale_fill_viridis_d() + xlab ('') + 
   ylab('Número de manzanas censales') +  theme_bw()
-
 ```
+
+---
+# Expandiendo las posibilidades
+
+--
+.center[
+[![:scale 30%](https://d33wubrfki0l68.cloudfront.net/b88ef926a004b0fce72b2526b0b5c4413666a4cb/24a30/cover.png)](https://r4ds.had.co.nz/)
+]
+
+--
+- Proporciona una buena base de la dinámica de trabajo con datos en R, siguiendo la filosofía de *tidyverse* para la lectura, manipulación, análisis y comunicación de información.
+
+---
+
+--
+.center[
+[![:scale 30%](https://r-graphics.org/cover.jpg)](https://r-graphics.org/)
+]
+- Dispone de muchas ideas para visualización y composición de gráficas en R, abordando diferentes problemáticas y soluciones para las mismas.
+
 ---
 
 class: inverse,center, middle
@@ -262,4 +545,7 @@ class: inverse,center, middle
 class: inverse,center, middle
 
 # PRÓXIMA SEMANA REPASO GEODATOS!
+
+
+
 
