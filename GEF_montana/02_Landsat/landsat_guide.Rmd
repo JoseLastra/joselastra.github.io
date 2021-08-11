@@ -506,14 +506,154 @@ all.dates <- table.dates$fechas %>% as.character() %>%
   gsub(pattern = '*-12-31',replacement = '-12-30') %>% as.Date() #crea objeto de fechas y reemplaza para evitar problemas con años bisciestos
 ```
 
-Considerando que los datos landsat no necesariamente tienen una frecuencia temporal tan regular como en el caso de MODIS, la función de reconstrucción fenológica fue adaptada para esta condición irregular. La función para Landsat, de nombre **LanPhenMap_gef_365.R** considera la misma parametrización pero entrega la fenología con 365 bandas (días) a diferencia de MODIS que considera 23 bandas (1 imagen cada 16 días). Primero debe cargar la función y generar los nombres de salida para las fenologías que saldrán por cada uno de los cuadrantes.
+Considerando que los datos Landsat no tienen una frecuencia temporal tan regular como en el caso de MODIS, la función de reconstrucción fenológica fue adaptada para esta condición irregular. La función para Landsat, de nombre **LanPhenMap_gef_365.R** considera la misma parametrización, pero entrega la fenología con 365 bandas (días) a diferencia de MODIS que considera 23 bandas (1 imagen cada 16 días). Primero debe cargar la función y generar los nombres de salida para las fenologías que saldrán por cada uno de los cuadrantes.
 
-### 3.2.- Cálculo de fenométricas
+```{r eval = F}
+## nombres de salida
+outpath <- 'directorio/landsat_phenology/' #directorio para guardar
+nombres <- paste(outpath,'subset_0',n.cuad,'.tif',sep='') # nombres de salida de los archivos
 
-### 3.3.- Cálculo de anomalías de NDVI
+## Carga de función para reconstrucción fenológica
+source('RFUN/LanPhenMap_gef_365.R')
+```
+
+Con esto cargado, se puede iniciar el loop para el cálculo de la fenologíaa con los datos Landsat.
+
+```{r eval=F}
+#----------------------------------------------------
+#ciclo de reconsrucción fenológica por cuadrantes
+
+library(ks)
+
+for (i in 1:length(n.cuad)) {# considera duración según número de cuadrantes
+  
+  shp_filter <- grid_shp %>% filter(id == i) #filtro de cuadrante
+  
+  ss <- st %>% crop(shp_filter) %>% mask(shp_filter) #corte y enmascarado del rasterStack
+  
+  #función de reconstrucción fenológica
+  LanPhenMap(s = ss,dates = all.dates,h = 2,nGS = 365, nCluster = 7,format = 'GTiff',
+             datatype = 'INT2S',rge = c(0,10000),outname = nombres[i])
+  rm(ss)#borra objeto de la memoria virtual
+  
+  cat(paste('Cuadrante',i,'ready'),sep='\n')
+}
+#------------------------------------------------------
+```
+
+Este proceso consume bastante tiempo y recursos de procesamiento, por lo que se recomienda dedicar un computador o servidor exlusivo considerando tiempos de procesamiento altos (~ + de 1 semana). Una vez calculados todos los cuadrantes, el procedimiento de mosaico es idéntico al de MODIS considerando la creación de una lista de los cadrantes y el proceso posterior de fusión.
+
+```{r eval=F}
+#-----------------------------------------------------------------
+# Creación de mosaicos
+# Lista de cuadrantes y directorio con fenología
+grid.list <- list.files(path='directorio/landsat_phenology/',pattern = glob2rx("*subset*.tif"), full.names=T)
+
+#lista para los cadrantes
+lista <- vector(mode="list", length(grid.list))
+
+#Ciclo para cargar bricks en la lista
+for (i in 1:length(grid.list)) {
+  lista[[i]] <- brick(grid.list[i])
+}
+
+x <- lista
+x$overwrite <- TRUE
+m <- do.call(merge, x) #mosaico de cuadrantes
+
+#guardado en disco
+writeRaster(m,filename = "directorio/landsat_phenology/Landsat_Phen2000_2010_merged.tif",
+            format = "GTiff", overwrite = T, datatype = 'INT2S')
+```
 
 
+### 3.2.- Cálculo de anomalías de NDVI
 
+Con la información fenológica del período base para Landsat, se pueden obtener también las anomalías comparando algunas fechas con la fenología de la misma forma que con MODIS. El cálculo de anomalías en el caso de Landsat se recomienda a nivel mensual, para poder obtener al menos un promedio mensual de toda el área considerando que cada fecha puede corresponder solo a una parte del área GEF.
 
+A continuación, configure inicialmente el script para el cálculo de anomalías considerando: la tabla de fechas del período que quiere calcular (2010 - 2020), la fenología del período base y la tabla de nombre **DGS_month_landsatPhenology.csv** que contiene el identificador del mes para cada banda de la fenología.
 
+```{r eval=F}
+##Cálculo de anomalías Landsat
+#---------------------------------------------------------------
+#librerías
+library(tidyverse)
+library(raster)
+library(lubridate)
+#-----------------------------------------------------------------
+#input data
+# Tabla de fechas
+dates.table <- read_csv('tables/landsat_dates_2010-2020_ts1088.csv') #tabla de fechas periodo 2010-2020
+all.dates <- dates.table$fechas #objeto de fechas
+dates.table$meses <- all.dates %>% month() #crea campo con los meses
+dates.table$anno <- all.dates %>% year() #crea campo con los años
 
+# raster data
+
+phen <- stack('directorio/landsat_phenology/Landsat_Phen2000_2010_merged.tif') #fenología período base
+dgs <- read_delim('directorio/DGS_month_landsatPhenology.csv',delim = ';') # tabla con indicador de mes
+
+#NDVI
+ndvi <-list.files(path = 'directorio/03b_NDVI_2010_2020/',
+                  pattern = glob2rx('*.tif'),full.names = T)
+ndvi.st <- stack(ndvi)
+```
+
+Con esta información en el entorno de trabajo disponible, es necesario generar un promedio mensual de de la fenología para el mes de interés. En este caso, considere el mes de enero para poder obtener el promedio mensual para el cálculo de anomalías.
+
+```{r eval=F}
+#-----------------------------------------------------------
+#promedio mensual para fenología enero
+
+# filtrar mes empleando la tabla
+mes <- dgs %>% filter(month == 'ene')
+# extraer bandas correspondientes al mes
+phen.sub <- phen[[mes$DGS]]
+ 
+phen.month <- phen.sub %>% mean(na.rm=T) #promedio mensual
+names(phen.month) <- 'Enero' #asignar nombre a la banda
+
+```
+
+<center>![](img5.png)</center>
+
+La imagen puede guardarse en el disco, si se quiere para mantener una base de datos ordenada y hacer más operativo el cálculo de las anomalías.
+
+Ahora, hay que seleccionar los NDVI del mes al cual se le quiere calcular la anomalía para obtener el promedio mensual. La mecánica de selección es similar a lo descrito para la selección del mes en la fenología, pero considerando el uso de la tabla de fechas y el indexador disponible en la misma tabla. En este ejemplo, haga uso del mes de enero de 2015:
+
+```{r eval=F}
+
+# Selección de datos de NDVI de enero de 2015
+bandas <- dates.table %>% filter(anno == 2015 & meses == 1)# filtro de datos
+fecha <- bandas$fechas #extracción de fechas
+n <- bandas$X1 #indice de bandas
+
+#subset de bandas del mes y año seleccionado
+img <- ndvi.st[[n]]
+img.mean <- img %>% mean(na.rm=T) #promedio mensual enero 2015
+```
+
+<center>![](img6.png)</center>
+
+Ahora, puede calcular la anomalía considerando la resta simple de la imagen con la fenología del mes correspondiente.
+
+```{r eval=F}
+#anomalía
+anom <- img.mean - phen.month
+
+#grafico simple
+library(rasterVis) 
+library(sf)
+
+#leer capa
+capa <- read_sf('shp/GEF_Area_diss.shp') %>% st_transform(32719)
+gef <- capa %>% st_geometry %>% as(Class="Spatial")
+
+#gráfico básico
+levelplot(anom, par.settings = RdBuTheme ,
+          at=seq(-2500, 2500, 100), margin = F, 
+          maxpixels = 10e6) + 
+  latticeExtra::layer(sp.lines(gef, col="gray30", lwd=0.5))
+```
+
+<center>![](img7.png)</center>
