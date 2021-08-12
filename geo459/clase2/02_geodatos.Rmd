@@ -1,15 +1,16 @@
 ---
 title: "Ayuda memoria [Geo-datos]"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
-author: "Mg. José A. Lastra"
+author: "MSc. José A. Lastra <br>Matías Olea<br>"
 institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   xaringan::moon_reader:
+    self_contained: true
     css: [fc]
     lib_dir: libs
     nature:
-      highlightStyle: github
+      highlightStyle: zenburn
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false
@@ -22,45 +23,69 @@ background-size:40%
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-library(tidyverse)
-library(rgdal)
-library(raster)
-library(sf)
-library(rasterVis)
+library(tidyverse) #manipulación de datos
+library(rgdal) #librerias para análisis espaial
+library(raster) #funcionalidades para matrices raster y compatibilidad vectorial
+library(sf) #lectura de archivos vectoriales
+library(rasterVis)#complemento para visualización de rasters
 library(leaflet)
 library(DT)
 
 ```
-
 
 ---
 
 Librerías utilizadas en esta sesión
 
 ```{r eval=F}
-library(tidyverse)
-library(rgdal)
-library(raster)
-library(sf)
-library(rasterVis)
+library(tidyverse) #manipulación de datos
+library(rgdal) #librerias para análisis espaial
+library(raster) #funcionalidades para matrices raster y compatibilidad vectorial
+library(sf) #lectura de archivos vectoriales
+library(rasterVis)#complemento para visualización de rasters
 ```
 
-Datos para este laboratorio disponibles en la sección *Archivos* del aula virtual.
----
-class: inverse, center, middle
-
-# LECTURA DE DATOS VECTORIALES
-
----
+--
+- El trabajo con geo-datos en R es un mundo creciente y bastante dinámico en torno a las funcionalidades y análisis que se pueden realizar.
 
 --
-- El trabajo con Geo-datos en R se puede hacer a través de diferentes librerías y funciones de análisis.
-- Podemos leer diferentes clases de archivos (shp, geopackage, geojson,tif, etc.)
+- Para efectos de un funcionamiento óptimo de nuestras aplicaciones en *shiny*, veremos como interoperar entre los objetos de *rgdal* y *sf*. Ambas, diseñadas para manipular información espacial de tipo vectorial (shapefiles, geopackages, etc.)
+
+--
+- Usaremos de preferencia *sf* para el análisis de nuestros datos, porque nos permitirá emplear las bondades de las funciones de manipulación de data frames de *tidyverse* que iremos viendo a lo largo del curso.
+
+--
+- *raster* lo usaremos para manipulación de imágenes o datos en formato raster (modelos de elevación, temperaturas, datos satelitales, etc.) y será un eje central de la manipulación y análisis de esas matrices numéricas.
+
+---
+# Lectura de datos vectoriales
+
+--
+- Podemos leer diferentes clases de archivos (shp, geopackage, geojson, etc.) empleando diversas funciones de lectura disponibles en las librerías mencionadas anteriormente
+
+--
+- Es importante considerar que cada una tendrá una estructura específica al momento de ser leída como objeto en R.
+
+--
 - Debemos recordar lo básico dentro de una estructura espacial (geometría, resolución, sistema de referencia, etc.)
 
 --
+- Estos aspectos serán relevantes de acuerdo a la naturaleza de la información que estemos trabajando.
 
-Leyendo datos *"complejos"* de la manera más convencional [*no lo corran!*]
+--
+- En el caso de la información vectorial lo importante será su geometría (puntos, líneas o polígonos) y su sistema de referencia espacial o sistema de coordenadas.
+
+--
+- Es importante siempre tener la noción de donde estaremos trabajando, para esto se puede crear un proyecto y asignarlo a un directorio con nuestros datos *(File/New Project)* o emplear la función *setwd()* para indicar en el script nuestro directorio de lectura y guardado.
+
+--
+```{r eval=F, echo=T, error=FALSE,warning=FALSE,message=FALSE}
+setwd('C:/Carpeta') #ruta de trabajo
+```
+
+---
+
+Leyendo datos *"complejos"* usando librería *rgdal*
 --
 ```{r ,eval=F, echo=T, error=FALSE,warning=FALSE,message=FALSE}
 
@@ -76,12 +101,14 @@ system.time(readOGR('viña_del_mar.shp'))
 --
 - Demora mucho para capas grandes o con mucho detalle 
 - Poco óptimo para trabajo con aplicaciones y grandes volúmenes de datos
-- Ventaja: paquete más antiguo y con mayores compatibilidades
+- Ventaja: paquete más antiguo y con mayores compatibilidades e interoperabilidad
 - Desventaja: estructura algo compleja y demora en la carga de ciertos archivos
 
-¿Alternativas? Usemos la librería *sf*
----
 
+---
+¿Alternativas? Usemos la librería *sf*
+
+--
 ```{r echo=T}
 #read spatial data
 vinaDelMar <- read_sf('viña_del_mar.shp')
@@ -94,64 +121,110 @@ system.time(read_sf('viña_del_mar.shp'))
 ```
 
 --
-- Simplifica la estructura de nuestra información 
-- Lectura considerablemente más rápida de las capas espaciales
-- Fácil de filtrar y trabajar la información 
+- Simplifica la estructura de nuestra información espacial
+- Lectura considerablemente más rápida de las capas
+- Permite manipular la información de una manera más flexible
 - Desventajas: librería nueva aún no tiene completa compatibilidad con todas las funciones; [Pueden revisar](https://github.com/r-spatial/sf/wiki/migrating)
+
+---
+
+.center[![:scale 65%](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/sf.png)
+]
+
+.center[
+.footnote[© Allison Horst]
+]
 
 ---
 #Visualicemos los datos
 
 --
-```{r fig.retina=2, fig.align='center'}
+- La visualización más elemental de un objeto leído con *sf* puede realizarse mediante la función *plot()*
+--
+
+- Se debe considerar seleccionar un campo de interés para visualizar, de no hacerlo se visualizan todos por defecto.
+--
+
+Visualizando número de personas por manzana censal
+
+```{r fig.retina=2, fig.width= 4.5,fig.height=4.5,fig.align='center'}
 #Basic plot
-plot(vinaDelMar['PERSONA'])
+plot(vinaDelMar['PERSONA']) #caracter en " indica el campo a graficar
 ```
 
 ---
 #Mejorando algo el gráfico
+
 --
-```{r fig.retina=2, fig.align='center'}
-plot(vinaDelMar['PERSONA'],breaks='quantile',key.pos = 1, axes=T)
+- Al igual que para el gráfico de información alfanumérica, podemos incorporar argumentos que mejoren la visualización.
+
+--
+- Podemos emplear *?plot.sf* en la consola para ver más opciones
+--
+```{r fig.retina=2, fig.align='center', fig.height=5}
+plot(vinaDelMar['PERSONA'],breaks='quantile',key.pos = 4, axes=T)
 ```
 ---
 #Si solo quiero la geometría
 
-```{r fig.retina=2, fig.align='center'}
+--
+- Además de poder ver información, podemos simplemente revisar la geometría de los datos empleando *st_geometry()*
+```{r fig.retina=2, fig.align='center',fig.height=5}
 #we can use tidyverse code!
 vinaDelMar %>% st_geometry() %>% plot() #area
 ```
+
 ---
 
-```{r fig.retina=2,error=FALSE,warning=FALSE,message=FALSE, fig.align='center'}
+--
+- También se pueden obtener otros productos como por ejemplo los centroides
+
+--
+- Y podemos anidar funciones usando el *%>%*  
+```{r fig.retina=2,error=FALSE,warning=FALSE,message=FALSE, fig.align='center', fig.height=5}
 #we can use tidyverse code!
-vinaDelMar %>% st_geometry() %>% st_centroid() %>% plot() ##centroids doesn't work well with latlong data
+vinaDelMar %>% st_geometry() %>% st_centroid() %>% plot()
 ```
 
 ---
 #Cambiando proyección
 
-- Nosotros normalmente trabajamos en UTM (WGS-84)
-- Un buen lugar si uno no se sabe los EPSG es buscar [aquí](https://epsg.io/)
+--
+- Una práctica común al manejar información geográfica es disponer de datos con diferentes sistemas de referencia
+
+--
+- Nosotros normalmente trabajamos en UTM (WGS-84), pero podemos requerir el uso de otro sistema de referencia en ciertos momentos, por ejemplo al poner un mapa en *leaflet* (lo veremos más adelante!)
+
+--
+- Un buen lugar si uno no se sabe los EPSG es buscar [aquí](https://epsg.io/) y podremos transformar usando *st_transform()*
 ```{r }
 vinaUTM <- vinaDelMar %>% st_transform(crs = 32719) 
 #esto es lo mismo
-vinaUTM <- vinaDelMar %>% st_transform(crs = '+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs ') 
+vinaUTM <- vinaDelMar %>% 
+  st_transform(crs = '+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs ') 
 ```
 
 ```{r echo=F}
 st_crs(vinaUTM)[1]
 ```
 
+--
+- Lo importante es que podemos emplear el número EPSG o los parámetros.
 ---
 # Algunas cosas básicas
-```{r fig.retina=2,fig.align='center'}
+
+--
+- Buffer o área de influencia
+```{r fig.retina=2,fig.align='center',fig.height=5}
 #buffers
 vinaUTM %>% st_geometry() %>% st_buffer(dist = 100) %>% plot()
 ```
 
 ---
-```{r fig.retina=2,fig.align='center'}
+
+--
+- Filtro por atributos [podemos usar filtros convencionales de data frames!]
+```{r fig.retina=2,fig.align='center',fig.height=5}
 #attribute selection
   gomezCarreno <- vinaUTM %>% filter(DISTRIT == 'GÓMEZ CARREÑO')
   plot(gomezCarreno['PERSONA'], breaks='jenks')
@@ -161,30 +234,45 @@ vinaUTM %>% st_geometry() %>% st_buffer(dist = 100) %>% plot()
 ---
 #Creando una columna nueva
 
+--
+- La creación de nueva data dentro de las tablas de atributos es bastante simple utilizando la función *mutate()*
+
+--
+- En este ejemplo crearemos una columna con el área en hectáreas de la zona de Gómez Carreño y luego calcularemos la densidad de población por manzana censal
+
+--
 ```{r}
 #area square meters
 gomezCarrenoDensity <- gomezCarreno %>% mutate(area_ha = st_area(gomezCarreno)/10000)
 
 #density by block
+#creando vector numerico con las areas en hectareas
 area_manzana <- gomezCarrenoDensity$area_ha %>% as.numeric()
+#creando vector numerico con la poblacion por manzana
 poblacion <- gomezCarrenoDensity$PERSONA %>% as.numeric()
+## creando nuevo sf con un campo de densidad.
 gomezCarrenoDensity <- gomezCarrenoDensity %>% mutate(densidad = (poblacion/area_manzana))
 ```
+
 --
-Si queremos guardar la capa
+- Podemos escribir nuestro nuevo shape en disco empleando *st_write()*
 ```{r, eval=F}
 st_write(gomezCarrenoDensity,'densidad_GC.shp')
 ```
+
 ---
-Grafiquemos usando *ggplot2*
-```{r fig.retina=2, fig.align='center', fig.height=7}
+# sf y ggplot2
+
+--
+- Gracias a la estructura con que son leídos nuestros archivos vectoriales con sf, podemos fácilmente graficar empleando ggplot como soporte gráfico empleando *geom_sf()* y el argumento *fill* para indicar el campo que mostrará la información de interés.
+
+```{r fig.retina=2, fig.align='center', fig.height= 5}
 ggplot() + geom_sf(data = gomezCarrenoDensity, aes(fill=densidad)) + 
   scale_fill_viridis_c() + theme_bw()
 
 ```
 
 ---
-#Veamos un poco más
 ```{r echo= F, warning=F,message=F,error=F, out.width='100%'}
 #project for leaflet
 gomez_WGS <- gomezCarrenoDensity %>% st_transform(crs = 4326) 
@@ -201,45 +289,67 @@ leaflet() %>% addProviderTiles("CartoDB.Positron") %>%
 ```
 
 ---
-class: inverse, center, middle
-
-# RASTER
----
 # Archivos raster
 
+--
 - En general vamos a tener diferentes fuentes de información:
  * Interpolaciones
  * Imágenes satelitales
  * Modelos (oceánicos, climáticos, hidrodinámicos, etc.)
-
-Para estos ejemplos utilizaremos información gruesa de [WorldClim](https://www.worldclim.org) 
-
-Para obtener la información haremos uso de la función *getData()* del paquete raster
+ 
 --
+- Aquí además de tener en cuenta el sistema de referencia espacial debemos considerar un aspecto clave que tiene que ver con la resolución espacial de la información, también entendida como el tamaño del pixel o celda.
+
+--
+- Para estos ejemplos utilizaremos información gruesa de [WorldClim](https://www.worldclim.org) 
+
+- Para obtener la información haremos uso de la función *getData()* del paquete *raster*
+
+--
+- Esto es información abierta, por lo que está disponible para su uso sin mayores restricciones.
+
+--
+- En este ejemplo descargaremos la información  y la guardaremos en disco en formato *GeoTiff* y en formato de datos enteros con signo ya que tenemos valores positivos y negativos.
+
+--
+- Para saber más sobre los formatos y los tipos de dato use *?writeRaster*
+
 ```{r eval=F, message=F}
 #present climatologies
 temperatura <- getData('worldclim', var='tmean', res=10) 
-
 #writing raster data
 writeRaster(temperatura,filename = 'temperatura_WC.tif',format='GTiff',datatype='INT2S')
-
-
 ```
+
+--
+- *Importante*: recuerde siempre ver en que directorio se encuentra trabajando, para saber donde está guardando o direccione hacia donde quiera guardar.
 
 ---
 #Leyendo nuestros datos raster
 
 --
-Como la información de temperatura es un *RasterStack* haremos uso de *stack()* de la librería *raster*
-```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=5}
+- Los archivos raster más comunes pueden venir en formatos de una banda (raster) o multibanda (raster stack), es decir, una capa de información o varias capas en el mismo archivo.
 
+--
+- Como la información de temperatura que descargamos es un *RasterStack* haremos uso de *stack()* de la librería *raster*. Para leer bandas individuales podemos emplear la función *raster()*
+
+```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=3.8}
 temperatura <- stack('temperatura_WC.tif')
 #Ploting first month
-plot(temperatura[[1]])
+plot(temperatura[[1]]) 
 ```
+
+--
+- El *[[]]* nos permite seleccionar la banda de información que queremos desplegar, en este caso el mes.
 
 ---
 #Cortando y enmascarando rasters
+
+--
+- Otro aspecto relevante es ajustar la información espacial a nuestra área de interés para disminuir el volumen de la información y hacerla más manejable
+
+--
+- La función *crop()* permite cortar considerando una extensión rectangular y la función *mask()* permite trabajar con los límites reales de mi polígono (ejemplos: una cuenca, una comuna, distrito, etc.)
 
 ```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=10,fig.height=5}
 #reading shape for crop and mask
@@ -251,42 +361,72 @@ plot(tempCHL[[1]])
 
 ---
 #Algunos cálculos sobre rasters
-```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=14,fig.height=6.5}
+
+--
+- En el caso de la información raster los valores se almacenan en las celdas y no en una tabla por lo que hay que tener claridad de las características de la información
+
+--
+- En este ejemplo reescalaremos los datos a sus valores normales y asignaremos nombres a las bandas.
+```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.width=14,fig.height=5}
 #rescale values
 tempCHL <- tempCHL/10 
-names(tempCHL) <- month.abb #change layers's names
+names(tempCHL) <- month.abb #changes layers's names
 rasterVis::levelplot(tempCHL) #plot 
 ```
----
-```{r error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=6.5}
-t_mean <- tempCHL %>% mean() #media
-t_min <- tempCHL %>% min() #min
-t_max <- tempCHL %>% max() #max
 
+---
+- Podemos también calcular estadísticas para cada pixel y crear un objeto monobanda y combinarlos en un stack como se ve en el ejemplo.
+
+```{r eval=F, error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=6.5}
+t_mean <- tempCHL %>% mean(na.rm = T) #media
+t_min <- tempCHL %>% min(na.rm = T) #min
+t_max <- tempCHL %>% max(na.rm = T) #max
 CHL_layers <- stack(t_min,t_mean,t_max) #bind data
 names(CHL_layers) <- c('min','mean','max')
 rasterVis::levelplot(CHL_layers)
 ```
 
 ---
-#Usemos ggplot
+```{r  echo=F ,error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=8}
+t_mean <- tempCHL %>% mean(na.rm = T) #media
+t_min <- tempCHL %>% min(na.rm = T) #min
+t_max <- tempCHL %>% max(na.rm = T) #max
+CHL_layers <- stack(t_min,t_mean,t_max) #bind data
+names(CHL_layers) <- c('min','mean','max')
+rasterVis::levelplot(CHL_layers)
+```
+---
+#Rasters y ggplot2
+
+--
+- A pesar de la naturaleza de la información, podemos utilizar ggplot para graficar información proveniente de archivos rasters
+
+--
+- Recordemos que un raster es básicamente una matriz de información formada por filas y columnas, que además disponen de información espacial.
+
+--
+- Para poder emplear ggplot2 y rasters en conjunto, debemos convertir la información como se muestra en el ejemplo, empleando la función *as()* que permite transformar entre diferentes clases de objetos
+
 --
 ```{r}
 #selecting mean temperature
 chl_mean <- CHL_layers[[2]]
 ```
+
 --
 ```{r}
 #converting raster to data frame with coordinates
 chl_meanDF <- chl_mean %>% as("SpatialPixelsDataFrame") %>% 
   as.data.frame() %>% rename( t_mean = mean)
 ```
+
 --
 ```{r error=F,message=F,eval=F}
 ggplot() + geom_tile(data = chl_meanDF, aes(x = x, y = y,fill = t_mean)) + 
   geom_sf(data = chile, alpha = 0,color='black') + theme_bw() + 
   scale_fill_viridis_c() + xlab("") + ylab("")
 ```
+
 ---
 ```{r echo=F, error=F,message=F,warning=F,fig.align='center',fig.retina=2,fig.height=8}
 ggplot() + geom_tile(data = chl_meanDF, aes(x = x, y = y,fill = t_mean)) + 
@@ -356,15 +496,17 @@ chile_mean <- chl_mean %>% cellStats(stat=mean, na.rm=TRUE)
 chile_mean
 
 ```
----
-
-class: inverse,center, middle
-
-# ¿PREGUNTAS?
 
 ---
+#Expandiendo
 
-class: inverse,center, middle
+--
+.center[
+[![:scale 30%](https://bookdown.org/robinlovelace/geocompr/images/cover.png)](https://bookdown.org/robinlovelace/geocompr/)
+]
 
-# PRÓXIMA SEMANA: PARTIMOS JUGANDO CON SHINY!
-
+- Ahonda sobre conceptos de manipulación de información espacial con diversos ejemplos en temas de transporte, ecología y marketing.
+---
+background-image: url(logo_labgrs_color.png)
+background-position: center
+background-size:40%
