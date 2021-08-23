@@ -1,15 +1,16 @@
 ---
 title: "Unidad 1: Introducción y <br>arquitectura de aplicaciones<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
-author: "Mg. José A. Lastra"
+author: "MSc. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   xaringan::moon_reader:
+    #self_contained: true
     css: [fc]
     lib_dir: libs
     nature:
-      highlightStyle: github
+      highlightStyle: zenburn
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false
@@ -58,7 +59,7 @@ class: inverse, center, middle
 - Otorga flexibilidad paracrear desde desarrollos simples hasta otros muy complejos, sin tener que disponer de conocimientos de HTML, CSS o JavaScript.
 
 --
-- En términos simples: [shiny (1.5.0)](https://cran.r-project.org/web/packages/shiny/index.html) es un paquete de R
+- En términos simples: [shiny](https://cran.r-project.org/web/packages/shiny/index.html) |  [![CRAN](https://www.r-pkg.org/badges/version/shiny)](https://CRAN.R-project.org/package=shiny) es un paquete de R, que permite conectar la ciencia de datos con la difusión.
 
 .center[![:scale 60%](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/images/01_hello.png)]
 .center[.footnote[[Shiny, 2020](https://shiny.rstudio.com)]]
@@ -280,6 +281,17 @@ shinyApp(ui, server)
 .center[
 ![:scale 60%](app3.png)
 ]
+---
+#Lectura de apoyo
+
+--
+.center[
+[![:scale 30%](https://d33wubrfki0l68.cloudfront.net/0c97eee3d8fc820f3a8d670c08b286e8a524257b/e426c/cover.png)](https://mastering-shiny.org/)
+]
+
+--
+- Libro de [Hadley Wickham](https://github.com/hadley) que considera una introducción muy buena al mundo de *shiny* desde aspectos elementales hasta aspectos más avanzados de desarrollo de aplicaciones.
+
 ---
 
 class: inverse,center, middle
