@@ -11,7 +11,7 @@ ui <- fluidPage(
   add_loading_state(".shiny-plot-output",text = 'Cargando gráficos...', svgColor = 'steelblue'),
   ##titulo y cuerpo de UI
   "Explorador de temperatura Chile" %>% strong() %>% h4(),
-  uiOutput(outputId = 'regiones'),## crearemos el input en el server
+  uiOutput(outputId = 'regiones'),## crearemos el input en <-el server
   plotOutput('rasPlot'),
   plotOutput('histo',width = '1000px') %>% column(width = 4,offset = 3)
 )
