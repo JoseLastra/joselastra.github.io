@@ -35,8 +35,10 @@ server <- function(input, output, session) {
   })
   #proxy map changes
   observe({
+    
     #preparando paletas
-    dominio <- shp[,input$campo[[1]]] %>% unlist() %>% as.numeric()
+    tabla <- shp[,] %>% as.data.frame() 
+    dominio <- tabla[, input$campo[[1]]]
     #creando paleta de colores dinámica
     pal <- colorBin(palette = "viridis",domain = dominio)
     #proxy Map
