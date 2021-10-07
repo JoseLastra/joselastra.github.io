@@ -27,38 +27,49 @@ ui <- bootstrapPage(
 server <- function(input, output, session) {
   #Load data
   shp <- read_sf('data/viña_del_mar.gpkg') %>% st_transform(4326)
+  
   ## rendering base map
   output$map <- renderLeaflet({
     leaflet() %>% addProviderTiles(providers$CartoDB.DarkMatter)%>% 
       fitBounds(lng1 =-71.586 ,lat1 =-33.105 ,lng2 =-71.45 ,lat2 = -32.944) %>%
       addLayersControl(overlayGroups = 'Manzanas',position = 'topleft')
   })
+  
+  #shape reactivo
+  shp_filter <- eventReactive(input$campo,{ 
+    req(input$campo) 
+    capa <- shp %>% dplyr::select(input$campo[[1]])
+    names(capa) <-c('columna','geom')#renombrar campos para generalizar la capa
+    capa 
+  })
+  
   #proxy map changes
-  observe({
+  observeEvent(input$campo, {
     
     #preparando paletas
-    tabla <- shp[,] %>% as.data.frame() 
-    dominio <- tabla[, input$campo[[1]]]
+    tabla <- shp_filter() %>% as.data.frame() 
+    dominio <- tabla[, 'columna']
     #creando paleta de colores dinámica
     pal <- colorBin(palette = "viridis",domain = dominio)
     #proxy Map
-    proxyMap <- leafletProxy('map') %>% clearShapes()
+    proxyMap <- leafletProxy('map') %>% clearShapes() %>% clearControls()
+    
     
     if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
-    }
-    if(input$campo[[1]] == 'TOTAL_VIVI'){
-      proxyMap <- proxyMap %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(TOTAL_VIVI), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
+      titulo <- 'Total población por manzana'
     }
     if(input$campo[[1]] == 'DENSIDAD'){
-      proxyMap <- proxyMap %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(DENSIDAD), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
+      titulo <- 'Densidad por manzana (personas/hectárea)'
     }
+    if(input$campo[[1]] == 'TOTAL_VIVI'){
+      titulo <- 'Total viviendas por manzana'
+    }
+    
+     proxyMap <- proxyMap %>% 
+        addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.7,
+                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2) %>% 
+       addLegend("bottomleft",pal = pal, values = dominio, title = titulo, opacity = 0.8,group = 'Leyenda') 
+ 
     #print map
     proxyMap
     

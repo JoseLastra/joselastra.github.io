@@ -3,7 +3,8 @@
   <head>
     <title>Unidad 2: Funciones auxiliares -  Operaciones en el server </title>
     <meta charset="utf-8" />
-    <meta name="author" content="Mg. José A. Lastra" />
+    <meta name="author" content="MSc. José A. Lastra" />
+    <meta name="date" content="2021-07-10" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
@@ -13,9 +14,9 @@ class: center, middle, inverse, title-slide
 
 # Unidad 2: Funciones auxiliares - <br>Operaciones en el server<br>
 ## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
-### Mg. José A. Lastra
+### MSc. José A. Lastra
 ### Laboratorio Geo-Información y Percepción Remota
-### 28/06/2021
+### 07/10/2021
 
 ---
 
@@ -117,7 +118,8 @@ server &lt;- function(input, output, session) {
 ```
 
 --
-Para una visualización previa de los proveedores de imágenes base [click aquí](leaflet-extras.github.io/leaflet-providers/preview/index.html)
+Para una visualización previa de los proveedores de imágenes base [click aquí](http://leaflet-extras.github.io/leaflet-providers/preview/index.html)
+
 ---
 class: center
 ![:scale 85%](app1.png)
@@ -201,7 +203,22 @@ class: middle, center
 # Creando nuestro mapa dinámico
 
 --
-- Usaremos *observe({})* como conductor reactivo de los cambios en la UI
+- Crearemos un objeto reactivo utilizando *eventReactive({})*, que filtrará nuestra capa original de información de acuerdo al campo elegido por el usuario.
+
+--
+
+```r
+#shape reactivo
+shp_filter &lt;- eventReactive(input$campo,{ 
+    req(input$campo) 
+    capa &lt;- valpo %&gt;% dplyr::select(input$campo[[1]])
+    names(capa) &lt;-c('columna','geom')#renombrar campos para generalizar la capa
+    capa 
+  })
+```
+
+--
+- Usaremos *observeEvent({})* como conductor reactivo de los cambios en la UI
 
 --
 - Primero crearemos los elementos dinámicos para mostrar con colores la información
@@ -209,15 +226,16 @@ class: middle, center
 --
 - Y crearemos un objeto de nombre *proxyMap*
 
---
+---
 
 ```r
-observe({
+observeEvent(input$campo, {
     #preparando paletas
-    dominio &lt;- shp[,input$campo[[1]]] %&gt;% unlist() %&gt;% as.numeric()
+    tabla &lt;- shp_filter() %&gt;% as.data.frame() 
+    dominio &lt;- tabla[, 'columna']
     pal &lt;- colorBin(palette = "viridis",domain = dominio)
     
-    proxyMap &lt;- leafletProxy('map') %&gt;% clearShapes()
+    proxyMap &lt;- leafletProxy('map') %&gt;% clearShapes() %&gt;% clearControls()
         })
 ```
 
@@ -227,58 +245,61 @@ observe({
 --
 - Para esto usaremos la función *if()*
 
+
 ---
 #Revisemos
 
 --
-- En ese caso, evaluaremos si el campo seleccionado por el usuario es igual a el campo que queremos mapear siguiendo esta estructura `if(input$campo[[1]] == 'PERSONAS'){}`
+- Para asegurar la disposición correcta de la información del campo en la leyenda, crearemos un objeto que contendrá el título correspondiente, según el input del usuario empleando el condicional *if()*
 
 --
-- Dentro de las *{}* debemos poner el código que se ejecutará si la condición establecida se cumple
+- Ya que la capa está generalizada, no es necesario crear múltiples mapas reactivos sino uno solo y configurar los objetos dinámicos a cambiar.
 
 --
 
 ```r
-  if(input$campo[[1]] == 'PERSONAS'){
-    proxyMap &lt;- proxyMap %&gt;% 
-      addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
-  }
+#condicionales para título de leyenda
+    if(input$campo[[1]] == 'PERSONAS'){
+      titulo &lt;- 'Total población por manzana'
+    }
+    if(input$campo[[1]] == 'Densidad'){
+      titulo &lt;- 'Densidad por manzana (personas/hectárea)'
+    }
+    if(input$campo[[1]] == 'TOTAL_VIVI'){
+      titulo &lt;- 'Total viviendas por manzana'
+    }
 ```
 
---
-- Este ejemplo aplica para la primera condición y aplica la paleta de colores (`fillColor = ~pal(PERSONAS)`) de acuderdo al campo seleccionado.
-
---
-- Repitamos esto para las otras condiciones
 
 ---
 
 ```r
- observe({
+ #proxy map changes
+  observeEvent(input$campo, {
     #preparando paletas
-    dominio &lt;- shp[,input$campo[[1]]] %&gt;% unlist() %&gt;% as.numeric()
+    tabla &lt;- shp_filter() %&gt;% as.data.frame() 
+    dominio &lt;- tabla[, 'columna']
+    #creando paleta de colores dinámica
     pal &lt;- colorBin(palette = "viridis",domain = dominio)
-  #crando objeto proxy  
-  proxyMap &lt;- leafletProxy('map') %&gt;% clearShapes()
-  #condicionales
-  if(input$campo[[1]] == 'PERSONAS'){
-    proxyMap &lt;- proxyMap %&gt;% 
-      addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
-  }
-  if(input$campo[[1]] == 'TOTAL_VIVI'){
-    proxyMap &lt;- proxyMap %&gt;% 
-      addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(TOTAL_VIVI), fillOpacity = 0.7,
-                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
-  }
-  if(input$campo[[1]] == 'DENSIDAD'){
-    proxyMap &lt;- proxyMap %&gt;% 
-      addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(DENSIDAD), fillOpacity = 0.7,
-                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2)
-  }
-  #print map
-  proxyMap
+    #proxy Map
+    proxyMap &lt;- leafletProxy('map') %&gt;% clearShapes() %&gt;% clearControls()
+    
+    if(input$campo[[1]] == 'PERSONAS'){
+      titulo &lt;- 'Total población por manzana'
+    }
+    if(input$campo[[1]] == 'DENSIDAD'){
+      titulo &lt;- 'Densidad por manzana (personas/hectárea)'
+    }
+    if(input$campo[[1]] == 'TOTAL_VIVI'){
+      titulo &lt;- 'Total viviendas por manzana'
+    }
+     proxyMap &lt;- proxyMap %&gt;% 
+        addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.7,
+                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2) %&gt;% 
+       addLegend("bottomleft",pal = pal, values = dominio, title = titulo, opacity = 0.8,group = 'Leyenda') 
+ 
+    #print map
+    proxyMap
   })
 ```
 
@@ -286,7 +307,7 @@ observe({
 #Creemos una primera función 
 
 --
-- Las funciones auxiliares nos permiten modularizar código para ahorrar la carga sobre el script principal
+- Las funciones auxiliares nos permiten modularizar código para ahorrar la carga sobre el script principal de la app
 
 --
 - Nos permiten reutilizar código facilmente y optimizar el desarrollo y el debugging.
@@ -362,7 +383,7 @@ class: inverse,center, middle
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="macros.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
+"highlightStyle": "zenburn",
 "ratio": "16:9",
 "highlightLines": true,
 "countIncrementalSlides": false
