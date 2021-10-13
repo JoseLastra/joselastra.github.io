@@ -208,7 +208,7 @@ class: middle, center
 #shape reactivo
 shp_filter <- eventReactive(input$campo,{ 
     req(input$campo) 
-    capa <- valpo %>% dplyr::select(input$campo[[1]])
+    capa <- shp %>% dplyr::select(input$campo[[1]])
     names(capa) <-c('columna','geom')#renombrar campos para generalizar la capa
     capa 
   })

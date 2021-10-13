@@ -4,7 +4,6 @@
     <title>Unidad 2: Funciones auxiliares -  Operaciones en el server </title>
     <meta charset="utf-8" />
     <meta name="author" content="MSc. José A. Lastra" />
-    <meta name="date" content="2021-07-10" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/fc.css" rel="stylesheet" />
   </head>
@@ -16,7 +15,7 @@ class: center, middle, inverse, title-slide
 ## Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>
 ### MSc. José A. Lastra
 ### Laboratorio Geo-Información y Percepción Remota
-### 07/10/2021
+### 13/10/2021
 
 ---
 
@@ -211,7 +210,7 @@ class: middle, center
 #shape reactivo
 shp_filter &lt;- eventReactive(input$campo,{ 
     req(input$campo) 
-    capa &lt;- valpo %&gt;% dplyr::select(input$campo[[1]])
+    capa &lt;- shp %&gt;% dplyr::select(input$campo[[1]])
     names(capa) &lt;-c('columna','geom')#renombrar campos para generalizar la capa
     capa 
   })
