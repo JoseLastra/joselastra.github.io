@@ -1,15 +1,16 @@
 ---
 title: "Unidad 2: Eventos reactivos en el mapa - <br>Operaciones en el server<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
-author: "Mg. José A. Lastra"
+author: "MSc. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   xaringan::moon_reader:
+    self_contained: true
     css: [fc]
     lib_dir: libs
     nature:
-      highlightStyle: github
+      highlightStyle: zenburn
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false
@@ -76,29 +77,29 @@ class: middle
 --
 ```{r eval=F}
 #preparando paletas
-    tabla <- shp[,] %>% as.data.frame() 
-    dominio <- tabla[, input$campo[[1]]]
+    #preparando paletas
+    tabla <- shp_filter() %>% as.data.frame() 
+    dominio <- tabla[, 'columna'] %>% as.numeric()
     #creando paleta de colores dinámica
-    pal <- colorQuantile(palette = "viridis",domain = dominio,n = 7)
+    pal <- colorQuantile(palette = "viridis" ,domain = dominio,n = 10)#paleta
+    pal_colors <-  sort(dominio) %>% pal() %>% unique() #Colores para leyenda
+    pal_labels <- quantile(dominio, seq(0, 1, 0.1)) # creación de quantiles para etiquetas
+    pal_labels <- paste(lag(pal_labels), pal_labels, sep = " - ")[-1] # removemos el primer lag por ser NA
     #proxy Map
-    proxyMap <- leafletProxy('map')
+    proxyMap <- leafletProxy('map') %>% clearShapes() %>% clearControls()
 ```
 
-Este código asegura una mejor distribución de los colores considerando el sesgo de los datos de entrada.
 
 --
 - Para agregar la leyenda, usaremos la funcion `addLegend()` en cada sección condicional dentro de nuestro *observer* para el proxy.
 
 --
 ```{r eval=F}
-
-  if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2) %>%
-        addLegend("bottomright", pal = pal, values = dominio, 
-                  title = "Total de personas por manzana censal",opacity = 0.7,group = 'Leyenda')
-    }
+proxyMap <- proxyMap %>% 
+      addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
+                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2) %>% 
+      addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                title = titulo, opacity = 0.8,group = 'Leyenda') 
 ```
 
 ---
@@ -111,15 +112,12 @@ Este código asegura una mejor distribución de los colores considerando el sesg
 - *Ejemplo 1: popUp*
 
 ```{r eval=F}
-  if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    popup = ~htmlEscape(PERSONAS)) %>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Total de personas por manzana censal",
-                  opacity = 0.7,group = 'Leyenda')
-    }
+proxyMap <- proxyMap %>% 
+      addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
+                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2,
+                  popup = ~htmlEscape(columna)) %>% 
+      addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                title = titulo, opacity = 0.8,group = 'Leyenda') 
 ```
 
 --
@@ -132,15 +130,12 @@ De esta forma al pinchar un polígono aparecerá su valor
 
 --
 ```{r eval=F}
-if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~htmlEscape(PERSONAS)) %>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Total de personas por manzana censal",
-                  opacity = 0.7,group = 'Leyenda')
-    }
+proxyMap <- proxyMap %>% 
+      addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
+                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2,
+                  label = ~htmlEscape(columna)) %>% 
+      addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                title = titulo, opacity = 0.8,group = 'Leyenda')
 ```
 --
 Empleando este argumento, al desplazarnos por la capas aparecerá la información.
@@ -162,10 +157,10 @@ class: middle
 
 --
 ```{r eval=F}
-addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~htmlEscape(PERSONAS),
-                    labelOptions = labelOptions(style = list("color" = "black", 
+addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
+                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2,
+            label = ~htmlEscape(columna),
+            labelOptions = labelOptions(style = list("color" = "black", 
                                                              "font-size" = "16px",
                                                              "font-family" = "serif",
                                                              "font-weight" = "bold"))
@@ -198,11 +193,13 @@ addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpaci
 
 --
 ```{r eval=F}
-addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~label_pop, 
-                    labelOptions = labelOptions(style = list("font-size" = "14px")))
+addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
+                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2,label = ~label_pop,
+                  labelOptions = labelOptions(style = list("font-size" = "14px")))
 ```
+
+**Recuerde agregar el campo a la selección en el objeto reactivo**
+
 ---
 .center[
 ![:scale 90%](app4.png)

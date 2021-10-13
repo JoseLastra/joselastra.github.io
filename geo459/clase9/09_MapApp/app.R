@@ -41,45 +41,47 @@ server <- function(input, output, session) {
       addLayersControl(overlayGroups = 'Manzanas',position = 'topleft')
   })
   
+  #shape reactivo
+  shp_filter <- eventReactive(input$campo,{ 
+    req(input$campo) 
+    capa <- shp %>% dplyr::select(c(input$campo[[1]],'label_pop'))
+    names(capa) <-c('columna','label_pop','geom')#renombrar campos para generalizar la capa
+    capa 
+  })
  
   #proxy map changes
-  observe({
+  #proxy map changes
+  observeEvent(input$campo, {
+    
     #preparando paletas
-    tabla <- shp[,] %>% as.data.frame() 
-    dominio <- tabla[, input$campo[[1]]]
+    tabla <- shp_filter() %>% as.data.frame() 
+    dominio <- tabla[, 'columna'] %>% as.numeric()
     #creando paleta de colores dinámica
-    pal <- colorQuantile(palette = "viridis",domain = dominio,n = 7)
+    pal <- colorQuantile(palette = "viridis" ,domain = dominio,n = 10)#paleta
+    pal_colors <-  sort(dominio) %>% pal() %>% unique() #Colores para leyenda
+    pal_labels <- quantile(dominio, seq(0, 1, 0.1)) # creación de quantiles para etiquetas
+    pal_labels <- paste(lag(pal_labels), pal_labels, sep = " - ")[-1] # removemos el primer lag por ser NA
     #proxy Map
-    proxyMap <- leafletProxy('map') 
+    proxyMap <- leafletProxy('map') %>% clearShapes() %>% clearControls()
+    
     
     if(input$campo[[1]] == 'PERSONAS'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(PERSONAS), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~label_pop, 
-                    labelOptions = labelOptions(style = list("font-size" = "14px"))) %>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Total de personas por manzana censal",
-                  opacity = 0.7,group = 'Leyenda')
-    }
-    if(input$campo[[1]] == 'TOTAL_VIVI'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(TOTAL_VIVI), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    popup = ~htmlEscape(TOTAL_VIVI))%>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Total de viviendas por manzana censal",
-                  opacity = 0.7,group = 'Manzanas')
+      titulo <- 'Total población por manzana'
     }
     if(input$campo[[1]] == 'DENSIDAD'){
-      proxyMap <- proxyMap %>% clearShapes() %>% clearControls() %>% 
-        addPolygons(data = shp,group = 'Manzanas', fillColor = ~pal(DENSIDAD), fillOpacity = 0.7,
-                    stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2, 
-                    label = ~htmlEscape(DENSIDAD))%>%
-        addLegend("bottomright", pal = pal, values = dominio,
-                  title = "Densidad (personas/hectáreas)",
-                  opacity = 0.7,group = 'Manzanas')
+      titulo <- 'Densidad por manzana (personas/hectárea)'
     }
+    if(input$campo[[1]] == 'TOTAL_VIVI'){
+      titulo <- 'Total viviendas por manzana'
+    }
+    
+    proxyMap <- proxyMap %>% 
+      addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
+                  stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2,label = ~label_pop,
+                  labelOptions = labelOptions(style = list("font-size" = "14px"))) %>% 
+      addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
+                title = titulo, opacity = 0.8,group = 'Leyenda') 
+    
     #print map
     proxyMap
     
