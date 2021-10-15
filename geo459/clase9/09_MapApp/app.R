@@ -78,7 +78,9 @@ server <- function(input, output, session) {
     proxyMap <- proxyMap %>% 
       addPolygons(data = shp_filter(),group = 'Manzanas', fillColor = ~pal(columna), fillOpacity = 0.8,
                   stroke = 0.1,color = 'white',weight = 1, smoothFactor = 0.2,label = ~label_pop,
-                  labelOptions = labelOptions(style = list("font-size" = "14px"))) %>% 
+                  labelOptions = labelOptions(style = list("font-size" = "14px")),
+                  highlight = highlightOptions(weight = 5,color = "white",
+                                               fillOpacity = 1,bringToFront = TRUE)) %>% 
       addLegend("bottomleft", colors = pal_colors, labels = pal_labels, 
                 title = titulo, opacity = 0.8,group = 'Leyenda') 
     
