@@ -1,11 +1,12 @@
 ---
 title: "Unidad 2: Eventos reactivos: Raster y series - <br>Operaciones en el server<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
-author: "Mg. José A. Lastra"
+author: "MSc. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   xaringan::moon_reader:
+    self_contained: true
     css: [fc]
     lib_dir: libs
     nature:
