@@ -10,7 +10,7 @@ output:
     css: [fc]
     lib_dir: libs
     nature:
-      highlightStyle: github
+      highlightStyle: zenburn
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false

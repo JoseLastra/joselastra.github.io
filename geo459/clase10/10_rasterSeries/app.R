@@ -64,6 +64,7 @@ server <- function(input, output, session) {
   })
   
   r.cell <-  reactive({
+    req(xy.map())
     a1 <- cellFromXY(d.select,xy.map())
     c <- tabla[a1,3:ncol(tabla)] %>% as.numeric()
     return(c)
