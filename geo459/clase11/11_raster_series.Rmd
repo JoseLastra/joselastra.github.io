@@ -6,10 +6,11 @@ institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   xaringan::moon_reader:
+    self_contained: true
     css: [fc]
     lib_dir: libs
     nature:
-      highlightStyle: github
+      highlightStyle: zenburn
       ratio: '16:9'
       highlightLines: true
       countIncrementalSlides: false
@@ -70,14 +71,14 @@ class: inverse, center, middle
 - Hemos visto algunas configuraciones de páginas
 
 --
-- La semana anterior vimos series de tiempo desde leaflet y shiny
+- La clase anterior vimos series de tiempo desde leaflet y shiny
 
 
 ---
 #Metas de hoy
 
 --
-- Cerraremos con una consulta de la semana anterior
+- Cerraremos con consultas de la clase anterior
 
 --
 - Nos enfocaremos en la segunda pestaña donde:
@@ -92,7 +93,7 @@ class: inverse, center, middle
 .center[.footnote[© Allison Horst]]
 
 ---
-Seguiremos empleando nuestra aplicación de la semana anterior
+Seguiremos empleando nuestra aplicación de la clase anterior
 
 .center[![:scale 95%](app1.png)]
 
@@ -100,7 +101,7 @@ Seguiremos empleando nuestra aplicación de la semana anterior
 # Mostrar valor del pixel seleccionado en el pop up
 
 --
-- Modificaremos solamente el observer que agrega los marcadores a nuestro mapa
+- Modificaremos solamente el **observer** que agrega los marcadores a nuestro mapa
 --
 ```{r eval=F}
   # click markers
@@ -110,7 +111,7 @@ Seguiremos empleando nuestra aplicación de la semana anterior
     #Extraer columna
     n.col <- which(dates==input$fechas)
     #valor
-    px.value<- tabla[n.cell,n.col] %>% as.numeric()
+    px.value <- tabla[n.cell,n.col] %>% as.numeric()
     #coordinates
     click <- input$map_click
     clat <- click$lat
@@ -189,7 +190,8 @@ datos <- reactive({
 ```{r eval=F}
 graf <- eventReactive(input$plot,{
     req(!is.null(datos()))
-    ts.serie <- ts(datos(),start=c(1981,244),end=c(2020,117),frequency=365)
+  
+    ts.serie <- ts(datos(),start=c(1981,9),end=c(2020,4),frequency=365)
     g <- autoplot(ts.serie, ylab = 'SST °C',asp = 0.2)
     g
   })
@@ -210,7 +212,7 @@ observeEvent(input$plot,{
 
 --
 .center[
-![:scale 95%](app3.png)
+![:scale 95%](app3a.png)
 ]
 
 ---
@@ -260,7 +262,7 @@ observeEvent(input$plot,{
 ```{r eval = F}
  graf <- eventReactive(input$plot,{
     req(!is.null(datos()))
-    ts.serie <- ts(datos(),start=c(1981,244),end=c(2020,117),frequency=365)
+    ts.serie <- ts(datos(),start=c(1981,9),end=c(2020,4),frequency=365)
     
     if(input$desc == T){
       g <- decompose(ts.serie) %>% autoplot() 
@@ -273,7 +275,7 @@ observeEvent(input$plot,{
 
 ---
 class: middle, center
-![:scale 95%](app4.png)
+![:scale 95%](app4b.png)
 
 ---
 class: inverse,center, middle
@@ -285,5 +287,5 @@ class: inverse,center, middle
 
 class: inverse,center, middle
 
-# PRÓXIMA SEMANA SEGUIMOS <br> MEJORANDO NUESTRA APP <br> 
+# PRÓXIMA SEMANA PRESENTACIÓN DOS <br>  <br> 
 
