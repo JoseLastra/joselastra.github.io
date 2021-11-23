@@ -1,7 +1,7 @@
 ---
-title: "Unidad 3: Visualización - <br>Algo de HTML y CSS<br>"
+title: "Unidad 3: Diseño - <br>Modificaciones y mejoras<br>"
 subtitle: "Curso: Análisis espacial, web-mapping y <br>aplicaciones web con R Shiny<br>"
-author: "Mg. José A. Lastra"
+author: "Msc. José A. Lastra"
 institute: "Laboratorio Geo-Información y Percepción Remota"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
@@ -29,6 +29,7 @@ library(sf)
 library(raster)
 library(dygraphs)
 library(shinythemes)
+library(shinyalert)
 library(ggfortify)
 ```
 
@@ -46,6 +47,7 @@ library(raster)
 library(dygraphs)
 library(shinythemes)
 library(ggfortify)
+library(shinyalert)
 ```
 
 
@@ -53,27 +55,6 @@ library(ggfortify)
 class: inverse, center, middle
 
 # INTRODUCCIÓN
-
----
-# Summary
-
---
-- Hasta el momento hemos visto como estructurar aplicaciones
-
---
-- Hemos creado y empleado funciones
-
---
-- Hemos empleado widgets y elementos reactivos
-
---
-- Hemos visto algunas configuraciones de páginas
-
---
-- Series de tiempo y shiny con dygraphs
-
---
-- Subida y bajada de archivos en shiny
 
 ---
 #Metas de hoy
@@ -115,19 +96,19 @@ div(img(src = "logo_labgrs.png", style="margin-top: -14px;
 ]
 
 ---
-#Serie de tiempo en panel absoluto condicional
+#Panel condicional
 
 --
 - A veces hay elementos que no queremos que aparezcan de inmediato
 
 --
-- Esto podemos hacerlo de diversas maneras, pero una de las mejores es trabajar sobre un panel condicional
+- Este comportamiento lo podemos ajustar de varias maneras, una de ellas es el uso de un panel condicional
 
 --
-- Para esto, crearemos un panel absoluto que será contenido por un panel condicional. 
+- Para esto, crearemos un panel absoluto donde pondremos la serie, que será contenida por un panel condicional. 
 
 --
-- Además haremos que el panel aparezca cuando exista el click en el mapa mediante *input.map_click != 0*
+- Además haremos que el panel aparezca cuando exista el click en el mapa mediante la condición *input.map_click != 0*
 
 --
 ```{r eval= F}
@@ -202,15 +183,13 @@ tabPanel('Mapa principal', # Main page view
 # Cambiemos dygraphs por plotly
 
 --
-- *Plotly* es otra librería que nos permite realizar gráficos intereactivos
+- *Plotly* es otra librería que nos permite realizar gráficos interactivos de toda clase (series de tiempo, scatters, boxplots incluso mapas)
+
 
 --
-- No solo es para series de tiempo sino que para muchas otras cosas
+- Tiene compatibilidad con *ggplot2* y permite transformar gráficos creados desde esta librería o crearlos empleando las funciones de internas de plotly.
 
---
-- Tiene compatibilidad con *ggplot2* y permite transformar gráficos creados desde esta libreria o crearlos empleando las funciones de internas de plotly.
-
-- Modifiquemos nuestro código (Recuerde agregar plotly al código de su aplicación)
+- Modifiquemos nuestro código (Recuerde agregar *plotly* al inicio de su aplicación)
 
 --
 ```{r eval=F}
@@ -243,12 +222,14 @@ output$ts <- renderPlotly({
 ```
 
 --
-- La función *ggplotly()* permite transformar a HTML un objeto crearo empleando ggplot2 (en este caso con autoplot)
+- La función *ggplotly()* permite transformar a HTML un objeto creado con ggplot2 (en este caso con autoplot)
 
 ---
 class: middle, center
 
 ![:scale 95%](app5.png)
+
+
 ---
 #Creando un gráfico con ggplot2
 
@@ -288,6 +269,169 @@ output$histogram <- renderPlotly({
 ---
 class: middle, center
 ![:scale 95%](app6.png)
+
+---
+#Íconos y modals
+
+--
+- En shiny podemos modificar los íconos de ciertos elementos, lo más común es modificar los **actions buttons**
+
+--
+- Agregaremos un botón de acción a nuestra lista de fechas en la UI
+
+--
+```{r eval = F}
+absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+              width = 300, height ="auto",
+              style="z-index:500;",uiOutput('fechasInput'),
+              actionButton("infoInput", "Info"))
+
+```
+
+.center[
+![](app2b.png)
+]
+
+---
+# Modificando el ícono
+
+--
+- Para modificar los íconos en shiny podemos emplear la función *icon()* dentro del botón y podemos emplear las librerías de fuentes [*Font Awesome Free*](https://fontawesome.com/) y [*Glyphicons*](https://getbootstrap.com/docs/4.5/components/alerts/)
+
+--
+```{r eval = F}
+absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+              width = 350, height ="auto",
+              style="z-index:500;",
+              uiOutput('fechasInput'),actionButton("infoInput", icon("info-circle"),
+              style="background-color:#ecf0f1;border color:#ecf0f1",width = "30px"))
+```
+
+--
+.center[ 
+![](app3b.png)
+]
+
+---
+#Creando el modal en el server
+
+--
+- Para poder hacer funcionar nuestro texto con información usaremos un *observeEvent()*
+
+--
+```{r eval = F}
+  #modals
+  observeEvent(input$infoInput, {
+    showModal(modalDialog(h5("Seleccione una de las fechas del listado para desplegar la temperatura superficial del mar MODIS Aqua (4 km)"),footer = NULL,easyClose = T,size = 'l',fade = T))
+  })
+```
+
+--
+.center[
+![:scale 95%](app4b.png)
+]
+
+---
+# Usando shinyalert
+
+--
+- De la misma forma que podemos usar los modals de shiny, tenemos algunas librerías que extienden las capacidadesd de los modals.
+
+--
+- Esto permite una UI mucho más atractiva a la vista. 
+
+--
+- Reemplacemos el ejemplo anterior, debemos poner la función *useShinyalert()* reemplazando nuestro botón de acción.
+
+--
+```{r eval=F}
+##shiny alert modal
+shinyalert(text = paste('<h4 style="text-align:left; color: black">',
+                        "1.-Seleccione una fecha disponible para cambiar el mapa y el gráfico","</h4>", "</br>",
+                        '<h4 style="text-align:left; color: black">',
+                        "2.- Haga click en algun pixel para obtener la serie de tiempo","</h4>", "</br>"),
+           type = 'info',html = T,
+           animation = "slide-from-bottom")
+```
+
+---
+class: middle, center
+![:scale 95%](app5b.png)
+
+---
+#Cursor en leaflet
+
+--
+- Para facilitar ciertas cosas leaflet tiene configurados sus cursores si tenemos shapes u otras entidades.
+
+--
+- No obstante, podemos realizar modificaciones y elegir el cursor en el mapa dependiendo de nuestro interés.
+
+--
+- Para esto usaremos la función tags$style en nuestro código de la UI ([Para ver los tipos de cursores](https://www.quackit.com/html/codes/html_cursor_code.cfm))
+
+--
+```{r eval=F}
+tags$style('#map { cursor: crosshair;}')
+```
+
+---
+class: middle, center
+![:scale 95%](app6b.png)
+
+
+---
+# ShinyJS
+
+--
+- *shinyjs* permite ejecutar funciones comunes y útiles de JavaScript en shiny, permitiendo mejorar el funcionamiento y la visual de nuestra interfaz de usuario.
+
+--
+- ¿Qué podemos hacer?
+ + Ocultar o mostrar elementos
+ + Desactivar u ocultar un input
+ + Resetear entradas
+ + Etc.
+ 
+--
+- ejemplo aplicado: ocultando una entrada
+
+
+- Para esto debemos usar la función *useShinyjs()* en nuestro código de la UI y agregaremos un checkbox para controlar la aparición de nuestro panel.
+
+---
+--
+En la UI
+
+--
+```{r eval=F}
+absolutePanel(id = "controls", class = "panel panel-default", fixed = F,
+              draggable = F, top = 90, left = "auto", right = 20, bottom = "auto",
+              width = 350, height ="auto",
+              style="z-index:500;",
+              uiOutput('fechasInput'),
+              checkboxInput("show",'Mostrar gráfico',value = F),
+              useShinyalert())
+```
+
+--
+En el server
+
+--
+```{r eval=F}
+##render plot panel
+  observe({
+    if(input$show == F){
+      shinyjs::hide('histo')
+    }else{
+      shinyjs::show('histo')
+    }
+  })
+```
+
+
 ---
 class: inverse,center, middle
 
@@ -298,5 +442,5 @@ class: inverse,center, middle
 
 class: inverse,center, middle
 
-# PRÓXIMA SEMANA SEGUIMOS <br> MEJORANDO NUESTRA APP <br> 
+# PRÓXIMA SEMANA SEGUIMOS <br> DESPLIEGUE <br> 
 
