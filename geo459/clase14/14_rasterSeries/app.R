@@ -9,7 +9,8 @@ library(ggfortify)
 library(plotly)
 library(shinyalert)
 
-ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14px; padding-right:10px;padding-bottom:10px", height = 60)),
+ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14px; padding-right:10px;padding-bottom:10px",
+                                 height = 60)),
                  id = 'nav',theme = shinytheme("cerulean"), # App theme 
                  tabPanel('Mapa principal', # Main page view
                           div(class= "outer",
@@ -36,7 +37,8 @@ ui <- navbarPage(title = div(img(src = "logo_labgrs.png", style="margin-top: -14
                                                          right = 10, bottom = 10,width = '100%', height = "auto",
                                                          plotlyOutput(outputId = 'ts',width = '98%',height = 250))),
                           absolutePanel(id = "histo", class = "panel panel-default", fixed = F,draggable = F, top = 90,
-                                        left = 10, right = 'auto', bottom = "auto",width = 400, height ="auto",style="z-index:500;",
+                                        left = 10, right = 'auto', bottom = "auto",width = 400, height ="auto",
+                                        style="z-index:500;",
                                         plotlyOutput('histogram'))
                  )),
                  #Description
