@@ -157,9 +157,10 @@ Una forma de compartir es simplemente alojar nuestra aplicación en un servicio 
 --
 - [RStudio Connect](https://rstudio.com/products/connect/): es una plataforma de publicación para el trabajo que crean sus equipos en R y Python. Contempla no solo shiny apps sino que también otros productos (informes de R Markdown, Plumber APIs, dashboards, Jupyter Notebooks, contenido interactivo de Python).
 
-*Estas alternativas están contenidas en entornos de RStudio*
+*Estas alternativas están contenidas en entornos de RStudio*. 
+
 --
-**Importante**: Hay más alternativas de despliegue de aplicaciones, por ejemplo: empaquetar la aplicación, usar contenedores de [docker](https://www.docker.com/), [shiny Proxy](https://www.shinyproxy.io/), [AWS](https://aws.amazon.com/es/free/?trk=eb709b95-5dcd-4cf8-8929-6f13b8f2781f&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Core-Main|Core|LATAMO|ES|Text&ef_id=Cj0KCQiA-qGNBhD3ARIsAO_o7yklqMlBYUAS5D3uNr258BFrhRuLIxaVaM1ztIjHBOFY9djSHZeNkxwaArhtEALw_wcB:G:s&s_kwcid=AL!4422!3!561348326834!e!!g!!amazon%20web%20services&ef_id=Cj0KCQiA-qGNBhD3ARIsAO_o7yklqMlBYUAS5D3uNr258BFrhRuLIxaVaM1ztIjHBOFY9djSHZeNkxwaArhtEALw_wcB:G:s&s_kwcid=AL!4422!3!561348326834!e!!g!!amazon%20web%20services&all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all), etc.
+**Importante**: Hay más alternativas de despliegue de aplicaciones, por ejemplo: empaquetar la aplicación, usar contenedores de [docker](https://www.docker.com/), [shiny Proxy](https://www.shinyproxy.io/), [AWS](https://aws.amazon.com), etc.
 
 ---
 #Desplegando en Shinyapps.io
